@@ -178,7 +178,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 			<div class="w3-container w3-padding-16 w3-left-align">
 				<table class="w3-table-all w3-hoverable">
 					<tr>
-						<th>        </th><th>Годовая доходность</th><th>annual vol</th><th>sharp ratio</th><th>max drawdown</th><th>99% VaR</th><th>sortino ratio</th>					
+						<th>        </th><th>Годовая доходность</th><th>Годовая Волатильность</th><th>Коэфф Шарпа</th><th>Максимальная Просадка</th><th>99% VaR</th><th>Коэфф Сортино</th>					
 					</tr>
 					<tr>
 						<td>Очень консервативный</td><td>{{ annual_return_1 }}</td><td>{{ annual_vol_1 }}</td><td>{{ sharpe_ratio_1 }}</td><td>{{ max_drawdown_1 }}</td><td>{{ VaR_1 }}</td><td>{{ sortino_ratio_1 }}</td>
@@ -196,7 +196,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 						<td>Очень агрессивный</td><td>{{ annual_return_5 }}</td><td>{{ annual_vol_5 }}</td><td>{{ sharpe_ratio_5 }}</td><td>{{ max_drawdown_5 }}</td><td>{{ VaR_5 }}</td><td>{{ sortino_ratio_5 }}</td>
 					</tr>
 					<tr class="w3-blue">
-						<td>Benchmark</td><td>{{ annual_return_b }}</td><td>{{ annual_vol_b }}</td><td>{{ sharpe_ratio_b }}</td><td>{{ max_drawdown_b }}</td><td>{{ VaR_b }}</td><td>{{ sortino_ratio_b }}</td>
+						<td>Бенчмарк</td><td>{{ annual_return_b }}</td><td>{{ annual_vol_b }}</td><td>{{ sharpe_ratio_b }}</td><td>{{ max_drawdown_b }}</td><td>{{ VaR_b }}</td><td>{{ sortino_ratio_b }}</td>
 					</tr>					
 				</table>
 			</div>
