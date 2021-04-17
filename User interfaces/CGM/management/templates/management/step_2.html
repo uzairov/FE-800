@@ -83,19 +83,19 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     
 			<hr  class="w3-opacity">
     		<div class="w3-container w3-padding-16 w3-left-align">
-				<h1>Step 2</h1>
-				<h2>Select your ETFs for portfolio construction</h2>
+				<h1>Шаг 2</h1>
+				<!--<h2>Select your ETFs for portfolio construction</h2> -->
 		<form id="management" class="appnitro"  method="post" action="../management_form_2/">
 			{% csrf_token %}
 			<div class="form_description">
-				<h2>Adjust rebalancing frequency</h2>
-				<h3>Set the drift threshold for portfolio rebalancing: <input type="number" name="drift_threshold" style="width: 4em" value=2 required>%</h3>
-				<h3>Set the frequency for MVO (target weights calculation):  
+				<h2>Настройка частоты ребалансировки</h2>
+				<h3>Установите порог смещения для ребалансировки портфеля: <input type="number" name="drift_threshold" style="width: 4em" value=2 required>%</h3>
+				<h3>Установите частоту для Модели Марковица (Вычисление целевых весов):  
 					<select name="rebalancing_frequency" required>
-					  <option  value="weekly">Weekly</option>
-					  <option  value="Monthly" selected>Monthly</option>
-					  <option  value="Quarterly">Quarterly</option>
-					  <option  value="Annually">Annually</option>
+					  <option  value="weekly">Неделя</option>
+					  <option  value="Monthly" selected>Месяц</option>
+					  <option  value="Quarterly">Квартал</option>
+					  <option  value="Annually">Год</option>
 					</select>
 				</h3>
 			</div>
@@ -108,7 +108,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 		
 			</div>
 			
-			<p><a class="w3-button w3-black" href="../management_step_3"> Next step </i></a></p>
+			<p><a class="w3-button w3-black" href="../management_step_3"> Следующий шаг </i></a></p>
   </header>
 
 <script>
