@@ -149,18 +149,18 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 <div class="w3-padding-large" id="main">
   <!-- Header/Home -->
   <header class="w3-container w3-padding-32 w3-center w3-light-grey">
-    <h1 class="w3-jumbo">New Strategy</h1>
+    <h1 class="w3-jumbo">Новая Стретегия</h1>
     
 			<hr  class="w3-opacity">
     		<div class="w3-container w3-padding-16 w3-left-align">
-				<h1>Step 5</h1>
-				<h2>The parameters for clients' interface: </h2>
+				<h1>Шаг 5</h1>
+				<h2>Параметры для клиентского интерфейса: </h2>
 				
-				<h3>ETF list: {{ my_tickers }}</h3>							
-				<h3>Drift threshold for portfolio rebalancing: {{ drift_threshold }}%</h3>
-				<h3>Frequency for MVO: {{ rebalancing_frequency }}</h3>
-				<h3>Tau list: {{ risk_levels }}</h3>	
-				<h3>Views: {{ views }}</h3>
+				<h3>Спсиок ETF: {{ my_tickers }}</h3>							
+				<h3>Порог смещения для ребалансировки портфеля: {{ drift_threshold }}%</h3>
+				<h3>Частота для модели оптимизации Марковица: {{ rebalancing_frequency }}</h3>
+				<h3>Список Tau: {{ risk_levels }}</h3>	
+				<h3>Взгляды: {{ views }}</h3>
 			</div>
 	
 			<div class="w3-container w3-padding-16 w3-left-align">
@@ -178,22 +178,22 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 			<div class="w3-container w3-padding-16 w3-left-align">
 				<table class="w3-table-all w3-hoverable">
 					<tr>
-						<th>        </th><th>annualized return</th><th>annual vol</th><th>sharp ratio</th><th>max drawdown</th><th>99% VaR</th><th>sortino ratio</th>					
+						<th>        </th><th>Годовая доходность</th><th>annual vol</th><th>sharp ratio</th><th>max drawdown</th><th>99% VaR</th><th>sortino ratio</th>					
 					</tr>
 					<tr>
-						<td>Very conservative</td><td>{{ annual_return_1 }}</td><td>{{ annual_vol_1 }}</td><td>{{ sharpe_ratio_1 }}</td><td>{{ max_drawdown_1 }}</td><td>{{ VaR_1 }}</td><td>{{ sortino_ratio_1 }}</td>
+						<td>Очень консервативный</td><td>{{ annual_return_1 }}</td><td>{{ annual_vol_1 }}</td><td>{{ sharpe_ratio_1 }}</td><td>{{ max_drawdown_1 }}</td><td>{{ VaR_1 }}</td><td>{{ sortino_ratio_1 }}</td>
 					</tr>
 					<tr>
-						<td>Conservative</td><td>{{ annual_return_2 }}</td><td>{{ annual_vol_2 }}</td><td>{{ sharpe_ratio_2 }}</td><td>{{ max_drawdown_2 }}</td><td>{{ VaR_2 }}</td><td>{{ sortino_ratio_2 }}</td>
+						<td>Консервативный</td><td>{{ annual_return_2 }}</td><td>{{ annual_vol_2 }}</td><td>{{ sharpe_ratio_2 }}</td><td>{{ max_drawdown_2 }}</td><td>{{ VaR_2 }}</td><td>{{ sortino_ratio_2 }}</td>
 					</tr>
 					<tr>
-						<td>Moderate</td><td>{{ annual_return_3 }}</td><td>{{ annual_vol_3 }}</td><td>{{ sharpe_ratio_3 }}</td><td>{{ max_drawdown_3 }}</td><td>{{ VaR_3 }}</td><td>{{ sortino_ratio_3 }}</td>
+						<td>Умеренный</td><td>{{ annual_return_3 }}</td><td>{{ annual_vol_3 }}</td><td>{{ sharpe_ratio_3 }}</td><td>{{ max_drawdown_3 }}</td><td>{{ VaR_3 }}</td><td>{{ sortino_ratio_3 }}</td>
 					</tr>
 					<tr>
-						<td>Aggressive</td><td>{{ annual_return_4 }}</td><td>{{ annual_vol_4 }}</td><td>{{ sharpe_ratio_4 }}</td><td>{{ max_drawdown_4 }}</td><td>{{ VaR_4 }}</td><td>{{ sortino_ratio_4 }}</td>
+						<td>Агрессивный</td><td>{{ annual_return_4 }}</td><td>{{ annual_vol_4 }}</td><td>{{ sharpe_ratio_4 }}</td><td>{{ max_drawdown_4 }}</td><td>{{ VaR_4 }}</td><td>{{ sortino_ratio_4 }}</td>
 					</tr>
 					<tr>
-						<td>Very aggressive</td><td>{{ annual_return_5 }}</td><td>{{ annual_vol_5 }}</td><td>{{ sharpe_ratio_5 }}</td><td>{{ max_drawdown_5 }}</td><td>{{ VaR_5 }}</td><td>{{ sortino_ratio_5 }}</td>
+						<td>Очень агрессивный</td><td>{{ annual_return_5 }}</td><td>{{ annual_vol_5 }}</td><td>{{ sharpe_ratio_5 }}</td><td>{{ max_drawdown_5 }}</td><td>{{ VaR_5 }}</td><td>{{ sortino_ratio_5 }}</td>
 					</tr>
 					<tr class="w3-blue">
 						<td>Benchmark</td><td>{{ annual_return_b }}</td><td>{{ annual_vol_b }}</td><td>{{ sharpe_ratio_b }}</td><td>{{ max_drawdown_b }}</td><td>{{ VaR_b }}</td><td>{{ sortino_ratio_b }}</td>
@@ -220,7 +220,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <div class="modal-body">
     	
     <form action="../management_step_6">
-      <p><input type="checkbox" name="agree" value=1 required>I understand that my new stategy will update the interface for clients.</p>
+      <p><input type="checkbox" name="agree" value=1 required>Я понимаю, что моя новая стратегия обновит интерфейс для клиентов.</p>
 
       <input type="submit"/><br><br>
     </form>
