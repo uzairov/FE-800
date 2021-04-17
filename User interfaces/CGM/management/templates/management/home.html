@@ -29,17 +29,17 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <a href="../management" class="w3-bar-item w3-button w3-padding-large w3-black">
     <i class="w3-xxlarge"></i>
     <h4>Home</h4>
-    <p>Current strategy</p>
+    <p>Текущая стратегия</p>
   </a>
   <a href="../management_step_1" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="w3-xxlarge"></i>
 	<h4>Step 1</h4>
-    <p>Select ETFs</p>
+    <p>Выбор Биржевых фондов ETF</p>
   </a>
   <a href="../management_step_2" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="w3-xxlarge"></i>
 	<h4>Step 2</h4>
-    <p>Determine rebalance method</p>
+    <p>Определениие метода ребалансировки</p>
   </a>
   <a href="../management_step_3" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="w3-xxlarge"></i>
@@ -49,17 +49,17 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <a href="../management_step_4" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="w3-xxlarge"></i>
 	<h4>Step 4</h4>
-    <p>Add views</p>
+    <p>Добавить взгляды</p>
   </a>
   <a href="../management_step_5" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="w3-xxlarge"></i>
 	<h4>Step 5</h4>
-    <p>Review your strategy</p>
+    <p>Препросмотр стратегии</p>
   </a>
   <a href="../management_step_6" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="w3-xxlarge"></i>
 	<h4>Finish</h4>
-    <p>Implement the strategy</p>
+    <p>Применить старатегию</p>
   </a>
 </nav>
 
@@ -80,19 +80,19 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 <div class="w3-padding-large" id="main">
   <!-- Header/Home -->
   <header class="w3-container w3-padding-32 w3-center w3-light-grey" id="home">
-    <h1 class="w3-jumbo">Management Home</h1>
+    <h1 class="w3-jumbo">Панель Управления</h1>
     
 			<hr  class="w3-opacity">
     		<div class="w3-container w3-padding-16 w3-left-align">
-				<h1>Current Strategy</h1>
-				<h2>The parameters for clients' interface: </h2>
+				<h1>Текущая Стратегия</h1>
+				<h2>Параметры для клиентского интерфейса: </h2>
 				
 				<h4>ETF list: {{ my_tickers }}</h4>									
-				<h4>Drift threshold for portfolio rebalancing: {{ drift_threshold }}%</h4>
-				<h4>Frequency for MVO: {{ rebalancing_frequency }}</h4>
-				<h4>Tau list: {{ risk_levels }}</h4>	
-				<h4>Views: {{ views }}</h4>
-				<h2>Reset the parameters for testing: <a id="management" class="w3-button w3-black w3-medium" href="../management_reset"> Reset </i></a></h2>
+				<h4>Порог смещения для ребалансировки портфеля: {{ drift_threshold }}%</h4>
+				<h4>Частота оптимизации по модели Марковица: {{ rebalancing_frequency }}</h4>
+				<h4>Список Tau: {{ risk_levels }}</h4>	
+				<h4>Взгляды: {{ views }}</h4>
+				<h2>Сбросить параметры для тестирования: <a id="management" class="w3-button w3-black w3-medium" href="../management_reset"> Reset </i></a></h2>
 				<p> </p>
 			</div>
 			
