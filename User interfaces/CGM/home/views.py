@@ -3,14 +3,14 @@ from django.utils.safestring import mark_safe
 
 
 def home(request):
-    key_features_1 = "Our Switch Back strategy systematically finds embedded capital losses to lower investment taxes" \
-                     " and increase after-tax returns."
-    key_features_2 = "CGM has no hidden fees, no trade requirements to access advanced features, and requires very " \
-                     "small opening deposit minimums. "
-    key_features_3 = "With CGM, choosing the right portfolio is easy, no matter your level of experience. We'll " \
-                     "recommend a customized allocation to you based on your risk profile."
-    key_features_4 = "CGM maintains portfolios that closely tracks the investor's strategic asset allocation while " \
-                     "generally preventing too frequently buy and sell which cause extra taxes and expenses."
+    key_features_1 = "Cнижает налогоблажение на инвестиции и увеличивает" \
+                     " доходы после уплаты налогов."
+    key_features_2 = "Robo-Advisor v1.0 не имеет скрытых комиссий. Для получения услуг требуется " \
+                     "небольшой начальный депозит. "
+    key_features_3 = "С Robo-Advisor v 1.0 выбрать подходящее портфель легко, независимо от вашего уровня опыта". \
+                     "Мы порекомендуем вам индивидуальное распределение на основе вашего профиля риска."
+    key_features_4 = "Robo-Advisor v1.0 поддерживает оптимальное соотношение активов в портфеле," \
+                     "для получения оптимальнй доходности."
 
 
 
