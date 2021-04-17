@@ -3,7 +3,7 @@ from django.utils.safestring import mark_safe
 
 
 def home(request):
-    key_features_1 = "Our Switch Back strategy systematically finds embedded capital losses to lower investment taxes" \
+    key_features_1 = "Cнижает налогоблажение на инвестиции и увеличивает" \
                      " and increase after-tax returns."
     key_features_2 = "CGM has no hidden fees, no trade requirements to access advanced features, and requires very " \
                      "small opening deposit minimums. "
