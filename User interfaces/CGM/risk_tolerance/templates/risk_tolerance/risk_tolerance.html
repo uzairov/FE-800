@@ -18,14 +18,14 @@
 		<form id="form_18073" class="appnitro"  method="post" action="../show_plan/">
 			{% csrf_token %}
 			<div class="form_description">
-				<h2>Scoring</h2>		
+				<h2>Скоринг С</h2>		
 			</div>
 
 				
 			<br/>				
 			<table style="width:80%">
 				<tr>
-					<th>For each qestion</th><th>Your score</th>
+					<th>Для каждого вопроса</th><th>Ваш балл</th>
 				</tr>		
 				<tr>
 					<td>A=5, B=4, C=3, D=2, E=1 </td><td>{{ q1 }}</td>
@@ -49,7 +49,7 @@
 					<td>A=5, B=4, C=3, D=2, E=1 </td><td>{{ q7 }}</td>
 				</tr>
 				<tr>
-					<th>Total</th><th>{{ score }}</th>
+					<th>Всего</th><th>{{ score }}</th>
 				</tr>
 			</table>
 			<br/>	
@@ -59,25 +59,25 @@
 			
 			<table style="width:80%">
 				<tr>
-					<th>Score</th><th>Result</th>
+					<th>Score</th><th>Результат</th>
 				</tr>		
 				<tr>
-					<td>7-10</td><td>Very Conservative </td>
+					<td>7-10</td><td>Очень Консервативный </td>
 				</tr>
 				<tr>
-					<td>11-17</td><td>Conservative </td>
+					<td>11-17</td><td>Консервативный </td>
 				</tr>
 				<tr>
-					<td>18-24</td><td>Moderate </td>
+					<td>18-24</td><td>Умеренный</td>
 				</tr>	
 				<tr>
-					<td>25-31</td><td>Aggressive </td>
+					<td>25-31</td><td>Агрессивный</td>
 				</tr>	
 				<tr>
-					<td>32-35</td><td>Very Aggressive </td>
+					<td>32-35</td><td>Очень Агрессивный </td>
 				</tr>
 				<tr>
-					<th>Your risk tolerance</th><th>{{ result }}</th>
+					<th>Ваш Риск Профиль</th><th>{{ result }}</th>
 				</tr>
 			</table>
 			<br/>
