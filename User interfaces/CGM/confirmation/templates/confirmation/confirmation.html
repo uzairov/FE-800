@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Change views</title>
+<title>Изменить Взгляды</title>
 {% load static %}
 <link rel="stylesheet" type="text/css" href="/static/questionnaire/view.css" media="all">
 <link rel="stylesheet" type="text/css" href="{% static 'change_views/style.css' %}" />
@@ -27,11 +27,11 @@
 			{% csrf_token %}
 
 			<div class="form_description">
-				<h2>To Confirm</h2>
-				<h3>Your ETF list: {{ my_tickers }}</h3>
-				<h3>Your views: {{ views }}</h3>
-				<h3>Your drift threshold for portfolio rebalancing: {{ drift_threshold }}%</h3>
-				<h3>Your frequency for MVO: {{ rebalancing_frequency }}</h3>
+				<h2>Подтвердить</h2>
+				<h3>Ваш список ETF: {{ my_tickers }}</h3>
+				<h3>Ваши Взгляды: {{ views }}</h3>
+				<h3>Ваш порог смещения для ребалансировки портфеля: {{ drift_threshold }}%</h3>
+				<h3>Частота для оптимизации модели Марковица: {{ rebalancing_frequency }}</h3>
 			</div>
 		
 			
@@ -39,7 +39,7 @@
 		
 			<br/>	
 			
-			<button class="button" onclick="goBack()">Go Back</button>
+			<button class="button" onclick="goBack()">Назад</button>
 			<input type="submit" value="Confirm" />	  
 		</form>	
 		
