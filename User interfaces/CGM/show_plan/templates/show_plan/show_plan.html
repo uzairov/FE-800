@@ -114,10 +114,10 @@ body, html {
 <!-- Result Section -->
 <div class="w3-container w3-border-top w3-border-bottom" style="padding:64px 16px" id="result">
 <div>	
-	<h1 class="w3-center w3-xxlarge">Your financial plan</h1>
-			<p class="w3-center w3-large">Start with: <b>${{ amount }}</b></p>
+	<h1 class="w3-center w3-xxlarge">Ваш Финансовый План</h1>
+			<p class="w3-center w3-large">Стартовый депозит: <b>${{ amount }}</b></p>
 			<!--<p class="w3-center w3-large" id="risk1">Your recommended portfolio risk level is <b>{{ risk_tolerance }}</b></p>-->
-			<p class="w3-center w3-large" id="risk0">Assess your risk tolerance <a href = "../questionnaire/">click here</a></p>
+			<p class="w3-center w3-large" id="risk0">Оцените свою толерантность к риску<a href = "../questionnaire/">click here</a></p>
 			<script>
 				if ( {{ display }}==false ) document.getElementById("risk0").classList.add('w3-hide');
 			</script>
@@ -125,12 +125,12 @@ body, html {
       	<div class="w3-col l2 m4 s12 w3-border">		
 			
 			<ul class="w3-ul">
-				<li><h4>Frequently Asked Questions</h4></li>
-				<li><a href="../home/#robo_advisor_w" class="w3-hover-blue"> What is Robo-Advisor?</a></li>
-				<li><a href="../home/#risk" class="w3-hover-blue"> What is risk tolerance?</a></li>
-				<li><a href="../home/#methodology" class="w3-hover-blue"> What models does CGM use?</a></li>
-				<li><a href="../home/#tax" class="w3-hover-blue"> What is Tax Loss Harvesting?</a></li>
-				<li><a href="../home/#rebalance" class="w3-hover-blue"> How does CGM rebalance its portflioflio?</a></li>
+				<li><h4>Часто задаваемые вопросы</h4></li>
+				<li><a href="../home/#robo_advisor_w" class="w3-hover-blue"> Что такое Robo-Advisor v1.0?</a></li>
+				<li><a href="../home/#risk" class="w3-hover-blue"> Что такое Риск Профиль?</a></li>
+				<li><a href="../home/#methodology" class="w3-hover-blue"> Какие модели использует Robo-Advisor v1.0?</a></li>
+				<li><a href="../home/#tax" class="w3-hover-blue"> Что такое налоговая оптимизация?</a></li>
+				<li><a href="../home/#rebalance" class="w3-hover-blue"> Как Robo-Advisor v1.0 ребалансирует портфель?</a></li>
 			</ul>
 		</div>
 
@@ -138,11 +138,11 @@ body, html {
 				
 		<div class="w3-col l10 m8 s12">
 			<div class="w3-bar w3-black">
-			  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'risk_1');"><i class="w3-margin-right"></i>Very Conservative</button>
-			  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'risk_2');"><i class="w3-margin-right"></i>Conservative</button>
-			  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'risk_3');"><i class="w3-margin-right"></i>Moderate</button>
-			  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'risk_4');"><i class="w3-margin-right"></i>Aggressive</button>
-			  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'risk_5');"><i class="w3-margin-right"></i>Very Aggressive</button>
+			  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'risk_1');"><i class="w3-margin-right"></i>Очень Консервативный</button>
+			  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'risk_2');"><i class="w3-margin-right"></i>Консервативный</button>
+			  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'risk_3');"><i class="w3-margin-right"></i>Умеренный</button>
+			  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'risk_4');"><i class="w3-margin-right"></i>Агрессивный</button>
+			  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'risk_5');"><i class="w3-margin-right"></i>Очень Агрессивный</button>
 			  
 			</div>
 
