@@ -1,5 +1,5 @@
-// TalentLens — Prisma Schema
-// Based on Data Model §8.2 of the TZ v1.0
+// TalentLens — Prisma Schema v2
+// Relations added, CompetencyResult linked to Assessment
 
 generator client {
   provider = "prisma-client-js"
@@ -40,8 +40,8 @@ enum FlagLevel {
 model Company {
   id        String   @id @default(cuid())
   name      String
-  plan      String   @default("free")   // free | basic | pro
-  logo      String?                      // URL or S3 key
+  plan      String   @default("free")
+  logo      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -56,7 +56,7 @@ model Company {
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  password  String                        // bcrypt hash
+  password  String
   name      String?
   role      Role     @default(HR)
   companyId String
@@ -86,87 +86,6 @@ model RefreshToken {
 }
 
 // ─────────────────────────────────────────────
-// ASSESSMENT
-// ─────────────────────────────────────────────
-
-model Assessment {
-  id              String           @id @default(cuid())
-  candidateName   String
-  positionId      String
-  status          AssessmentStatus @default(CREATED)
-  linkUuid        String           @unique @default(uuid()) // UUID v4 for candidate URL
-  linkExpiresAt   DateTime                                  // +7 days from creation
-  competencies    Json                                      // string[] — selected competency keys
-  estimatedMinutes Int             @default(0)             // estimated test duration
-
-  companyId       String
-  company         Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  createdById     String
-  createdBy       User             @relation(fields: [createdById], references: [id])
-
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-
-  testSession     TestSession?
-  riskFlags       RiskFlag[]
-
-  @@index([companyId])
-  @@index([createdById])
-  @@index([linkUuid])
-  @@index([status])
-}
-
-// ─────────────────────────────────────────────
-// TEST SESSION (candidate side)
-// ─────────────────────────────────────────────
-
-model TestSession {
-  id           String     @id @default(cuid())
-  assessmentId String     @unique
-  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
-
-  language     String     @default("ru")  // ru | uz | en
-  startedAt    DateTime?
-  finishedAt   DateTime?
-  tabSwitches  Int        @default(0)
-  answersJson  Json       @default("[]")
-  // answersJson schema: Array<{
-  //   questionId: string,
-  //   selectedOption: number,  // 0-based index
-  //   answeredAt: string,      // ISO timestamp
-  //   responseMs: number       // milliseconds spent on this question
-  // }>
-
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-}
-
-// ─────────────────────────────────────────────
-// QUESTION
-// ─────────────────────────────────────────────
-
-model Question {
-  id          String   @id @default(cuid())
-  blockType   String   // e.g. "SJT_SALES", "PSS", "BIG_FIVE", etc.
-  textRu      String   @db.Text
-  textUz      String   @db.Text
-  textEn      String   @db.Text
-  optionsJson Json
-  // optionsJson schema: Array<{
-  //   textRu: string, textUz: string, textEn: string
-  // }>
-  scoringJson Json
-  // scoringJson schema: Array<{
-  //   competency: string,  // e.g. "stress_resistance"
-  //   scores: number[]     // score per option index (1–4)
-  // }>
-  orderIndex  Int      @default(0)  // default display order (randomised at runtime)
-  createdAt   DateTime @default(now())
-
-  @@index([blockType])
-}
-
-// ─────────────────────────────────────────────
 // POSITION TEMPLATE
 // ─────────────────────────────────────────────
 
@@ -179,15 +98,88 @@ model PositionTemplate {
   level            String   // linear | specialist | manager | top
   isActive         Boolean  @default(true)
   competenciesJson Json
-  // competenciesJson schema: Array<{
-  //   key: string,          // e.g. "stress_resistance"
-  //   weight: 1 | 2 | 3    // optional(1) | important(2) | required(3)  — §7.2
-  // }>
+  // Array<{ key: string; weight: 1|2|3 }>
   blocksJson       Json
-  // blocksJson schema: string[]  — blockType keys in order
+  // string[] — ordered block type keys
   estimatedMinutes Int      @default(30)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+
+  assessments      Assessment[]
+}
+
+// ─────────────────────────────────────────────
+// ASSESSMENT
+// ─────────────────────────────────────────────
+
+model Assessment {
+  id               String           @id @default(cuid())
+  candidateName    String
+  positionId       String
+  position         PositionTemplate @relation(fields: [positionId], references: [id])
+  status           AssessmentStatus @default(CREATED)
+  linkUuid         String           @unique @default(uuid())
+  linkExpiresAt    DateTime
+  competencies     Json             // string[] — selected competency keys
+  estimatedMinutes Int              @default(0)
+
+  companyId        String
+  company          Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdById      String
+  createdBy        User             @relation(fields: [createdById], references: [id])
+
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  testSession       TestSession?
+  riskFlags         RiskFlag[]
+  competencyResults CompetencyResult[]
+
+  @@index([companyId])
+  @@index([createdById])
+  @@index([linkUuid])
+  @@index([status])
+  @@index([positionId])
+}
+
+// ─────────────────────────────────────────────
+// TEST SESSION
+// ─────────────────────────────────────────────
+
+model TestSession {
+  id           String     @id @default(cuid())
+  assessmentId String     @unique
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  language     String     @default("ru")
+  startedAt    DateTime?
+  finishedAt   DateTime?
+  tabSwitches  Int        @default(0)
+  answersJson  Json       @default("[]")
+  // Array<{ questionId: string; selectedOption: number; answeredAt: string; responseMs: number }>
+
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// QUESTION
+// ─────────────────────────────────────────────
+
+model Question {
+  id          String   @id @default(cuid())
+  blockType   String
+  textRu      String   @db.Text
+  textUz      String   @db.Text
+  textEn      String   @db.Text
+  optionsJson Json
+  // Array<{ textRu: string; textUz: string; textEn: string }>
+  scoringJson Json
+  // Array<{ competency: string; scores: number[] }>  — scores[optionIndex] = 1..4
+  orderIndex  Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([blockType])
 }
 
 // ─────────────────────────────────────────────
@@ -195,30 +187,31 @@ model PositionTemplate {
 // ─────────────────────────────────────────────
 
 model RiskFlag {
-  id           String     @id @default(cuid())
-  assessmentId String
-  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
-  level        FlagLevel
-  type         String     // "fast_answers" | "tab_switches" | "inconsistency" | "answer_pattern"
+  id            String     @id @default(cuid())
+  assessmentId  String
+  assessment    Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  level         FlagLevel
+  type          String     // fast_answers | tab_switches | inconsistency | answer_pattern
   descriptionRu String
-  value        Float?     // numeric value that triggered the flag (e.g. % fast answers)
-  createdAt    DateTime   @default(now())
+  value         Float?
+  createdAt     DateTime   @default(now())
 
   @@index([assessmentId])
 }
 
 // ─────────────────────────────────────────────
-// COMPETENCY RESULT  (calculated on finish)
+// COMPETENCY RESULT  (calculated on finish §7)
 // ─────────────────────────────────────────────
 
 model CompetencyResult {
-  id           String   @id @default(cuid())
+  id           String     @id @default(cuid())
   assessmentId String
-  competency   String   // e.g. "stress_resistance"
-  score        Float    // 0–100 %
-  level        String   // "high" | "medium" | "low"
-  weight       Int      @default(1) // weight from position template
-  createdAt    DateTime @default(now())
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  competency   String
+  score        Float      // 0–100 %
+  level        String     // high | medium | low
+  weight       Int        @default(1)
+  createdAt    DateTime   @default(now())
 
   @@unique([assessmentId, competency])
   @@index([assessmentId])

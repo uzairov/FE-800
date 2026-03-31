@@ -21,6 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "ioredis": "^5.3.2",
     "uuid": "^9.0.1",
+    "recharts": "^2.12.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
