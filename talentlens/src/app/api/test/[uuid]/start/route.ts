@@ -26,16 +26,16 @@ export async function POST(req: NextRequest, { params }: { params: { uuid: strin
     if (!assessment) {
       return NextResponse.json(err('Link not found'), { status: 404 });
     }
-
     if (assessment.linkExpiresAt < new Date()) {
       return NextResponse.json(err('Link has expired'), { status: 410 });
     }
-
     if (assessment.testSession?.finishedAt) {
       return NextResponse.json(err('Test already completed'), { status: 409 });
     }
 
-    // Create or update session
+    // Upsert session — only set startedAt the first time
+    const existingStartedAt = assessment.testSession?.startedAt ?? null;
+
     const session = await prisma.testSession.upsert({
       where: { assessmentId: assessment.id },
       create: {
@@ -45,8 +45,9 @@ export async function POST(req: NextRequest, { params }: { params: { uuid: strin
       },
       update: {
         language: parsed.data.language,
-        startedAt: (prev) => prev ?? new Date(),
-      } as never,
+        // Preserve original startedAt — don't reset on page refresh
+        ...(existingStartedAt ? {} : { startedAt: new Date() }),
+      },
     });
 
     await prisma.assessment.update({

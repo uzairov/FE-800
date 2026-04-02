@@ -56,9 +56,11 @@ export function calculateCompetencyScores(
       if (!raw[entry.competency]) {
         raw[entry.competency] = { sum: 0, max: 0 };
       }
-      const score = entry.scores[answer.selectedOption] ?? 1;
+      const score = (entry.scores as number[])[answer.selectedOption] ?? 0;
       raw[entry.competency].sum += score;
-      raw[entry.competency].max += 4; // theoretical max per question per competency
+      // Max = highest possible score in this question for this competency
+      const maxScore = Math.max(...(entry.scores as number[]));
+      raw[entry.competency].max += maxScore > 0 ? maxScore : 4;
     }
   }
 

@@ -58,6 +58,12 @@ const COMPETENCY_LABEL: Record<string, string> = {
   attention: 'Внимательность',
   leadership: 'Лидерство',
   systems_thinking: 'Системное мышл.',
+  negotiation: 'Переговоры',
+  result_orientation: 'Ориент. на результат',
+  service_orientation: 'Клиентоориент.',
+  monotolerance: 'Моноустойчивость',
+  attention_to_detail: 'Внимат. к деталям',
+  self_motivation: 'Самомотивация',
 };
 
 const LEVEL_CONFIG = {

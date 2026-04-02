@@ -2,34 +2,41 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// Block IDs match import-questions.ts convention: {PREFIX}_{BLOCK_TYPE}
+// Sales Manager:   SM_SJT, SM_PSS, SM_EQ, SM_LOCUS, SM_CASE, SM_INTERVIEW
+// Call Center:     CC_SJT, CC_PSS, CC_EQ, CC_ATTENTION, CC_INTERVIEW
+
 async function main() {
-  // ── Sales Manager ──────────────────────────────────────────────────────
+  // ── Sales Manager ──────────────────────────────────────────────────────────
   await prisma.positionTemplate.upsert({
     where: { id: 'tmpl_sales_manager' },
     update: {},
     create: {
       id: 'tmpl_sales_manager',
       name: 'Менеджер по продажам',
-      nameUz: "Sotuv menejeri",
+      nameUz: 'Sotish menejeri',
       nameEn: 'Sales Manager',
       industry: 'Продажи',
       level: 'linear',
       estimatedMinutes: 35,
-      // §7.2: weight 3=required, 2=important, 1=optional
+      // Competencies match actual question data in questions.json
+      // weight 3=required, 2=important, 1=optional (§7.2)
       competenciesJson: [
-        { key: 'sales_skills',              weight: 3 },
-        { key: 'stress_resistance',         weight: 3 },
-        { key: 'communication_flexibility', weight: 2 },
-        { key: 'motivation',                weight: 2 },
-        { key: 'honesty',                   weight: 2 },
-        { key: 'emotional_intelligence',    weight: 1 },
-        { key: 'locus_of_control',          weight: 1 },
+        { key: 'sales_skills',           weight: 3 },
+        { key: 'honesty',                weight: 3 },
+        { key: 'negotiation',            weight: 3 },
+        { key: 'stress_resistance',      weight: 2 },
+        { key: 'emotional_intelligence', weight: 2 },
+        { key: 'result_orientation',     weight: 2 },
+        { key: 'locus_of_control',       weight: 1 },
+        { key: 'self_motivation',        weight: 1 },
       ],
-      blocksJson: ['SJT_SALES', 'PSS', 'BIG_FIVE', 'TKI', 'ROTTER'],
+      // Blocks in display order; SM_INTERVIEW = open-text (manual scoring)
+      blocksJson: ['SM_SJT', 'SM_PSS', 'SM_EQ', 'SM_LOCUS', 'SM_CASE', 'SM_INTERVIEW'],
     },
   });
 
-  // ── Call Center Operator ───────────────────────────────────────────────
+  // ── Call Center Operator ───────────────────────────────────────────────────
   await prisma.positionTemplate.upsert({
     where: { id: 'tmpl_call_center' },
     update: {},
@@ -43,14 +50,15 @@ async function main() {
       estimatedMinutes: 30,
       competenciesJson: [
         { key: 'stress_resistance',         weight: 3 },
-        { key: 'communication_flexibility', weight: 3 },
-        { key: 'attention',                 weight: 2 },
+        { key: 'monotolerance',             weight: 3 },
+        { key: 'attention_to_detail',       weight: 3 },
         { key: 'emotional_intelligence',    weight: 2 },
-        { key: 'honesty',                   weight: 2 },
+        { key: 'communication_flexibility', weight: 2 },
+        { key: 'service_orientation',       weight: 2 },
         { key: 'locus_of_control',          weight: 1 },
-        { key: 'motivation',                weight: 1 },
+        { key: 'self_motivation',           weight: 1 },
       ],
-      blocksJson: ['PSS', 'TKI', 'BOURDON', 'MSCEIT', 'BIG_FIVE'],
+      blocksJson: ['CC_SJT', 'CC_PSS', 'CC_EQ', 'CC_ATTENTION', 'CC_INTERVIEW'],
     },
   });
 
