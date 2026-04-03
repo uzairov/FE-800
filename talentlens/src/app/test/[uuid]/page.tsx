@@ -195,7 +195,11 @@ export default function TestPage() {
   // ── Build shuffled question list when testing starts ─────────────────────
 
   const startTesting = useCallback((td: TestData) => {
-    const questions = shuffle(td.questions);
+    // Shuffle within each block, keep blocks sequential (§TEST-05)
+    const questions = td.blocks.flatMap((blockType) => {
+      const blockQs = td.questions.filter((q) => q.blockType === blockType);
+      return shuffle(blockQs);
+    });
     setShuffledQuestions(questions);
     setCurrentIdx(0);
     setAnswers([]);

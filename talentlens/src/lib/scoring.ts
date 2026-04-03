@@ -124,13 +124,17 @@ export function calculateRiskFlags(
   }
 
   // ── Answer pattern (> 80 % same option) ──────────────────────────────
-  if (total > 5) {
+  // Skip open-text answers (selectedOption === -1) — they all share the same
+  // sentinel value and would create a false pattern flag.
+  const mcAnswers = answers.filter((a) => a.selectedOption !== -1);
+  if (mcAnswers.length > 5) {
     const counts: Record<number, number> = {};
-    for (const a of answers) {
+    for (const a of mcAnswers) {
       counts[a.selectedOption] = (counts[a.selectedOption] ?? 0) + 1;
     }
+    const mcTotal = mcAnswers.length;
     const maxCount = Math.max(...Object.values(counts));
-    const ratio = maxCount / total;
+    const ratio = maxCount / mcTotal;
     if (ratio > 0.8) {
       flags.push({
         level: 'WARNING',

@@ -50,5 +50,9 @@ export async function apiFetch<T>(
     res = await doFetch(newToken);
   }
 
-  return res.json();
+  try {
+    return await res.json();
+  } catch {
+    return { success: false, error: 'Invalid server response' } as ApiResult<T>;
+  }
 }
