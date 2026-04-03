@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyAccessToken } from '@/lib/auth';
+import { jwtVerify } from 'jose';
 
 // Routes that do NOT require authentication
 const PUBLIC_PREFIXES = [
@@ -10,7 +10,7 @@ const PUBLIC_PREFIXES = [
   '/favicon.ico',
 ];
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Allow public routes
@@ -36,14 +36,15 @@ export function middleware(req: NextRequest) {
   }
 
   try {
-    const payload = verifyAccessToken(token);
+    const secret = new TextEncoder().encode(process.env.JWT_ACCESS_SECRET ?? '');
+    const { payload } = await jwtVerify(token, secret);
 
     // Forward user info as headers to API routes
     const headers = new Headers(req.headers);
-    headers.set('x-user-id', payload.sub);
-    headers.set('x-user-email', payload.email);
-    headers.set('x-user-role', payload.role);
-    headers.set('x-user-company-id', payload.companyId);
+    headers.set('x-user-id', String(payload.sub ?? ''));
+    headers.set('x-user-email', String(payload.email ?? ''));
+    headers.set('x-user-role', String(payload.role ?? ''));
+    headers.set('x-user-company-id', String(payload.companyId ?? ''));
 
     return NextResponse.next({ request: { headers } });
   } catch {

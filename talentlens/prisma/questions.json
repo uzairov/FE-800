@@ -1,0 +1,972 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-04-01",
+  "positions": [
+    {
+      "id": "sales_manager",
+      "name_ru": "Менеджер по продажам",
+      "name_uz": "Sotish menejeri",
+      "name_en": "Sales Manager",
+      "industry": "sales",
+      "level": "linear",
+      "competencies": {
+        "required": ["sales_skills", "honesty", "negotiation"],
+        "important": ["stress_resistance", "emotional_intelligence", "result_orientation"],
+        "optional": ["locus_of_control", "self_motivation"]
+      },
+      "blocks": [
+        {
+          "id": "A",
+          "type": "SJT",
+          "label_ru": "Блок A — Ситуационные задачи",
+          "label_uz": "A blok — Vaziyat masalalari",
+          "label_en": "Block A — Situational Tasks",
+          "time_limit_seconds": 600,
+          "measures": ["sales_skills", "honesty", "negotiation"],
+          "questions": [
+            {
+              "id": "SM-A-01",
+              "text_ru": "Клиент говорит: «У конкурентов дешевле». Ваши действия?",
+              "text_uz": "Mijoz: «Raqobatchilarda arzonroq». Sizning harakatlaringiz?",
+              "text_en": "The client says: 'Competitors are cheaper.' Your actions?",
+              "options": [
+                { "id": "a", "text_ru": "Сразу предложить скидку", "text_uz": "Darhol chegirma taklif qilish", "text_en": "Immediately offer a discount", "score": 1, "competency": "sales_skills" },
+                { "id": "b", "text_ru": "Спросить, что именно сравнивал клиент, и показать разницу в ценности", "text_uz": "Mijoz nimani solishtirgani so'rash va qiymat farqini ko'rsatish", "text_en": "Ask what exactly the client compared and show the value difference", "score": 4, "competency": "sales_skills" },
+                { "id": "c", "text_ru": "Сказать, что у нас лучшее качество, без конкретики", "text_uz": "Bizda sifat yaxshiroq, deb aytish, aniqlik bermay", "text_en": "Say we have better quality without specifics", "score": 2, "competency": "sales_skills" },
+                { "id": "d", "text_ru": "Согласиться и отпустить клиента", "text_uz": "Rozi bo'lish va mijozni qo'yib yuborish", "text_en": "Agree and let the client go", "score": 1, "competency": "sales_skills" }
+              ],
+              "explanation_ru": "Правильный ответ — выяснить детали сравнения. Это показывает технику работы с возражениями и ориентацию на ценность."
+            },
+            {
+              "id": "SM-A-02",
+              "text_ru": "Вы узнали, что ваш продукт не решает задачу клиента. Что вы сделаете?",
+              "text_uz": "Mahsulotingiz mijoz muammosini hal qilmasligini bildingiz. Nima qilasiz?",
+              "text_en": "You realize your product doesn't solve the client's problem. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Всё равно попытаюсь продать — план горит", "text_uz": "Baribir sotishga harakat qilaman — reja kuyapti", "text_en": "Try to sell anyway — need to hit targets", "score": 1, "competency": "honesty", "flag": "risk" },
+                { "id": "b", "text_ru": "Честно скажу клиенту и предложу альтернативу или порекомендую другой продукт", "text_uz": "Mijozga ochiq aytaman va muqobil yoki boshqa mahsulot taklif qilaman", "text_en": "Honestly tell the client and suggest an alternative or recommend another product", "score": 4, "competency": "honesty" },
+                { "id": "c", "text_ru": "Умолчу о проблеме и закрою сделку", "text_uz": "Muammo haqida jim turaman va bitimni yopaman", "text_en": "Keep silent about the issue and close the deal", "score": 1, "competency": "honesty", "flag": "risk" },
+                { "id": "d", "text_ru": "Перенаправлю к коллеге, пусть он разбирается", "text_uz": "Hamkasbga yo'naltirib yuboraman, u hal qilsin", "text_en": "Redirect to a colleague, let them handle it", "score": 2, "competency": "honesty" }
+              ],
+              "explanation_ru": "Честность с клиентом — основа долгосрочных продаж. Вариант (а) и (в) — красные флаги."
+            },
+            {
+              "id": "SM-A-03",
+              "text_ru": "Клиент просит 30% скидку. Ваш максимум — 10%. Что делаете?",
+              "text_uz": "Mijoz 30% chegirma so'raydi. Sizning maksimumingiz — 10%. Nima qilasiz?",
+              "text_en": "The client asks for a 30% discount. Your max is 10%. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Даю 10% и объясняю, что это максимум", "text_uz": "10% beraman va bu maksimum ekanini tushuntiraman", "text_en": "Give 10% and explain it's the maximum", "score": 3, "competency": "negotiation" },
+                { "id": "b", "text_ru": "Предлагаю 10% скидку + бонус (доставка, гарантия) в обмен на быстрое решение", "text_uz": "10% chegirma + bonus (yetkazish, kafolat) tez qaror evaziga taklif qilaman", "text_en": "Offer 10% discount + bonus (delivery, warranty) in exchange for a quick decision", "score": 4, "competency": "negotiation" },
+                { "id": "c", "text_ru": "Отказываю без объяснений", "text_uz": "Tushuntirmasdan rad etaman", "text_en": "Refuse without explanation", "score": 1, "competency": "negotiation" },
+                { "id": "d", "text_ru": "Обещаю 30%, потом объясню руководству", "text_uz": "30% va'da qilaman, keyin rahbariyatga tushuntiraman", "text_en": "Promise 30%, then explain to management later", "score": 1, "competency": "honesty", "flag": "risk" }
+              ],
+              "explanation_ru": "Лучший переговорщик создаёт дополнительную ценность, а не просто уступает. Вариант (d) — флаг нечестности."
+            },
+            {
+              "id": "SM-A-04",
+              "text_ru": "Вы только что потеряли крупную сделку. Что делаете в первую очередь?",
+              "text_uz": "Hozirgina katta bitimni yo'qotdingiz. Birinchi navbatda nima qilasiz?",
+              "text_en": "You just lost a major deal. What do you do first?",
+              "options": [
+                { "id": "a", "text_ru": "Анализирую причины и записываю уроки", "text_uz": "Sabablarini tahlil qilaman va saboqlarni yozib olaman", "text_en": "Analyze the reasons and note lessons learned", "score": 4, "competency": "result_orientation" },
+                { "id": "b", "text_ru": "Переключаюсь на следующую сделку без анализа", "text_uz": "Tahlilsiz keyingi bitimga o'taman", "text_en": "Switch to the next deal without analysis", "score": 2, "competency": "result_orientation" },
+                { "id": "c", "text_ru": "Ищу виноватых в команде", "text_uz": "Jamoada aybdorlarni qidiraman", "text_en": "Look for someone to blame in the team", "score": 1, "competency": "locus_of_control" },
+                { "id": "d", "text_ru": "Расстраиваюсь и беру паузу на день", "text_uz": "Xafa bo'laman va bir kunlik tanaffus olaman", "text_en": "Get upset and take a day off", "score": 1, "competency": "stress_resistance" }
+              ],
+              "explanation_ru": "Ориентация на результат проявляется в способности извлекать уроки из неудач."
+            },
+            {
+              "id": "SM-A-05",
+              "text_ru": "Коллега просит вас «прикрыть» его отсутствие перед руководителем. Как поступите?",
+              "text_uz": "Hamkasbingiz rahbar oldida yo'qligini «yopib» berishingizni so'raydi. Qanday qilasiz?",
+              "text_en": "A colleague asks you to cover for their absence to the manager. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Соглашусь — коллеги должны поддерживать друг друга", "text_uz": "Rozi bo'laman — hamkasblar bir-birini qo'llab-quvvatlashi kerak", "text_en": "Agree — colleagues should support each other", "score": 2, "competency": "honesty" },
+                { "id": "b", "text_ru": "Откажусь врать, но предложу коллеге самому поговорить с руководителем", "text_uz": "Yolg'on gapirishdan bosh tortaman, lekin hamkasbga o'zi rahbar bilan gaplashishni taklif qilaman", "text_en": "Refuse to lie, but suggest the colleague talk to the manager themselves", "score": 4, "competency": "honesty" },
+                { "id": "c", "text_ru": "Сразу расскажу руководителю", "text_uz": "Darhol rahbarga aytaman", "text_en": "Immediately tell the manager", "score": 2, "competency": "honesty" },
+                { "id": "d", "text_ru": "Проигнорирую просьбу", "text_uz": "Iltimosga e'tibor bermay qo'yaman", "text_en": "Ignore the request", "score": 1, "competency": "honesty" }
+              ],
+              "explanation_ru": "Баланс между честностью и тактичностью. Лучший ответ — помочь коллеге решить вопрос правильно."
+            },
+            {
+              "id": "SM-A-06",
+              "text_ru": "Клиент настаивает на встрече, но вы знаете, что по телефону вопрос решится за 5 минут. Как поступите?",
+              "text_uz": "Mijoz uchrashuvni talab qiladi, lekin siz masala telefonda 5 daqiqada hal bo'lishini bilasiz. Nima qilasiz?",
+              "text_en": "The client insists on a meeting, but you know the issue can be resolved in 5 minutes by phone. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Еду на встречу — клиент всегда прав", "text_uz": "Uchrashuvga boraman — mijoz har doim haq", "text_en": "Go to the meeting — the client is always right", "score": 2, "competency": "sales_skills" },
+                { "id": "b", "text_ru": "Предлагаю решить по телефону, но если важен личный контакт — соглашаюсь", "text_uz": "Telefonda hal qilishni taklif qilaman, lekin shaxsiy aloqa muhim bo'lsa — rozi bo'laman", "text_en": "Suggest resolving by phone, but if personal contact matters — agree", "score": 4, "competency": "sales_skills" },
+                { "id": "c", "text_ru": "Отказываю во встрече — неэффективно", "text_uz": "Uchrashuvdan bosh tortaman — samarasiz", "text_en": "Refuse the meeting — inefficient", "score": 1, "competency": "negotiation" },
+                { "id": "d", "text_ru": "Отправляю вместо себя коллегу", "text_uz": "O'rnimga hamkasbni yuboraman", "text_en": "Send a colleague instead", "score": 1, "competency": "sales_skills" }
+              ],
+              "explanation_ru": "Гибкость + уважение к клиенту. Навык балансировки эффективности и клиентоориентированности."
+            },
+            {
+              "id": "SM-A-07",
+              "text_ru": "Руководитель просит вас продать клиенту услугу, которая ему явно не нужна. Как поступите?",
+              "text_uz": "Rahbar mijozga aniq kerak bo'lmagan xizmatni sotishingizni so'raydi. Nima qilasiz?",
+              "text_en": "Your manager asks you to sell a client a service they clearly don't need. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Выполняю — руководитель лучше знает", "text_uz": "Bajaraman — rahbar yaxshiroq biladi", "text_en": "Comply — the manager knows best", "score": 1, "competency": "honesty" },
+                { "id": "b", "text_ru": "Обсуждаю с руководителем свои сомнения и предлагаю альтернативный подход", "text_uz": "Rahbar bilan shubhalarimni muhokama qilaman va muqobil yondashuvni taklif qilaman", "text_en": "Discuss my concerns with the manager and suggest an alternative approach", "score": 4, "competency": "honesty" },
+                { "id": "c", "text_ru": "Тихо саботирую задачу", "text_uz": "Jimgina vazifani sabotaj qilaman", "text_en": "Quietly sabotage the task", "score": 1, "competency": "honesty" },
+                { "id": "d", "text_ru": "Продаю, но предупреждаю клиента о рисках", "text_uz": "Sotaman, lekin mijozni xatarlar haqida ogohlandiraman", "text_en": "Sell it, but warn the client about risks", "score": 3, "competency": "honesty" }
+              ],
+              "explanation_ru": "Этичные продажи + умение отстаивать позицию. Лучший продавец защищает и клиента, и компанию."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "type": "PSS",
+          "label_ru": "Блок B — Оценка реакций",
+          "label_uz": "B blok — Reaktsiyalarni baholash",
+          "label_en": "Block B — Reaction Assessment",
+          "time_limit_seconds": 420,
+          "measures": ["stress_resistance"],
+          "questions": [
+            {
+              "id": "SM-B-01",
+              "text_ru": "Как часто за последний месяц вы чувствовали, что не можете контролировать важные вещи в жизни?",
+              "text_uz": "So'nggi oyda hayotdagi muhim narsalarni boshqara olmasligingizni qanchalik tez-tez his qildingiz?",
+              "text_en": "How often in the last month have you felt unable to control important things in your life?",
+              "options": [
+                { "id": "a", "text_ru": "Никогда", "text_uz": "Hech qachon", "text_en": "Never", "score": 4, "competency": "stress_resistance" },
+                { "id": "b", "text_ru": "Редко", "text_uz": "Kamdan-kam", "text_en": "Rarely", "score": 3, "competency": "stress_resistance" },
+                { "id": "c", "text_ru": "Иногда", "text_uz": "Ba'zan", "text_en": "Sometimes", "score": 2, "competency": "stress_resistance" },
+                { "id": "d", "text_ru": "Часто", "text_uz": "Tez-tez", "text_en": "Often", "score": 1, "competency": "stress_resistance" }
+              ],
+              "explanation_ru": "Шкала PSS — низкий балл указывает на склонность к стрессу."
+            },
+            {
+              "id": "SM-B-02",
+              "text_ru": "Как часто вы чувствовали уверенность в своей способности справиться с личными проблемами?",
+              "text_uz": "Shaxsiy muammolarni hal qilish qobiliyatingizga qanchalik tez-tez ishonch his qildingiz?",
+              "text_en": "How often have you felt confident in your ability to handle personal problems?",
+              "options": [
+                { "id": "a", "text_ru": "Очень часто", "text_uz": "Juda tez-tez", "text_en": "Very often", "score": 4, "competency": "stress_resistance" },
+                { "id": "b", "text_ru": "Часто", "text_uz": "Tez-tez", "text_en": "Often", "score": 3, "competency": "stress_resistance" },
+                { "id": "c", "text_ru": "Иногда", "text_uz": "Ba'zan", "text_en": "Sometimes", "score": 2, "competency": "stress_resistance" },
+                { "id": "d", "text_ru": "Почти никогда", "text_uz": "Deyarli hech qachon", "text_en": "Almost never", "score": 1, "competency": "stress_resistance" }
+              ],
+              "explanation_ru": "Обратная шкала PSS — уверенность в своих силах."
+            },
+            {
+              "id": "SM-B-03",
+              "text_ru": "Как часто вы чувствовали, что всё идёт так, как вы хотите?",
+              "text_uz": "Hamma narsa xohlagan bo'yicha ketayotganini qanchalik tez-tez his qildingiz?",
+              "text_en": "How often have you felt that things were going your way?",
+              "options": [
+                { "id": "a", "text_ru": "Очень часто", "text_uz": "Juda tez-tez", "text_en": "Very often", "score": 4, "competency": "stress_resistance" },
+                { "id": "b", "text_ru": "Часто", "text_uz": "Tez-tez", "text_en": "Often", "score": 3, "competency": "stress_resistance" },
+                { "id": "c", "text_ru": "Иногда", "text_uz": "Ba'zan", "text_en": "Sometimes", "score": 2, "competency": "stress_resistance" },
+                { "id": "d", "text_ru": "Почти никогда", "text_uz": "Deyarli hech qachon", "text_en": "Almost never", "score": 1, "competency": "stress_resistance" }
+              ],
+              "explanation_ru": "PSS — восприятие контроля над ситуацией."
+            },
+            {
+              "id": "SM-B-04",
+              "text_ru": "Как часто вы чувствовали, что трудности накапливаются и вы не можете с ними справиться?",
+              "text_uz": "Qiyinchiliklar to'planib, ularni engib o'ta olmasligingizni qanchalik tez-tez his qildingiz?",
+              "text_en": "How often have you felt that difficulties were piling up and you couldn't overcome them?",
+              "options": [
+                { "id": "a", "text_ru": "Никогда", "text_uz": "Hech qachon", "text_en": "Never", "score": 4, "competency": "stress_resistance" },
+                { "id": "b", "text_ru": "Редко", "text_uz": "Kamdan-kam", "text_en": "Rarely", "score": 3, "competency": "stress_resistance" },
+                { "id": "c", "text_ru": "Иногда", "text_uz": "Ba'zan", "text_en": "Sometimes", "score": 2, "competency": "stress_resistance" },
+                { "id": "d", "text_ru": "Часто", "text_uz": "Tez-tez", "text_en": "Often", "score": 1, "competency": "stress_resistance" }
+              ],
+              "explanation_ru": "Ключевой вопрос PSS — ощущение перегрузки."
+            },
+            {
+              "id": "SM-B-05",
+              "text_ru": "Как часто вы раздражались из-за вещей, которые были вне вашего контроля?",
+              "text_uz": "Nazoratdan tashqaridagi narsalar tufayli qanchalik tez-tez asabiylashdingiz?",
+              "text_en": "How often have you been irritated by things outside your control?",
+              "options": [
+                { "id": "a", "text_ru": "Никогда", "text_uz": "Hech qachon", "text_en": "Never", "score": 4, "competency": "stress_resistance" },
+                { "id": "b", "text_ru": "Редко", "text_uz": "Kamdan-kam", "text_en": "Rarely", "score": 3, "competency": "stress_resistance" },
+                { "id": "c", "text_ru": "Иногда", "text_uz": "Ba'zan", "text_en": "Sometimes", "score": 2, "competency": "stress_resistance" },
+                { "id": "d", "text_ru": "Часто", "text_uz": "Tez-tez", "text_en": "Often", "score": 1, "competency": "stress_resistance" }
+              ],
+              "explanation_ru": "PSS — реактивность на неконтролируемые факторы."
+            },
+            {
+              "id": "SM-B-06",
+              "text_ru": "Как часто вы успешно справлялись с повседневными хлопотами?",
+              "text_uz": "Kundalik tashvishlarni qanchalik tez-tez muvaffaqiyatli hal qildingiz?",
+              "text_en": "How often have you successfully dealt with daily hassles?",
+              "options": [
+                { "id": "a", "text_ru": "Очень часто", "text_uz": "Juda tez-tez", "text_en": "Very often", "score": 4, "competency": "stress_resistance" },
+                { "id": "b", "text_ru": "Часто", "text_uz": "Tez-tez", "text_en": "Often", "score": 3, "competency": "stress_resistance" },
+                { "id": "c", "text_ru": "Иногда", "text_uz": "Ba'zan", "text_en": "Sometimes", "score": 2, "competency": "stress_resistance" },
+                { "id": "d", "text_ru": "Почти никогда", "text_uz": "Deyarli hech qachon", "text_en": "Almost never", "score": 1, "competency": "stress_resistance" }
+              ],
+              "explanation_ru": "PSS — эффективность повседневного копинга."
+            },
+            {
+              "id": "SM-B-07",
+              "text_ru": "Вам нужно провести важную презентацию через 1 час, но вы обнаружили ошибку в данных. Что чувствуете?",
+              "text_uz": "Muhim taqdimot 1 soatdan keyin, lekin ma'lumotlarda xato topdingiz. Nima his qilasiz?",
+              "text_en": "You have an important presentation in 1 hour and discover a data error. How do you feel?",
+              "options": [
+                { "id": "a", "text_ru": "Паникую, сложно сосредоточиться", "text_uz": "Vahimaga tushaman, diqqatni jamlash qiyin", "text_en": "Panic, hard to focus", "score": 1, "competency": "stress_resistance" },
+                { "id": "b", "text_ru": "Напряжён, но сразу начинаю исправлять", "text_uz": "Tarangman, lekin darhol tuzatishga kirishaman", "text_en": "Tense, but immediately start fixing", "score": 4, "competency": "stress_resistance" },
+                { "id": "c", "text_ru": "Прошу перенести презентацию", "text_uz": "Taqdimotni ko'chirishni so'rayman", "text_en": "Ask to postpone the presentation", "score": 2, "competency": "stress_resistance" },
+                { "id": "d", "text_ru": "Провожу с ошибкой, надеюсь никто не заметит", "text_uz": "Xato bilan o'tkazaman, hech kim sezmaydi deb umid qilaman", "text_en": "Present with the error, hope nobody notices", "score": 1, "competency": "honesty", "flag": "risk" }
+              ],
+              "explanation_ru": "Стрессоустойчивость под давлением + честность (вариант d — флаг риска)."
+            }
+          ]
+        },
+        {
+          "id": "C",
+          "type": "EQ",
+          "label_ru": "Блок C — Понимание ситуаций",
+          "label_uz": "C blok — Vaziyatlarni tushunish",
+          "label_en": "Block C — Understanding Situations",
+          "time_limit_seconds": 480,
+          "measures": ["emotional_intelligence"],
+          "questions": [
+            {
+              "id": "SM-C-01",
+              "text_ru": "Клиент повышает голос и говорит: «Я уже третий раз звоню!». Что он чувствует в первую очередь?",
+              "text_uz": "Mijoz ovozini ko'tarib aytadi: «Men uchinchi marta qo'ng'iroq qilyapman!». U birinchi navbatda nima his qilmoqda?",
+              "text_en": "The client raises their voice: 'This is my third call!' What are they primarily feeling?",
+              "options": [
+                { "id": "a", "text_ru": "Злость на компанию", "text_uz": "Kompaniyaga g'azab", "text_en": "Anger at the company", "score": 2, "competency": "emotional_intelligence" },
+                { "id": "b", "text_ru": "Разочарование и ощущение, что его не слышат", "text_uz": "Hafsalasi pir va uni eshitmayotganlik hissi", "text_en": "Frustration and feeling unheard", "score": 4, "competency": "emotional_intelligence" },
+                { "id": "c", "text_ru": "Он просто грубый человек", "text_uz": "U shunchaki qo'pol odam", "text_en": "They're just a rude person", "score": 1, "competency": "emotional_intelligence" },
+                { "id": "d", "text_ru": "Ему нечем заняться", "text_uz": "Uning ishi yo'q", "text_en": "They have nothing else to do", "score": 1, "competency": "emotional_intelligence" }
+              ],
+              "explanation_ru": "EQ — способность видеть за поведением эмоцию. Повторный звонок = чувство игнорирования."
+            },
+            {
+              "id": "SM-C-02",
+              "text_ru": "На встрече коллега избегает зрительного контакта и даёт короткие ответы. Что скорее всего происходит?",
+              "text_uz": "Uchrashuvda hamkasbingiz ko'z kontaktidan qochadi va qisqa javoblar beradi. Ehtimol nima bo'lyapti?",
+              "text_en": "A colleague avoids eye contact and gives short answers in a meeting. What's most likely happening?",
+              "options": [
+                { "id": "a", "text_ru": "Ему неинтересна тема", "text_uz": "Mavzu unga qiziq emas", "text_en": "They're not interested in the topic", "score": 2, "competency": "emotional_intelligence" },
+                { "id": "b", "text_ru": "Он чувствует дискомфорт или несогласие, но не хочет конфликтовать", "text_uz": "U noqulaylik yoki norozilik his qilmoqda, lekin mojaro qilishni istamayapti", "text_en": "They feel discomfort or disagreement but don't want to conflict", "score": 4, "competency": "emotional_intelligence" },
+                { "id": "c", "text_ru": "Он устал", "text_uz": "U charchagan", "text_en": "They're tired", "score": 2, "competency": "emotional_intelligence" },
+                { "id": "d", "text_ru": "Он всегда такой", "text_uz": "U har doim shunday", "text_en": "They're always like that", "score": 1, "competency": "emotional_intelligence" }
+              ],
+              "explanation_ru": "Считывание невербальных сигналов — ключевой навык EQ."
+            },
+            {
+              "id": "SM-C-03",
+              "text_ru": "Клиент сказал «да» на ваше предложение, но его голос звучал неуверенно. Что делаете?",
+              "text_uz": "Mijoz taklifingizga «ha» dedi, lekin ovozi ishonchsiz edi. Nima qilasiz?",
+              "text_en": "The client said 'yes' to your proposal, but their voice sounded uncertain. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Быстро закрываю сделку пока не передумал", "text_uz": "Qarorini o'zgartirmaguncha tezda bitimni yopaman", "text_en": "Quickly close the deal before they change their mind", "score": 1, "competency": "emotional_intelligence" },
+                { "id": "b", "text_ru": "Спрашиваю: «Вижу, что есть сомнения. Давайте обсудим, что вас беспокоит»", "text_uz": "So'rayman: «Shubhalaringiz borga o'xshaydi. Keling, sizni nima bezovta qilayotganini muhokama qilamiz»", "text_en": "Ask: 'I sense some hesitation. Let's discuss what concerns you'", "score": 4, "competency": "emotional_intelligence" },
+                { "id": "c", "text_ru": "Игнорирую — сказал «да» значит «да»", "text_uz": "E'tibor bermay qo'yaman — «ha» dedi, demak «ha»", "text_en": "Ignore it — 'yes' means 'yes'", "score": 1, "competency": "emotional_intelligence" },
+                { "id": "d", "text_ru": "Отправляю договор на подпись", "text_uz": "Imzolash uchun shartnoma yuboraman", "text_en": "Send the contract for signing", "score": 2, "competency": "emotional_intelligence" }
+              ],
+              "explanation_ru": "Навык чтения между строк + честность по отношению к клиенту."
+            },
+            {
+              "id": "SM-C-04",
+              "text_ru": "Ваш постоянный клиент стал реже выходить на связь и задерживает оплаты. Что происходит?",
+              "text_uz": "Doimiy mijozingiz kamroq aloqaga chiqadigan va to'lovlarni kechiktiradigan bo'ldi. Nima bo'lyapti?",
+              "text_en": "Your regular client communicates less frequently and delays payments. What's happening?",
+              "options": [
+                { "id": "a", "text_ru": "Он просто забывает — нужно напомнить", "text_uz": "U shunchaki unutadi — eslatish kerak", "text_en": "They just forget — need a reminder", "score": 1, "competency": "emotional_intelligence" },
+                { "id": "b", "text_ru": "Скорее всего рассматривает альтернативы или испытывает финансовые трудности — нужен личный разговор", "text_uz": "Ehtimol muqobillarni ko'rib chiqayotgan yoki moliyaviy qiyinchiliklar bor — shaxsiy suhbat kerak", "text_en": "Likely considering alternatives or facing financial issues — need a personal conversation", "score": 4, "competency": "emotional_intelligence" },
+                { "id": "c", "text_ru": "Отправлю официальное напоминание об оплате", "text_uz": "To'lov haqida rasmiy eslatma yuboraman", "text_en": "Send an official payment reminder", "score": 2, "competency": "emotional_intelligence" },
+                { "id": "d", "text_ru": "Подожду — само наладится", "text_uz": "Kutaman — o'zi tuzalib ketadi", "text_en": "Wait — it will sort itself out", "score": 1, "competency": "emotional_intelligence" }
+              ],
+              "explanation_ru": "EQ в продажах — считывание паттернов поведения и проактивная коммуникация."
+            },
+            {
+              "id": "SM-C-05",
+              "text_ru": "Коллега при всех критикует вашу работу на совещании. Ваша реакция?",
+              "text_uz": "Hamkasbingiz yig'ilishda hamma oldida ishingizni tanqid qiladi. Reaktsiyangiz?",
+              "text_en": "A colleague publicly criticizes your work in a meeting. Your reaction?",
+              "options": [
+                { "id": "a", "text_ru": "Агрессивно защищаюсь", "text_uz": "Agressiv ravishda himoyalanaman", "text_en": "Aggressively defend myself", "score": 1, "competency": "emotional_intelligence" },
+                { "id": "b", "text_ru": "Благодарю за обратную связь и предлагаю обсудить детали после совещания", "text_uz": "Fikr-mulohaza uchun minnatdorchilik bildiraman va tafsilotlarni yig'ilishdan keyin muhokama qilishni taklif qilaman", "text_en": "Thank them for feedback and suggest discussing details after the meeting", "score": 4, "competency": "emotional_intelligence" },
+                { "id": "c", "text_ru": "Молчу и запоминаю обиду", "text_uz": "Jim turaman va xafani eslab qolaman", "text_en": "Stay silent and remember the offense", "score": 1, "competency": "emotional_intelligence" },
+                { "id": "d", "text_ru": "Критикую его работу в ответ", "text_uz": "Javobiga uning ishini tanqid qilaman", "text_en": "Criticize their work in return", "score": 1, "competency": "emotional_intelligence" }
+              ],
+              "explanation_ru": "Управление эмоциями — ключевой навык EQ. Профессиональная реакция на публичную критику."
+            },
+            {
+              "id": "SM-C-06",
+              "text_ru": "После сложных переговоров вы чувствуете раздражение. Как восстанавливаетесь?",
+              "text_uz": "Murakkab muzokaralardan keyin asabiylashganingizni his qilasiz. Qanday tiklanasiz?",
+              "text_en": "After difficult negotiations, you feel irritated. How do you recover?",
+              "options": [
+                { "id": "a", "text_ru": "Делаю паузу, анализирую ситуацию, переключаюсь на задачу", "text_uz": "Tanaffus qilaman, vaziyatni tahlil qilaman, vazifaga o'taman", "text_en": "Take a break, analyze the situation, switch to a task", "score": 4, "competency": "emotional_intelligence" },
+                { "id": "b", "text_ru": "Жалуюсь коллегам", "text_uz": "Hamkasblarga shikoyat qilaman", "text_en": "Complain to colleagues", "score": 1, "competency": "emotional_intelligence" },
+                { "id": "c", "text_ru": "Раздражение переношу на следующего клиента", "text_uz": "Asabiylikni keyingi mijozga o'tkazaman", "text_en": "Transfer irritation to the next client", "score": 1, "competency": "emotional_intelligence", "flag": "risk" },
+                { "id": "d", "text_ru": "Не замечаю своих эмоций — просто работаю дальше", "text_uz": "Hissiyotlarimga e'tibor bermay — ishlayvergaman", "text_en": "Don't notice my emotions — just keep working", "score": 2, "competency": "emotional_intelligence" }
+              ],
+              "explanation_ru": "Саморегуляция — способность осознанно управлять своим состоянием."
+            }
+          ]
+        },
+        {
+          "id": "D",
+          "type": "LOCUS",
+          "label_ru": "Блок D — Взгляды и убеждения",
+          "label_uz": "D blok — Qarashlar va e'tiqodlar",
+          "label_en": "Block D — Views and Beliefs",
+          "time_limit_seconds": 360,
+          "measures": ["locus_of_control"],
+          "questions": [
+            {
+              "id": "SM-D-01",
+              "text_ru": "Вы не выполнили план продаж за месяц. Основная причина?",
+              "text_uz": "Oylik savdo rejasini bajarmadingiz. Asosiy sabab?",
+              "text_en": "You didn't meet your monthly sales target. The main reason?",
+              "options": [
+                { "id": "a", "text_ru": "Рынок сейчас слабый, клиенты не покупают", "text_uz": "Bozor hozir zaif, mijozlar sotib olmayapti", "text_en": "The market is weak now, clients aren't buying", "score": 1, "competency": "locus_of_control" },
+                { "id": "b", "text_ru": "Мне нужно проанализировать свою воронку и улучшить конверсию", "text_uz": "Voronkamni tahlil qilishim va konversiyani yaxshilashim kerak", "text_en": "I need to analyze my funnel and improve conversion", "score": 4, "competency": "locus_of_control" },
+                { "id": "c", "text_ru": "Маркетинг даёт плохие лиды", "text_uz": "Marketing yomon lidlar beradi", "text_en": "Marketing provides bad leads", "score": 1, "competency": "locus_of_control" },
+                { "id": "d", "text_ru": "Мне не повезло с клиентами в этом месяце", "text_uz": "Bu oyda mijozlar bilan omadim kelmadi", "text_en": "I was unlucky with clients this month", "score": 1, "competency": "locus_of_control" }
+              ],
+              "explanation_ru": "Внутренний локус контроля — берёт ответственность на себя."
+            },
+            {
+              "id": "SM-D-02",
+              "text_ru": "Коллега получил повышение, а вы — нет. Почему?",
+              "text_uz": "Hamkasbingiz lavozimga ko'tarildi, siz — yo'q. Nima uchun?",
+              "text_en": "A colleague got promoted, but you didn't. Why?",
+              "options": [
+                { "id": "a", "text_ru": "У него лучше связи с руководством", "text_uz": "Uning rahbariyat bilan aloqasi yaxshiroq", "text_en": "They have better connections with management", "score": 1, "competency": "locus_of_control" },
+                { "id": "b", "text_ru": "Он объективно показал лучшие результаты — мне нужно усилить свои показатели", "text_uz": "U ob'ektiv ravishda yaxshiroq natijalar ko'rsatdi — ko'rsatkichlarimni kuchaytirishim kerak", "text_en": "They objectively showed better results — I need to improve my metrics", "score": 4, "competency": "locus_of_control" },
+                { "id": "c", "text_ru": "Здесь не ценят настоящую работу", "text_uz": "Bu yerda haqiqiy mehnatni qadrlamaydilar", "text_en": "Real work isn't valued here", "score": 1, "competency": "locus_of_control" },
+                { "id": "d", "text_ru": "Мне просто не повезло", "text_uz": "Shunchaki omadim kelmadi", "text_en": "I was just unlucky", "score": 1, "competency": "locus_of_control" }
+              ],
+              "explanation_ru": "Внутренний локус контроля — фокус на собственных действиях."
+            },
+            {
+              "id": "SM-D-03",
+              "text_ru": "Что больше всего влияет на ваш успех в продажах?",
+              "text_uz": "Sotuvdagi muvaffaqiyatingizga eng ko'p nima ta'sir qiladi?",
+              "text_en": "What most influences your success in sales?",
+              "options": [
+                { "id": "a", "text_ru": "Качество продукта и цена", "text_uz": "Mahsulot sifati va narxi", "text_en": "Product quality and price", "score": 2, "competency": "locus_of_control" },
+                { "id": "b", "text_ru": "Мои навыки коммуникации и подготовка", "text_uz": "Mening kommunikatsiya ko'nikmalarim va tayyorgarligim", "text_en": "My communication skills and preparation", "score": 4, "competency": "locus_of_control" },
+                { "id": "c", "text_ru": "Удача и настроение клиента", "text_uz": "Omad va mijozning kayfiyati", "text_en": "Luck and the client's mood", "score": 1, "competency": "locus_of_control" },
+                { "id": "d", "text_ru": "Экономическая ситуация", "text_uz": "Iqtisodiy vaziyat", "text_en": "Economic situation", "score": 1, "competency": "locus_of_control" }
+              ],
+              "explanation_ru": "Внутренний локус контроля — вера в собственное влияние на результат."
+            },
+            {
+              "id": "SM-D-04",
+              "text_ru": "Сделка сорвалась на финальном этапе. Что думаете?",
+              "text_uz": "Bitim yakuniy bosqichda buzildi. Nima deb o'ylaysiz?",
+              "text_en": "A deal fell through at the final stage. What do you think?",
+              "options": [
+                { "id": "a", "text_ru": "Я мог раньше выявить сомнения клиента и проработать их", "text_uz": "Mijoz shubhalarini oldinroq aniqlab, ularga ishlov bera olardim", "text_en": "I could have identified the client's doubts earlier and addressed them", "score": 4, "competency": "locus_of_control" },
+                { "id": "b", "text_ru": "Клиент изначально не собирался покупать", "text_uz": "Mijoz boshidanoq sotib olmoqchi emas edi", "text_en": "The client was never going to buy", "score": 1, "competency": "locus_of_control" },
+                { "id": "c", "text_ru": "Конкурент перебил ценой", "text_uz": "Raqobatchi narx bilan ustun keldi", "text_en": "A competitor undercut on price", "score": 2, "competency": "locus_of_control" },
+                { "id": "d", "text_ru": "Такое бывает, ничего не поделаешь", "text_uz": "Bunday bo'ladi, hech narsa qilib bo'lmaydi", "text_en": "These things happen, nothing you can do", "score": 1, "competency": "locus_of_control" }
+              ],
+              "explanation_ru": "Внутренний фокус контроля — ищет причину в своих действиях, а не во внешних факторах."
+            },
+            {
+              "id": "SM-D-05",
+              "text_ru": "Ваш карьерный рост в ближайшие 3 года зависит от:",
+              "text_uz": "Yaqin 3 yildagi martaba o'sishingiz nimaga bog'liq:",
+              "text_en": "Your career growth in the next 3 years depends on:",
+              "options": [
+                { "id": "a", "text_ru": "Моих усилий, обучения и результатов", "text_uz": "Mening harakatlarim, o'qishim va natijalarimga", "text_en": "My efforts, learning, and results", "score": 4, "competency": "locus_of_control" },
+                { "id": "b", "text_ru": "Того, заметит ли руководство мою работу", "text_uz": "Rahbariyat ishimni sezishiga", "text_en": "Whether management notices my work", "score": 2, "competency": "locus_of_control" },
+                { "id": "c", "text_ru": "Экономической ситуации в стране", "text_uz": "Mamlakatdagi iqtisodiy vaziyatga", "text_en": "The economic situation in the country", "score": 1, "competency": "locus_of_control" },
+                { "id": "d", "text_ru": "Связей и знакомств", "text_uz": "Tanishlar va aloqalarga", "text_en": "Connections and acquaintances", "score": 1, "competency": "locus_of_control" }
+              ],
+              "explanation_ru": "Внутренний локус — вера в то, что карьера зависит от собственных действий."
+            }
+          ]
+        },
+        {
+          "id": "E",
+          "type": "CASE",
+          "label_ru": "Блок E — Рабочие кейсы",
+          "label_uz": "E blok — Ish keyslari",
+          "label_en": "Block E — Work Cases",
+          "time_limit_seconds": 600,
+          "measures": ["sales_skills", "negotiation", "result_orientation"],
+          "questions": [
+            {
+              "id": "SM-E-01",
+              "text_ru": "Клиент говорит: «Мне нужно подумать». Ваши действия?",
+              "text_uz": "Mijoz aytadi: «O'ylab ko'rishim kerak». Harakatlaringiz?",
+              "text_en": "The client says: 'I need to think about it.' Your actions?",
+              "options": [
+                { "id": "a", "text_ru": "Хорошо, позвоню через неделю", "text_uz": "Yaxshi, bir haftadan keyin qo'ng'iroq qilaman", "text_en": "OK, I'll call in a week", "score": 1, "competency": "sales_skills" },
+                { "id": "b", "text_ru": "Спрашиваю: «Что именно вызывает сомнения? Давайте разберём вместе»", "text_uz": "So'rayman: «Aynan nima shubha uyg'otmoqda? Keling, birga ko'rib chiqamiz»", "text_en": "Ask: 'What specifically raises doubts? Let's work through it together'", "score": 4, "competency": "sales_skills" },
+                { "id": "c", "text_ru": "Предлагаю дополнительную скидку для быстрого решения", "text_uz": "Tez qaror uchun qo'shimcha chegirma taklif qilaman", "text_en": "Offer an additional discount for a quick decision", "score": 2, "competency": "sales_skills" },
+                { "id": "d", "text_ru": "Давлю: «Это предложение действует только сегодня»", "text_uz": "Bosim o'tkazaman: «Bu taklif faqat bugun amal qiladi»", "text_en": "Pressure: 'This offer is only valid today'", "score": 1, "competency": "sales_skills" }
+              ],
+              "explanation_ru": "Работа с возражениями — нужно вскрыть истинное сомнение, а не давить."
+            },
+            {
+              "id": "SM-E-02",
+              "text_ru": "У вас 5 потенциальных клиентов на разных стадиях. Бюджеты: 500K, 200K, 50K, 1M, 100K. Вероятности закрытия: 30%, 80%, 95%, 10%, 60%. На ком сфокусироваться?",
+              "text_uz": "Sizda turli bosqichlardagi 5 potentsial mijoz bor. Byudjetlar: 500K, 200K, 50K, 1M, 100K. Yopilish ehtimoli: 30%, 80%, 95%, 10%, 60%. Kimga e'tibor qaratish kerak?",
+              "text_en": "You have 5 potential clients at different stages. Budgets: 500K, 200K, 50K, 1M, 100K. Closing probabilities: 30%, 80%, 95%, 10%, 60%. Who to focus on?",
+              "options": [
+                { "id": "a", "text_ru": "На клиенте с 1M — самый крупный чек", "text_uz": "1M mijozga — eng katta chek", "text_en": "The 1M client — largest check", "score": 1, "competency": "sales_skills" },
+                { "id": "b", "text_ru": "На клиентах 200K (80%) и 100K (60%) — лучшее соотношение суммы и вероятности", "text_uz": "200K (80%) va 100K (60%) mijozlarga — summa va ehtimolning eng yaxshi nisbati", "text_en": "200K (80%) and 100K (60%) clients — best ratio of amount to probability", "score": 4, "competency": "sales_skills" },
+                { "id": "c", "text_ru": "На 50K (95%) — гарантированная сделка", "text_uz": "50K (95%) — kafolatlangan bitim", "text_en": "50K (95%) — guaranteed deal", "score": 2, "competency": "sales_skills" },
+                { "id": "d", "text_ru": "Равномерно на всех", "text_uz": "Hammaga teng ravishda", "text_en": "Equally on all", "score": 2, "competency": "sales_skills" }
+              ],
+              "explanation_ru": "Приоритизация по ожидаемой ценности (EV = бюджет × вероятность). 200K×0.8=160K — лучший EV."
+            },
+            {
+              "id": "SM-E-03",
+              "text_ru": "Клиент спрашивает о функции, которой нет в вашем продукте. Как ответите?",
+              "text_uz": "Mijoz mahsulotingizda bo'lmagan funksiya haqida so'raydi. Qanday javob berasiz?",
+              "text_en": "The client asks about a feature your product doesn't have. How do you respond?",
+              "options": [
+                { "id": "a", "text_ru": "Скажу, что есть — потом разберёмся", "text_uz": "Bor deb aytaman — keyin hal qilamiz", "text_en": "Say it exists — we'll figure it out later", "score": 1, "competency": "honesty", "flag": "risk" },
+                { "id": "b", "text_ru": "Честно скажу, что функции нет, но объясню, как решаем эту задачу другим способом", "text_uz": "Funksiya yo'qligini ochiq aytaman, lekin bu vazifani boshqa usulda qanday hal qilishimizni tushuntiraman", "text_en": "Honestly say the feature doesn't exist, but explain how we solve this differently", "score": 4, "competency": "honesty" },
+                { "id": "c", "text_ru": "Скажу, что в планах разработки", "text_uz": "Ishlab chiqish rejalarida deb aytaman", "text_en": "Say it's in the development roadmap", "score": 2, "competency": "honesty" },
+                { "id": "d", "text_ru": "Переведу разговор на другую тему", "text_uz": "Suhbatni boshqa mavzuga o'tkazaman", "text_en": "Change the subject", "score": 1, "competency": "sales_skills" }
+              ],
+              "explanation_ru": "Честность + навык переформулирования ценности. Вариант (а) — критический флаг."
+            },
+            {
+              "id": "SM-E-04",
+              "text_ru": "Ваш ключевой клиент угрожает уйти к конкуренту. Что делаете?",
+              "text_uz": "Asosiy mijozingiz raqobatchiga ketish bilan tahdid qilmoqda. Nima qilasiz?",
+              "text_en": "Your key client threatens to switch to a competitor. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Паникую и даю максимальную скидку", "text_uz": "Vahimaga tushaman va maksimal chegirma beraman", "text_en": "Panic and offer maximum discount", "score": 1, "competency": "negotiation" },
+                { "id": "b", "text_ru": "Выясняю причину, обсуждаю условия, предлагаю решение, сохраняющее ценность", "text_uz": "Sababini aniqlayman, shartlarni muhokama qilaman, qiymatni saqlovchi yechim taklif qilaman", "text_en": "Find out the reason, discuss terms, propose a solution that preserves value", "score": 4, "competency": "negotiation" },
+                { "id": "c", "text_ru": "Говорю: «Жаль, удачи с конкурентом»", "text_uz": "Aytaman: «Afsuski, raqobatchida omad tilayman»", "text_en": "Say: 'Sorry to hear, good luck with the competitor'", "score": 1, "competency": "negotiation" },
+                { "id": "d", "text_ru": "Жалуюсь руководителю и жду решения сверху", "text_uz": "Rahbarga shikoyat qilaman va yuqoridan qaror kutaman", "text_en": "Complain to the manager and wait for a top-down decision", "score": 1, "competency": "result_orientation" }
+              ],
+              "explanation_ru": "Удержание клиента — не через скидки, а через понимание причины и создание ценности."
+            },
+            {
+              "id": "SM-E-05",
+              "text_ru": "До конца квартала осталась неделя, план выполнен на 70%. Ваша стратегия?",
+              "text_uz": "Chorak oxirigacha bir hafta qoldi, reja 70% bajarilgan. Strategiyangiz?",
+              "text_en": "One week until quarter end, plan is 70% complete. Your strategy?",
+              "options": [
+                { "id": "a", "text_ru": "Фокусируюсь на «горячих» лидах с высокой вероятностью закрытия", "text_uz": "Yopilish ehtimoli yuqori bo'lgan «issiq» lidlarga e'tibor qarataman", "text_en": "Focus on 'hot' leads with high closing probability", "score": 4, "competency": "result_orientation" },
+                { "id": "b", "text_ru": "Звоню всем подряд — авось кто-то купит", "text_uz": "Hammaga qo'ng'iroq qilaman — balki kimdir sotib oladi", "text_en": "Call everyone — maybe someone will buy", "score": 1, "competency": "result_orientation" },
+                { "id": "c", "text_ru": "Принимаю, что план не выполню", "text_uz": "Rejani bajara olmasligimni qabul qilaman", "text_en": "Accept that I won't meet the plan", "score": 1, "competency": "result_orientation" },
+                { "id": "d", "text_ru": "Прошу перенести часть плана на следующий квартал", "text_uz": "Reja qismini keyingi chorakka ko'chirishni so'rayman", "text_en": "Ask to move part of the plan to next quarter", "score": 1, "competency": "result_orientation" }
+              ],
+              "explanation_ru": "Приоритизация под давлением дедлайна — ключевой навык результативного менеджера."
+            },
+            {
+              "id": "SM-E-06",
+              "text_ru": "Клиент просит функционал, который есть только в самом дорогом тарифе. Его бюджет — средний тариф. Как поступите?",
+              "text_uz": "Mijoz faqat eng qimmat tarifda bo'lgan funksionalni so'raydi. Uning byudjeti — o'rta tarif. Nima qilasiz?",
+              "text_en": "The client wants features only in the most expensive plan. Their budget is for the mid-tier. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Подключу премиум по цене среднего — клиент важнее правил", "text_uz": "Premiumni o'rta narxda ulashaman — mijoz qoidalardan muhimroq", "text_en": "Activate premium at mid-tier price — the client matters more than rules", "score": 1, "competency": "honesty", "flag": "risk" },
+                { "id": "b", "text_ru": "Покажу ценность premium-тарифа и предложу пробный период или рассрочку", "text_uz": "Premium-tarif qiymatini ko'rsataman va sinov muddati yoki bo'lib to'lashni taklif qilaman", "text_en": "Show the value of the premium plan and offer a trial period or installment plan", "score": 4, "competency": "sales_skills" },
+                { "id": "c", "text_ru": "Скажу, что на среднем тарифе этого нет, и точка", "text_uz": "O'rta tarifda bu yo'q, deb aytaman, tamom", "text_en": "Say it's not available on the mid-tier, period", "score": 2, "competency": "sales_skills" },
+                { "id": "d", "text_ru": "Предложу конкурента, у которого это дешевле", "text_uz": "Buni arzonroq beradigan raqobatchini taklif qilaman", "text_en": "Suggest a competitor where it's cheaper", "score": 1, "competency": "sales_skills" }
+              ],
+              "explanation_ru": "Апселл через ценность, а не обход правил. Вариант (а) — нечестность, флаг риска."
+            },
+            {
+              "id": "SM-E-07",
+              "text_ru": "Вы заметили, что коллега обещает клиентам то, что компания не может выполнить. Как поступите?",
+              "text_uz": "Hamkasbingiz mijozlarga kompaniya bajara olmaydigan narsalarni va'da qilayotganini payqadingiz. Nima qilasiz?",
+              "text_en": "You notice a colleague promises clients things the company can't deliver. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Не моё дело", "text_uz": "Mening ishim emas", "text_en": "Not my business", "score": 1, "competency": "honesty" },
+                { "id": "b", "text_ru": "Поговорю с коллегой лично — объясню риски для компании и клиента", "text_uz": "Hamkasbim bilan shaxsan gaplashaman — kompaniya va mijoz uchun xatarlarni tushuntiraman", "text_en": "Talk to the colleague personally — explain risks to the company and client", "score": 4, "competency": "honesty" },
+                { "id": "c", "text_ru": "Сразу доложу руководителю", "text_uz": "Darhol rahbarga xabar beraman", "text_en": "Immediately report to the manager", "score": 2, "competency": "honesty" },
+                { "id": "d", "text_ru": "Буду делать то же самое — если ему можно, то и мне", "text_uz": "Xuddi shunday qilaman — agar unga mumkin bo'lsa, menga ham", "text_en": "Do the same — if they can, so can I", "score": 1, "competency": "honesty", "flag": "risk" }
+              ],
+              "explanation_ru": "Этика + командная ответственность. Вариант (d) — критический флаг нечестности."
+            }
+          ]
+        },
+        {
+          "id": "F",
+          "type": "INTERVIEW",
+          "label_ru": "Блок F — Открытые вопросы",
+          "label_uz": "F blok — Ochiq savollar",
+          "label_en": "Block F — Open Questions",
+          "time_limit_seconds": 900,
+          "measures": ["self_motivation", "result_orientation"],
+          "questions": [
+            {
+              "id": "SM-F-01",
+              "text_ru": "Опишите вашу самую сложную продажу. Что сделало её сложной и как вы справились?",
+              "text_uz": "Eng qiyin savdoingizni tasvirlab bering. Uni nima qiyinlashtirdi va qanday yengdingiz?",
+              "text_en": "Describe your most difficult sale. What made it difficult and how did you handle it?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: структурированность ответа, рефлексия, фокус на действиях vs обстоятельствах",
+              "max_score": 4,
+              "competency": "sales_skills"
+            },
+            {
+              "id": "SM-F-02",
+              "text_ru": "Почему вы хотите работать в продажах? Что вас мотивирует?",
+              "text_uz": "Nima uchun sotuvda ishlashni xohlaysiz? Sizni nima motivatsiya qiladi?",
+              "text_en": "Why do you want to work in sales? What motivates you?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: внутренняя vs внешняя мотивация, конкретность, честность",
+              "max_score": 4,
+              "competency": "self_motivation"
+            },
+            {
+              "id": "SM-F-03",
+              "text_ru": "Какую обратную связь от руководителя вы получали чаще всего? Согласны ли с ней?",
+              "text_uz": "Rahbardan eng ko'p qanday fikr-mulohaza oldingiz? Unga rozimisiz?",
+              "text_en": "What feedback from managers have you received most often? Do you agree with it?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: самокритичность, принятие обратной связи, рефлексия",
+              "max_score": 4,
+              "competency": "self_motivation"
+            },
+            {
+              "id": "SM-F-04",
+              "text_ru": "Опишите ситуацию, когда вам пришлось отказать клиенту. Как вы это сделали?",
+              "text_uz": "Mijozga rad javob bergan vaziyatni tasvirlab bering. Buni qanday qildingiz?",
+              "text_en": "Describe a situation when you had to say no to a client. How did you do it?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: тактичность, честность, клиентоориентированность в отказе",
+              "max_score": 4,
+              "competency": "honesty"
+            },
+            {
+              "id": "SM-F-05",
+              "text_ru": "Где вы видите себя через 3 года? Что планируете для этого делать?",
+              "text_uz": "O'zingizni 3 yildan keyin qayerda ko'rasiz? Buning uchun nima qilishni rejalashtirmoqdasiz?",
+              "text_en": "Where do you see yourself in 3 years? What do you plan to do to get there?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: конкретность плана, амбициозность, реалистичность, внутренний локус",
+              "max_score": 4,
+              "competency": "self_motivation"
+            },
+            {
+              "id": "SM-F-06",
+              "text_ru": "Расскажите о случае, когда вы превысили план продаж. Что вы сделали иначе?",
+              "text_uz": "Savdo rejasini oshirib bajargan holatni aytib bering. Nimani boshqacha qildingiz?",
+              "text_en": "Tell about a time you exceeded your sales target. What did you do differently?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: конкретные действия, системность подхода, фокус на процессе",
+              "max_score": 4,
+              "competency": "result_orientation"
+            },
+            {
+              "id": "SM-F-07",
+              "text_ru": "Какую книгу / курс / подкаст по продажам вы изучали в последнее время? Что из него применили?",
+              "text_uz": "Yaqinda sotuvga oid qaysi kitob / kurs / podkastni o'rgandingiz? Undan nimani qo'lladingiz?",
+              "text_en": "What sales book / course / podcast have you studied recently? What did you apply from it?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: стремление к развитию, конкретность применения, честность",
+              "max_score": 4,
+              "competency": "self_motivation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "call_center_operator",
+      "name_ru": "Оператор колл-центра",
+      "name_uz": "Qo'ng'iroq markazi operatori",
+      "name_en": "Call Center Operator",
+      "industry": "call_center",
+      "level": "linear",
+      "competencies": {
+        "required": ["stress_resistance", "monotolerance", "attention_to_detail"],
+        "important": ["emotional_intelligence", "communication_flexibility", "service_orientation"],
+        "optional": ["locus_of_control", "self_motivation"]
+      },
+      "blocks": [
+        {
+          "id": "A",
+          "type": "SJT",
+          "label_ru": "Блок A — Ситуационные задачи",
+          "label_uz": "A blok — Vaziyat masalalari",
+          "label_en": "Block A — Situational Tasks",
+          "time_limit_seconds": 600,
+          "measures": ["stress_resistance", "service_orientation", "communication_flexibility"],
+          "questions": [
+            {
+              "id": "CC-A-01",
+              "text_ru": "Клиент кричит и оскорбляет вас по телефону. Ваши действия?",
+              "text_uz": "Mijoz telefonda baqirayapti va haqorat qilayapti. Harakatlaringiz?",
+              "text_en": "A client is yelling and insulting you on the phone. Your actions?",
+              "options": [
+                { "id": "a", "text_ru": "Повышаю голос в ответ — нельзя позволять себя оскорблять", "text_uz": "Javobiga ovozimni ko'taraman — o'zingni haqorat qilishga yo'l qo'ymaslik kerak", "text_en": "Raise my voice in response — can't let yourself be insulted", "score": 1, "competency": "stress_resistance" },
+                { "id": "b", "text_ru": "Спокойно говорю: «Я понимаю ваше разочарование. Давайте вместе найдём решение»", "text_uz": "Tinchgina aytaman: «Hafsalangiz pirligini tushunaman. Keling, birgalikda yechim topaylik»", "text_en": "Calmly say: 'I understand your frustration. Let's find a solution together'", "score": 4, "competency": "stress_resistance" },
+                { "id": "c", "text_ru": "Кладу трубку", "text_uz": "Trubkani qo'yaman", "text_en": "Hang up", "score": 1, "competency": "stress_resistance" },
+                { "id": "d", "text_ru": "Молча жду, пока перестанет кричать", "text_uz": "Jimgina baqirishni to'xtatishini kutaman", "text_en": "Silently wait until they stop yelling", "score": 2, "competency": "stress_resistance" }
+              ],
+              "explanation_ru": "Де-эскалация — ключевой навык оператора КЦ. Подтверждение эмоции + предложение решения."
+            },
+            {
+              "id": "CC-A-02",
+              "text_ru": "Клиент задаёт вопрос, ответ на который вы не знаете. Что делаете?",
+              "text_uz": "Mijoz javobini bilmagan savolingizni beradi. Nima qilasiz?",
+              "text_en": "A client asks a question you don't know the answer to. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Придумываю ответ — клиент не должен знать, что я не в курсе", "text_uz": "Javob o'ylab topaman — mijoz bilmasligimni bilmasligi kerak", "text_en": "Make up an answer — the client shouldn't know I'm unsure", "score": 1, "competency": "honesty", "flag": "risk" },
+                { "id": "b", "text_ru": "Говорю: «Хороший вопрос. Позвольте уточнить, чтобы дать вам точную информацию» — и нахожу ответ", "text_uz": "Aytaman: «Yaxshi savol. Sizga aniq ma'lumot berish uchun aniqlab olishga ruxsat bering» — va javob topaman", "text_en": "Say: 'Good question. Let me check to give you accurate information' — and find the answer", "score": 4, "competency": "service_orientation" },
+                { "id": "c", "text_ru": "Переключаю на другого оператора", "text_uz": "Boshqa operatorga ulayman", "text_en": "Transfer to another operator", "score": 2, "competency": "service_orientation" },
+                { "id": "d", "text_ru": "Говорю, что такой информации нет", "text_uz": "Bunday ma'lumot yo'q deb aytaman", "text_en": "Say there's no such information", "score": 1, "competency": "service_orientation" }
+              ],
+              "explanation_ru": "Честность + проактивность. Придумывание ответа (а) — красный флаг."
+            },
+            {
+              "id": "CC-A-03",
+              "text_ru": "За последний час поступило 40 звонков. Вы устали. Следующий клиент начинает с длинного рассказа о своей проблеме. Как реагируете?",
+              "text_uz": "So'nggi soatda 40 ta qo'ng'iroq keldi. Charchadingiz. Keyingi mijoz muammosi haqida uzun hikoya qilishni boshlaydi. Qanday reaktsiya berasiz?",
+              "text_en": "40 calls in the last hour. You're tired. The next client starts with a long story about their problem. How do you react?",
+              "options": [
+                { "id": "a", "text_ru": "Перебиваю и прошу коротко сформулировать вопрос", "text_uz": "Gapini bo'laman va savolni qisqacha aytishni so'rayman", "text_en": "Interrupt and ask them to briefly state the question", "score": 1, "competency": "monotolerance" },
+                { "id": "b", "text_ru": "Слушаю, выделяю ключевую проблему, подтверждаю понимание и предлагаю решение", "text_uz": "Tinglayman, asosiy muammoni ajrataman, tushunishimni tasdiqlayman va yechim taklif qilaman", "text_en": "Listen, identify the key problem, confirm understanding, and propose a solution", "score": 4, "competency": "monotolerance" },
+                { "id": "c", "text_ru": "Автоматически выполняю скрипт, не вникая", "text_uz": "Chuqur tushunmasdan avtomatik ravishda skriptni bajaraman", "text_en": "Automatically follow the script without engaging", "score": 2, "competency": "monotolerance" },
+                { "id": "d", "text_ru": "Прошу перезвонить позже — сейчас слишком загружен", "text_uz": "Keyinroq qayta qo'ng'iroq qilishni so'rayman — hozir juda bandman", "text_en": "Ask them to call back later — too busy now", "score": 1, "competency": "service_orientation" }
+              ],
+              "explanation_ru": "Моноустойчивость — способность поддерживать качество при монотонной нагрузке."
+            },
+            {
+              "id": "CC-A-04",
+              "text_ru": "Клиент просит сделать то, что противоречит правилам компании. Как поступите?",
+              "text_uz": "Mijoz kompaniya qoidalariga zid narsa qilishni so'raydi. Qanday qilasiz?",
+              "text_en": "A client asks you to do something against company rules. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Делаю исключение — клиент важнее правил", "text_uz": "Istisno qilaman — mijoz qoidalardan muhimroq", "text_en": "Make an exception — the client is more important than rules", "score": 1, "competency": "honesty" },
+                { "id": "b", "text_ru": "Объясняю, почему это невозможно, и предлагаю альтернативу в рамках правил", "text_uz": "Nima uchun mumkin emasligini tushuntiraman va qoidalar doirasida muqobil taklif qilaman", "text_en": "Explain why it's not possible and offer an alternative within the rules", "score": 4, "competency": "service_orientation" },
+                { "id": "c", "text_ru": "Говорю «нет» без объяснений", "text_uz": "Tushuntirmasdan «yo'q» deb aytaman", "text_en": "Say 'no' without explanation", "score": 1, "competency": "communication_flexibility" },
+                { "id": "d", "text_ru": "Переключаю на старшего оператора", "text_uz": "Katta operatorga ulayman", "text_en": "Transfer to a senior operator", "score": 2, "competency": "service_orientation" }
+              ],
+              "explanation_ru": "Баланс между клиентоориентированностью и соблюдением правил."
+            },
+            {
+              "id": "CC-A-05",
+              "text_ru": "Клиент говорит на непонятном диалекте / плохом русском. Вам трудно понять. Что делаете?",
+              "text_uz": "Mijoz tushunarsiz lahjada / yomon ruscha gapiradi. Tushunish qiyin. Nima qilasiz?",
+              "text_en": "The client speaks in an unclear dialect / poor Russian. It's hard to understand. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Прошу перезвонить с кем-то, кто лучше говорит по-русски", "text_uz": "Ruscha yaxshiroq gapiradigan bilan qayta qo'ng'iroq qilishni so'rayman", "text_en": "Ask them to call back with someone who speaks better Russian", "score": 1, "competency": "communication_flexibility" },
+                { "id": "b", "text_ru": "Терпеливо переспрашиваю, использую простые фразы, предлагаю переключить на узбекский", "text_uz": "Sabr bilan qayta so'rayman, oddiy iboralarni ishlataman, o'zbekchaga o'tishni taklif qilaman", "text_en": "Patiently clarify, use simple phrases, offer to switch to Uzbek", "score": 4, "competency": "communication_flexibility" },
+                { "id": "c", "text_ru": "Угадываю что он говорит и отвечаю стандартно", "text_uz": "Nima deyayotganini taxmin qilaman va standart javob beraman", "text_en": "Guess what they're saying and respond with standard answers", "score": 1, "competency": "attention_to_detail", "flag": "risk" },
+                { "id": "d", "text_ru": "Переключаю на другого оператора без объяснения", "text_uz": "Tushuntirmasdan boshqa operatorga ulayman", "text_en": "Transfer to another operator without explanation", "score": 1, "competency": "service_orientation" }
+              ],
+              "explanation_ru": "Гибкость + мультиязычность — критично для узбекского рынка."
+            },
+            {
+              "id": "CC-A-06",
+              "text_ru": "Вы работаете уже 6 часов, обработали 120 звонков. Все вопросы похожи. Что вы чувствуете?",
+              "text_uz": "6 soatdan beri ishlayapsiz, 120 ta qo'ng'iroqni qayta ishladingiz. Barcha savollar o'xshash. Nima his qilasiz?",
+              "text_en": "You've been working for 6 hours, handled 120 calls. All questions are similar. How do you feel?",
+              "options": [
+                { "id": "a", "text_ru": "Невыносимая скука, считаю минуты до конца смены", "text_uz": "Chidab bo'lmas zerikish, smena oxirigacha daqiqalarni sanayapman", "text_en": "Unbearable boredom, counting minutes until shift end", "score": 1, "competency": "monotolerance" },
+                { "id": "b", "text_ru": "Устал, но каждый звонок — это человек со своей ситуацией. Стараюсь помочь", "text_uz": "Charchadim, lekin har bir qo'ng'iroq — o'z vaziyati bilan odam. Yordam berishga harakat qilaman", "text_en": "Tired, but each call is a person with their own situation. I try to help", "score": 4, "competency": "monotolerance" },
+                { "id": "c", "text_ru": "Работаю на автомате, перестал вникать", "text_uz": "Avtomatik ishlayman, chuqur o'ylamay qo'ydim", "text_en": "Work on autopilot, stopped engaging", "score": 2, "competency": "monotolerance" },
+                { "id": "d", "text_ru": "Раздражаюсь на клиентов с одинаковыми вопросами", "text_uz": "Bir xil savol beradigan mijozlarga asabiylashaman", "text_en": "Get irritated at clients with the same questions", "score": 1, "competency": "monotolerance", "flag": "risk" }
+              ],
+              "explanation_ru": "Моноустойчивость — главный предиктор удержания оператора. Вариант (d) — флаг выгорания."
+            },
+            {
+              "id": "CC-A-07",
+              "text_ru": "Во время звонка система зависла, данные клиента не загружаются. Клиент ждёт. Что делаете?",
+              "text_uz": "Qo'ng'iroq paytida tizim qotib qoldi, mijoz ma'lumotlari yuklanmayapti. Mijoz kutayapti. Nima qilasiz?",
+              "text_en": "During a call the system freezes, client data won't load. The client is waiting. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Молчу и жду загрузки", "text_uz": "Jim turaman va yuklanishini kutaman", "text_en": "Stay silent and wait for it to load", "score": 1, "competency": "service_orientation" },
+                { "id": "b", "text_ru": "Информирую клиента о задержке, прошу подождать, параллельно ищу обходной путь", "text_uz": "Mijozni kechikish haqida xabardor qilaman, kutishni so'rayman, parallel ravishda muqobil yo'l qidiraman", "text_en": "Inform the client about the delay, ask them to wait, look for a workaround", "score": 4, "competency": "service_orientation" },
+                { "id": "c", "text_ru": "Прошу перезвонить позже", "text_uz": "Keyinroq qayta qo'ng'iroq qilishni so'rayman", "text_en": "Ask them to call back later", "score": 2, "competency": "service_orientation" },
+                { "id": "d", "text_ru": "Сбрасываю звонок — всё равно ничего не могу сделать", "text_uz": "Qo'ng'iroqni tashlayman — baribir hech narsa qila olmayman", "text_en": "Drop the call — can't do anything anyway", "score": 1, "competency": "service_orientation", "flag": "risk" }
+              ],
+              "explanation_ru": "Профессионализм под давлением. Управление ожиданиями клиента — ключевой навык."
+            },
+            {
+              "id": "CC-A-08",
+              "text_ru": "Клиент просит вашу личную рекомендацию — какой тариф выбрать. Что скажете?",
+              "text_uz": "Mijoz shaxsiy tavsiyangizni so'raydi — qaysi tarifni tanlash kerak. Nima deysiz?",
+              "text_en": "A client asks for your personal recommendation on which plan to choose. What do you say?",
+              "options": [
+                { "id": "a", "text_ru": "Рекомендую самый дорогой — компания заработает больше", "text_uz": "Eng qimmatini tavsiya qilaman — kompaniya ko'proq pul ishlaydi", "text_en": "Recommend the most expensive — the company earns more", "score": 1, "competency": "honesty" },
+                { "id": "b", "text_ru": "Выясняю потребности клиента и подбираю оптимальный тариф", "text_uz": "Mijoz ehtiyojlarini aniqlayman va optimal tarifni tanlayman", "text_en": "Identify the client's needs and select the optimal plan", "score": 4, "competency": "service_orientation" },
+                { "id": "c", "text_ru": "Говорю, что не имею права давать рекомендации", "text_uz": "Tavsiya berish huquqim yo'q deb aytaman", "text_en": "Say I'm not authorized to give recommendations", "score": 2, "competency": "service_orientation" },
+                { "id": "d", "text_ru": "Рекомендую самый дешёвый — клиент будет доволен", "text_uz": "Eng arzonini tavsiya qilaman — mijoz mamnun bo'ladi", "text_en": "Recommend the cheapest — the client will be happy", "score": 2, "competency": "service_orientation" }
+              ],
+              "explanation_ru": "Клиентоориентированность — подбор по потребности, а не по марже."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "type": "PSS",
+          "label_ru": "Блок B — Оценка реакций",
+          "label_uz": "B blok — Reaktsiyalarni baholash",
+          "label_en": "Block B — Reaction Assessment",
+          "time_limit_seconds": 300,
+          "measures": ["stress_resistance", "monotolerance"],
+          "questions": [
+            {
+              "id": "CC-B-01",
+              "text_ru": "Каково ваше отношение к рутинной, повторяющейся работе?",
+              "text_uz": "Kundalik, takrorlanuvchi ishga munosabatingiz qanday?",
+              "text_en": "What is your attitude toward routine, repetitive work?",
+              "options": [
+                { "id": "a", "text_ru": "Мне нравится стабильность и чёткий процесс", "text_uz": "Menga barqarorlik va aniq jarayon yoqadi", "text_en": "I like stability and clear processes", "score": 4, "competency": "monotolerance" },
+                { "id": "b", "text_ru": "Могу делать, но быстро устаю от однообразия", "text_uz": "Qila olaman, lekin bir xillikdan tez charchayaman", "text_en": "I can do it, but get tired of monotony quickly", "score": 2, "competency": "monotolerance" },
+                { "id": "c", "text_ru": "Не переношу рутину — мне нужно разнообразие", "text_uz": "Rutinani ko'tara olmayman — menga xilma-xillik kerak", "text_en": "Can't stand routine — I need variety", "score": 1, "competency": "monotolerance" },
+                { "id": "d", "text_ru": "Нахожу способы сделать даже рутину интересной", "text_uz": "Rutinani ham qiziqarli qilish yo'llarini topaman", "text_en": "I find ways to make even routine interesting", "score": 4, "competency": "monotolerance" }
+              ],
+              "explanation_ru": "Моноустойчивость — ключевой предиктор удержания оператора в КЦ."
+            },
+            {
+              "id": "CC-B-02",
+              "text_ru": "Как часто вас выводили из себя негативные клиенты за последний месяц?",
+              "text_uz": "So'nggi oyda negativ mijozlar sizni qanchalik tez-tez asabiylashtirishdi?",
+              "text_en": "How often have negative clients upset you in the last month?",
+              "options": [
+                { "id": "a", "text_ru": "Никогда — я не принимаю это на свой счёт", "text_uz": "Hech qachon — buni shaxsiy qabul qilmayman", "text_en": "Never — I don't take it personally", "score": 4, "competency": "stress_resistance" },
+                { "id": "b", "text_ru": "Пару раз, но быстро восстановился", "text_uz": "Bir-ikki marta, lekin tez tiklangandim", "text_en": "A couple of times, but recovered quickly", "score": 3, "competency": "stress_resistance" },
+                { "id": "c", "text_ru": "Регулярно, но не показываю это", "text_uz": "Muntazam, lekin buni ko'rsatmayman", "text_en": "Regularly, but I don't show it", "score": 2, "competency": "stress_resistance" },
+                { "id": "d", "text_ru": "Часто — это очень выматывает", "text_uz": "Tez-tez — bu juda charchatadi", "text_en": "Often — it's very draining", "score": 1, "competency": "stress_resistance" }
+              ],
+              "explanation_ru": "Эмоциональная устойчивость — способность не принимать негатив клиентов лично."
+            },
+            {
+              "id": "CC-B-03",
+              "text_ru": "После особенно тяжёлого звонка с агрессивным клиентом, как быстро вы восстанавливаетесь?",
+              "text_uz": "Agressiv mijoz bilan o'ta og'ir qo'ng'iroqdan keyin qanchalik tez tiklanasiz?",
+              "text_en": "After a particularly difficult call with an aggressive client, how quickly do you recover?",
+              "options": [
+                { "id": "a", "text_ru": "Мгновенно — следующий звонок уже с чистого листа", "text_uz": "Darhol — keyingi qo'ng'iroq allaqachon yangi sahifadan", "text_en": "Instantly — the next call is a fresh start", "score": 4, "competency": "stress_resistance" },
+                { "id": "b", "text_ru": "За пару минут — делаю глубокий вдох", "text_uz": "Bir-ikki daqiqada — chuqur nafas olaman", "text_en": "In a couple of minutes — take a deep breath", "score": 3, "competency": "stress_resistance" },
+                { "id": "c", "text_ru": "Нужно 10-15 минут паузы", "text_uz": "10-15 daqiqa tanaffus kerak", "text_en": "Need a 10-15 minute break", "score": 2, "competency": "stress_resistance" },
+                { "id": "d", "text_ru": "Тяжело — настроение портится на весь день", "text_uz": "Og'ir — kayfiyat butun kunga buziladi", "text_en": "Hard — my mood is ruined for the whole day", "score": 1, "competency": "stress_resistance" }
+              ],
+              "explanation_ru": "Скорость эмоционального восстановления — критично при потоке звонков."
+            },
+            {
+              "id": "CC-B-04",
+              "text_ru": "Как вы себя чувствуете к концу 8-часовой смены с наушниками?",
+              "text_uz": "Quloqchinlar bilan 8 soatlik smena oxirida o'zingizni qanday his qilasiz?",
+              "text_en": "How do you feel at the end of an 8-hour shift with headphones?",
+              "options": [
+                { "id": "a", "text_ru": "Нормально — это моя работа, привык", "text_uz": "Normal — bu mening ishim, o'rganib ketganman", "text_en": "Fine — it's my job, I'm used to it", "score": 4, "competency": "monotolerance" },
+                { "id": "b", "text_ru": "Устал, но могу продолжать если нужно", "text_uz": "Charchadim, lekin kerak bo'lsa davom eta olaman", "text_en": "Tired, but can continue if needed", "score": 3, "competency": "monotolerance" },
+                { "id": "c", "text_ru": "Вымотан — не хочу ни с кем разговаривать", "text_uz": "Holdan toyganman — hech kim bilan gaplashgim kelmaydi", "text_en": "Exhausted — don't want to talk to anyone", "score": 2, "competency": "monotolerance" },
+                { "id": "d", "text_ru": "Каждый день думаю уволиться", "text_uz": "Har kuni ishdan ketishni o'ylayman", "text_en": "Think about quitting every day", "score": 1, "competency": "monotolerance", "flag": "risk" }
+              ],
+              "explanation_ru": "Моноустойчивость и выносливость. Вариант (d) — предиктор увольнения."
+            }
+          ]
+        },
+        {
+          "id": "C",
+          "type": "EQ",
+          "label_ru": "Блок C — Понимание ситуаций",
+          "label_uz": "C blok — Vaziyatlarni tushunish",
+          "label_en": "Block C — Understanding Situations",
+          "time_limit_seconds": 420,
+          "measures": ["emotional_intelligence", "service_orientation"],
+          "questions": [
+            {
+              "id": "CC-C-01",
+              "text_ru": "Клиент говорит спокойным голосом: «Ладно, видимо, ничего не поделаешь». Что он чувствует?",
+              "text_uz": "Mijoz tinch ovozda aytadi: «Mayli, shekilli hech narsa qilib bo'lmaydi». U nima his qilmoqda?",
+              "text_en": "The client says calmly: 'OK, I guess nothing can be done.' What are they feeling?",
+              "options": [
+                { "id": "a", "text_ru": "Всё хорошо — он согласился", "text_uz": "Hammasi yaxshi — u rozi bo'ldi", "text_en": "All good — they agreed", "score": 1, "competency": "emotional_intelligence" },
+                { "id": "b", "text_ru": "Разочарование и беспомощность — смирился, но недоволен", "text_uz": "Hafsalasi pir va ojizlik — ko'ndi, lekin norozi", "text_en": "Disappointment and helplessness — resigned but unhappy", "score": 4, "competency": "emotional_intelligence" },
+                { "id": "c", "text_ru": "Он торопится и хочет закончить разговор", "text_uz": "U shoshilmoqda va suhbatni tugatishni xohlaydi", "text_en": "They're in a hurry and want to end the call", "score": 2, "competency": "emotional_intelligence" },
+                { "id": "d", "text_ru": "Ему безразлично", "text_uz": "Unga farqi yo'q", "text_en": "They don't care", "score": 1, "competency": "emotional_intelligence" }
+              ],
+              "explanation_ru": "EQ — «тихая» фрустрация опаснее крика. Клиент может уйти молча."
+            },
+            {
+              "id": "CC-C-02",
+              "text_ru": "Пожилой клиент медленно объясняет проблему и повторяется. Ваша реакция?",
+              "text_uz": "Keksa mijoz muammoni sekin tushuntiradi va takrorlaydi. Reaktsiyangiz?",
+              "text_en": "An elderly client slowly explains their problem and repeats themselves. Your reaction?",
+              "options": [
+                { "id": "a", "text_ru": "Терпеливо слушаю, повторяю ключевые моменты для подтверждения", "text_uz": "Sabr bilan tinglayman, tasdiqlash uchun asosiy jihatlarni takrorlayman", "text_en": "Listen patiently, repeat key points for confirmation", "score": 4, "competency": "service_orientation" },
+                { "id": "b", "text_ru": "Перебиваю — нужно экономить время", "text_uz": "Gapini bo'laman — vaqtni tejash kerak", "text_en": "Interrupt — need to save time", "score": 1, "competency": "service_orientation" },
+                { "id": "c", "text_ru": "Слушаю, но параллельно занимаюсь другими делами", "text_uz": "Tinglayman, lekin parallel ravishda boshqa ishlar bilan shug'ullanaman", "text_en": "Listen but do other things in parallel", "score": 2, "competency": "attention_to_detail" },
+                { "id": "d", "text_ru": "Предлагаю прийти в офис лично", "text_uz": "Shaxsan ofisga kelishni taklif qilaman", "text_en": "Suggest coming to the office in person", "score": 1, "competency": "service_orientation" }
+              ],
+              "explanation_ru": "Эмпатия к уязвимым категориям клиентов — показатель зрелости оператора."
+            },
+            {
+              "id": "CC-C-03",
+              "text_ru": "Коллега в вашей смене явно подавлен и делает ошибки. Что предпримете?",
+              "text_uz": "Smenangizda hamkasbingiz aniq tushkunlikda va xatolar qilmoqda. Nima qilasiz?",
+              "text_en": "A colleague on your shift is visibly down and making mistakes. What do you do?",
+              "options": [
+                { "id": "a", "text_ru": "Не моё дело — пусть сам разбирается", "text_uz": "Mening ishim emas — o'zi hal qilsin", "text_en": "Not my business — let them figure it out", "score": 1, "competency": "emotional_intelligence" },
+                { "id": "b", "text_ru": "На перерыве спрошу, всё ли в порядке, предложу помощь", "text_uz": "Tanaffusda hammasi yaxshimi deb so'rayman, yordam taklif qilaman", "text_en": "During break, ask if they're OK, offer help", "score": 4, "competency": "emotional_intelligence" },
+                { "id": "c", "text_ru": "Доложу супервайзеру о его ошибках", "text_uz": "Uning xatolari haqida supervayzerga xabar beraman", "text_en": "Report their mistakes to the supervisor", "score": 2, "competency": "emotional_intelligence" },
+                { "id": "d", "text_ru": "Возьму на себя часть его звонков", "text_uz": "Uning qo'ng'iroqlarining bir qismini o'zimga olaman", "text_en": "Take on some of their calls", "score": 3, "competency": "emotional_intelligence" }
+              ],
+              "explanation_ru": "Командная эмпатия + проактивная поддержка. В КЦ моральный климат критичен."
+            },
+            {
+              "id": "CC-C-04",
+              "text_ru": "Клиент плачет по телефону из-за серьёзной проблемы с услугой. Ваша реакция?",
+              "text_uz": "Mijoz xizmat bilan jiddiy muammo tufayli telefonda yig'lamoqda. Reaktsiyangiz?",
+              "text_en": "A client is crying on the phone due to a serious service issue. Your reaction?",
+              "options": [
+                { "id": "a", "text_ru": "Даю минуту, затем спокойно и сочувственно помогаю решить проблему", "text_uz": "Bir daqiqa beraman, keyin tinch va hamdardlik bilan muammoni hal qilishga yordam beraman", "text_en": "Give them a moment, then calmly and empathetically help solve the problem", "score": 4, "competency": "emotional_intelligence" },
+                { "id": "b", "text_ru": "Говорю: «Не переживайте, всё решим» — и перехожу к скрипту", "text_uz": "Aytaman: «Tashvishlanmang, hammasi hal bo'ladi» — va skriptga o'taman", "text_en": "Say: 'Don't worry, we'll fix it' — and move to the script", "score": 2, "competency": "emotional_intelligence" },
+                { "id": "c", "text_ru": "Чувствую дискомфорт и стараюсь побыстрее завершить разговор", "text_uz": "Noqulaylik his qilaman va suhbatni tezroq tugatishga harakat qilaman", "text_en": "Feel uncomfortable and try to end the call quickly", "score": 1, "competency": "emotional_intelligence" },
+                { "id": "d", "text_ru": "Переключаю на более опытного коллегу", "text_uz": "Tajribaliroq hamkasbga ulayman", "text_en": "Transfer to a more experienced colleague", "score": 2, "competency": "emotional_intelligence" }
+              ],
+              "explanation_ru": "Эмоциональная грамотность — дать пространство + сочувствие + действие."
+            }
+          ]
+        },
+        {
+          "id": "D",
+          "type": "ATTENTION",
+          "label_ru": "Блок D — Точность восприятия",
+          "label_uz": "D blok — Idrok aniqligi",
+          "label_en": "Block D — Perception Accuracy",
+          "time_limit_seconds": 300,
+          "measures": ["attention_to_detail"],
+          "questions": [
+            {
+              "id": "CC-D-01",
+              "text_ru": "Клиент диктует номер заказа: «А как Анна, Б как Борис, семь, три, один, девять, Д как Дмитрий». Какой номер?",
+              "text_uz": "Mijoz buyurtma raqamini diktovka qilmoqda: «A Anna, B Boris, yetti, uch, bir, to'qqiz, D Dmitriy». Qaysi raqam?",
+              "text_en": "The client dictates an order number: 'A as in Anna, B as in Boris, seven, three, one, nine, D as in Dmitry'. What's the number?",
+              "options": [
+                { "id": "a", "text_ru": "АБ7319Д", "text_uz": "AB7319D", "text_en": "AB7319D", "score": 4, "competency": "attention_to_detail" },
+                { "id": "b", "text_ru": "АВ7319Д", "text_uz": "AV7319D", "text_en": "AV7319D", "score": 1, "competency": "attention_to_detail" },
+                { "id": "c", "text_ru": "АБ7391Д", "text_uz": "AB7391D", "text_en": "AB7391D", "score": 1, "competency": "attention_to_detail" },
+                { "id": "d", "text_ru": "АБ7319Г", "text_uz": "AB7319G", "text_en": "AB7319G", "score": 1, "competency": "attention_to_detail" }
+              ],
+              "explanation_ru": "Точность фиксации данных — одна ошибка может привести к потере заказа."
+            },
+            {
+              "id": "CC-D-02",
+              "text_ru": "Клиент называет свой телефон: «+998 90 123-45-67». Вы записали +998 90 123-46-57. Что вы сделаете перед завершением звонка?",
+              "text_uz": "Mijoz telefonini aytadi: «+998 90 123-45-67». Siz +998 90 123-46-57 deb yozdingiz. Qo'ng'iroqni tugatishdan oldin nima qilasiz?",
+              "text_en": "The client gives their phone: '+998 90 123-45-67'. You wrote +998 90 123-46-57. What do you do before ending the call?",
+              "options": [
+                { "id": "a", "text_ru": "Ничего — наверное правильно записал", "text_uz": "Hech narsa — ehtimol to'g'ri yozganman", "text_en": "Nothing — probably wrote it correctly", "score": 1, "competency": "attention_to_detail", "flag": "risk" },
+                { "id": "b", "text_ru": "Повторяю номер клиенту для подтверждения", "text_uz": "Tasdiqlash uchun raqamni mijozga takrorlayman", "text_en": "Read the number back to the client for confirmation", "score": 4, "competency": "attention_to_detail" },
+                { "id": "c", "text_ru": "Проверю позже в системе", "text_uz": "Keyinroq tizimda tekshiraman", "text_en": "Check later in the system", "score": 2, "competency": "attention_to_detail" },
+                { "id": "d", "text_ru": "Отправлю SMS для проверки", "text_uz": "Tekshirish uchun SMS yuboraman", "text_en": "Send an SMS to verify", "score": 2, "competency": "attention_to_detail" }
+              ],
+              "explanation_ru": "Верификация данных — обязательный навык. Несверенный номер = потерянный клиент."
+            },
+            {
+              "id": "CC-D-03",
+              "text_ru": "В системе вы видите два профиля клиента с похожими именами: «Каримов Алишер Бахтиёрович» и «Каримов Алишер Бахтиярович». Клиент назвал своё имя. Как определите нужный профиль?",
+              "text_uz": "Tizimda o'xshash nomlari bor ikkita mijoz profilini ko'ryapsiz: «Karimov Alisher Baxtiyorovich» va «Karimov Alisher Baxtiyarovich». Mijoz ismini aytdi. Kerakli profilni qanday aniqlaysiz?",
+              "text_en": "You see two client profiles with similar names: 'Karimov Alisher Bakhtiyorovich' and 'Karimov Alisher Bakhtiyarovich'. The client stated their name. How do you determine the right profile?",
+              "options": [
+                { "id": "a", "text_ru": "Выберу первый — скорее всего он", "text_uz": "Birinchisini tanlayman — ehtimol u", "text_en": "Pick the first one — probably correct", "score": 1, "competency": "attention_to_detail", "flag": "risk" },
+                { "id": "b", "text_ru": "Спрошу дополнительные данные: дату рождения, номер договора или телефон", "text_uz": "Qo'shimcha ma'lumotlarni so'rayman: tug'ilgan sana, shartnoma raqami yoki telefon", "text_en": "Ask for additional data: date of birth, contract number, or phone", "score": 4, "competency": "attention_to_detail" },
+                { "id": "c", "text_ru": "Открою оба профиля и спрошу по адресу", "text_uz": "Ikkala profilni ochaman va manzil bo'yicha so'rayman", "text_en": "Open both profiles and ask about the address", "score": 3, "competency": "attention_to_detail" },
+                { "id": "d", "text_ru": "Попрошу продиктовать отчество по буквам", "text_uz": "Otasining ismini harfma-harf aytishni so'rayman", "text_en": "Ask them to spell the patronymic letter by letter", "score": 3, "competency": "attention_to_detail" }
+              ],
+              "explanation_ru": "Работа с дублями — критичный навык. Выбор наугад (а) — грубая ошибка."
+            },
+            {
+              "id": "CC-D-04",
+              "text_ru": "За смену вы обработали 80 звонков. Супервайзер говорит, что в одном из них вы указали неверную сумму. Ваша реакция?",
+              "text_uz": "Smena davomida 80 ta qo'ng'iroqni qayta ishladingiz. Supervayzer ulardan birida noto'g'ri summa ko'rsatganingizni aytadi. Reaktsiyangiz?",
+              "text_en": "You handled 80 calls in a shift. The supervisor says you entered an incorrect amount in one. Your reaction?",
+              "options": [
+                { "id": "a", "text_ru": "80 звонков — одна ошибка нормально", "text_uz": "80 ta qo'ng'iroq — bitta xato normal", "text_en": "80 calls — one error is normal", "score": 1, "competency": "attention_to_detail" },
+                { "id": "b", "text_ru": "Прошу показать ошибку, исправляю и анализирую, почему она произошла", "text_uz": "Xatoni ko'rsatishni so'rayman, tuzataman va nima uchun sodir bo'lganini tahlil qilaman", "text_en": "Ask to see the error, fix it, and analyze why it happened", "score": 4, "competency": "attention_to_detail" },
+                { "id": "c", "text_ru": "Исправляю и забываю", "text_uz": "Tuzataman va unutaman", "text_en": "Fix it and forget", "score": 2, "competency": "attention_to_detail" },
+                { "id": "d", "text_ru": "Спорю — возможно, ошибка не моя", "text_uz": "Bahslashaman — ehtimol xato mening emas", "text_en": "Argue — maybe the error isn't mine", "score": 1, "competency": "locus_of_control" }
+              ],
+              "explanation_ru": "Отношение к ошибкам — рост через анализ, а не оправдания."
+            }
+          ]
+        },
+        {
+          "id": "E",
+          "type": "INTERVIEW",
+          "label_ru": "Блок E — Открытые вопросы",
+          "label_uz": "E blok — Ochiq savollar",
+          "label_en": "Block E — Open Questions",
+          "time_limit_seconds": 600,
+          "measures": ["self_motivation", "service_orientation", "communication_flexibility"],
+          "questions": [
+            {
+              "id": "CC-E-01",
+              "text_ru": "Расскажите о самом сложном клиенте, с которым вам приходилось общаться. Как вы справились?",
+              "text_uz": "Muloqot qilgan eng qiyin mijozingiz haqida gapirib bering. Qanday engdingiz?",
+              "text_en": "Tell about the most difficult client you've had to deal with. How did you handle it?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: конкретность, фокус на действиях, эмоциональная зрелость",
+              "max_score": 4,
+              "competency": "stress_resistance"
+            },
+            {
+              "id": "CC-E-02",
+              "text_ru": "Что для вас значит «хороший сервис»? Приведите пример из своего опыта.",
+              "text_uz": "Siz uchun «yaxshi servis» nimani anglatadi? O'z tajribangizdan misol keltiring.",
+              "text_en": "What does 'good service' mean to you? Give an example from your experience.",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: глубина понимания сервиса, конкретность примера",
+              "max_score": 4,
+              "competency": "service_orientation"
+            },
+            {
+              "id": "CC-E-03",
+              "text_ru": "Как вы справляетесь с монотонностью работы? Какие у вас есть стратегии?",
+              "text_uz": "Ishning bir xilligi bilan qanday kurashyapsiz? Qanday strategiyalaringiz bor?",
+              "text_en": "How do you deal with work monotony? What strategies do you have?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: осознанность, наличие реальных стратегий, честность",
+              "max_score": 4,
+              "competency": "monotolerance"
+            },
+            {
+              "id": "CC-E-04",
+              "text_ru": "Почему вы выбрали работу в колл-центре? Чем она вас привлекает?",
+              "text_uz": "Nima uchun qo'ng'iroq markazida ishlashni tanladingiz? U sizni nima bilan jalb qiladi?",
+              "text_en": "Why did you choose to work in a call center? What attracts you to it?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: внутренняя мотивация, понимание специфики работы",
+              "max_score": 4,
+              "competency": "self_motivation"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "scoring": {
+    "scale": { "min": 1, "max": 4 },
+    "levels": {
+      "high": { "range": [75, 100], "color": "#22C55E", "label_ru": "Высокий", "label_uz": "Yuqori", "label_en": "High" },
+      "medium": { "range": [50, 74], "color": "#EAB308", "label_ru": "Средний", "label_uz": "O'rta", "label_en": "Medium" },
+      "low": { "range": [0, 49], "color": "#EF4444", "label_ru": "Низкий", "label_uz": "Past", "label_en": "Low" }
+    },
+    "weights": {
+      "required": 3,
+      "important": 2,
+      "optional": 1
+    },
+    "antifraud_thresholds": {
+      "fast_answer_seconds": 3,
+      "fast_answer_percent_flag": 30,
+      "tab_switch_flag": 3,
+      "same_answer_pattern_percent": 80
+    }
+  },
+  "meta": {
+    "total_questions": 82,
+    "sales_manager_questions": 42,
+    "call_center_operator_questions": 40,
+    "languages": ["ru", "uz", "en"],
+    "estimated_time_minutes": {
+      "sales_manager": "35-45",
+      "call_center_operator": "30-40"
+    }
+  }
+}
