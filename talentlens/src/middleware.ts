@@ -29,12 +29,13 @@ export async function middleware(req: NextRequest) {
   const authHeader = req.headers.get('authorization');
   const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
 
+  // Only enforce auth on API routes — page routes are protected client-side (dashboard/layout.tsx)
+  if (!pathname.startsWith('/api/')) {
+    return NextResponse.next();
+  }
+
   if (!token) {
-    if (pathname.startsWith('/api/')) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
-    }
-    // Redirect browser requests to login
-    return NextResponse.redirect(new URL('/login', req.url));
+    return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -50,13 +51,10 @@ export async function middleware(req: NextRequest) {
 
     return NextResponse.next({ request: { headers } });
   } catch {
-    if (pathname.startsWith('/api/')) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid or expired token' },
-        { status: 401 },
-      );
-    }
-    return NextResponse.redirect(new URL('/login', req.url));
+    return NextResponse.json(
+      { success: false, error: 'Invalid or expired token' },
+      { status: 401 },
+    );
   }
 }
 
