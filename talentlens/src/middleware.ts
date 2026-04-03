@@ -8,6 +8,8 @@ const PUBLIC_PREFIXES = [
   '/api/test/',       // candidate test API
   '/_next/',
   '/favicon.ico',
+  '/login',           // login page
+  '/register',        // register page
 ];
 
 export async function middleware(req: NextRequest) {
