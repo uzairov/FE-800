@@ -9,7 +9,8 @@ const AnswerSchema = z.object({
   answers: z.array(
     z.object({
       questionId: z.string(),
-      selectedOption: z.number().int().min(0),
+      selectedOption: z.number().int().min(-1),
+      textAnswer: z.string().optional(),
       answeredAt: z.string(),
       responseMs: z.number().int().min(0),
     }),
