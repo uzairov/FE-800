@@ -35,6 +35,7 @@ interface TestData {
 interface Answer {
   questionId: string;
   selectedOption: number;
+  textAnswer?: string;
   answeredAt: string;
   responseMs: number;
 }
@@ -145,6 +146,7 @@ export default function TestPage() {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
+  const [textAnswer, setTextAnswer] = useState('');
   const [tabSwitches, setTabSwitches] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
   const [blockTimeTotal, setBlockTimeTotal] = useState(0);
@@ -267,9 +269,11 @@ export default function TestPage() {
     const currentQuestion = shuffledQuestions[currentIdx];
     const responseMs = Date.now() - questionShownAt.current;
 
+    const isOpenText = currentQuestion.optionsJson.length === 0;
     const answer: Answer = {
       questionId: currentQuestion.id,
-      selectedOption: autoAdvance ? (selected ?? 0) : (selected ?? 0),
+      selectedOption: isOpenText ? -1 : (selected ?? 0),
+      ...(isOpenText ? { textAnswer: textAnswer.trim() } : {}),
       answeredAt: new Date().toISOString(),
       responseMs,
     };
@@ -278,6 +282,7 @@ export default function TestPage() {
     answersRef.current = newAnswers;
     setAnswers(newAnswers);
     setSelected(null);
+    setTextAnswer('');
 
     const nextIdx = currentIdx + 1;
 
@@ -439,28 +444,38 @@ export default function TestPage() {
               {getText(currentQuestion, lang)}
             </p>
 
-            <div className="space-y-3">
-              {currentQuestion.optionsJson.map((opt, i) => (
-                <button
-                  key={i}
-                  onClick={() => handleAnswer(i)}
-                  className={`w-full text-left rounded-xl border-2 px-5 py-4 text-sm transition-colors ${
-                    selected === i
-                      ? 'border-blue-500 bg-blue-50 text-blue-900 font-medium'
-                      : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  <span className="inline-block w-6 font-medium text-gray-400 mr-2">
-                    {String.fromCharCode(65 + i)}.
-                  </span>
-                  {getOption(opt, lang)}
-                </button>
-              ))}
-            </div>
+            {currentQuestion.optionsJson.length === 0 ? (
+              <textarea
+                value={textAnswer}
+                onChange={(e) => setTextAnswer(e.target.value)}
+                rows={5}
+                placeholder="Введите ваш ответ..."
+                className="w-full rounded-xl border-2 border-gray-200 px-5 py-4 text-sm text-gray-800 focus:outline-none focus:border-blue-400 resize-none"
+              />
+            ) : (
+              <div className="space-y-3">
+                {currentQuestion.optionsJson.map((opt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleAnswer(i)}
+                    className={`w-full text-left rounded-xl border-2 px-5 py-4 text-sm transition-colors ${
+                      selected === i
+                        ? 'border-blue-500 bg-blue-50 text-blue-900 font-medium'
+                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    <span className="inline-block w-6 font-medium text-gray-400 mr-2">
+                      {String.fromCharCode(65 + i)}.
+                    </span>
+                    {getOption(opt, lang)}
+                  </button>
+                ))}
+              </div>
+            )}
 
             <button
               onClick={() => handleNextQuestion(false)}
-              disabled={selected === null}
+              disabled={currentQuestion.optionsJson.length === 0 ? textAnswer.trim().length === 0 : selected === null}
               className="mt-6 w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-30 text-white font-medium py-3 rounded-xl transition-colors"
             >
               {currentIdx + 1 >= shuffledQuestions.length ? t.finish : t.next}
