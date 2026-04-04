@@ -16,24 +16,35 @@ export async function GET(req: NextRequest) {
     const user = getRequestUser(req);
     const { searchParams } = req.nextUrl;
 
-    const status = searchParams.get('status') ?? undefined;
-    const search = searchParams.get('search') ?? undefined;
-    const page = Math.max(1, parseInt(searchParams.get('page') ?? '1'));
+    const status   = searchParams.get('status')   ?? undefined;
+    const search   = searchParams.get('search')   ?? undefined;
+    const dateFrom = searchParams.get('dateFrom') ?? undefined;
+    const dateTo   = searchParams.get('dateTo')   ?? undefined;
+    const sortRaw  = searchParams.get('sort')     ?? 'createdAt';
+    const dirRaw   = searchParams.get('dir')      ?? 'desc';
+    const page  = Math.max(1, parseInt(searchParams.get('page')  ?? '1'));
     const limit = Math.min(parseInt(searchParams.get('limit') ?? '20'), 100);
-    const skip = (page - 1) * limit;
+    const skip  = (page - 1) * limit;
+
+    const sortField = ['createdAt', 'candidateName', 'status'].includes(sortRaw) ? sortRaw : 'createdAt';
+    const sortDir   = dirRaw === 'asc' ? 'asc' : 'desc';
 
     const where = {
       companyId: user.companyId,
       ...(status ? { status: status as never } : {}),
-      ...(search
-        ? { candidateName: { contains: search, mode: 'insensitive' as const } }
-        : {}),
+      ...(search ? { candidateName: { contains: search, mode: 'insensitive' as const } } : {}),
+      ...(dateFrom || dateTo ? {
+        createdAt: {
+          ...(dateFrom ? { gte: new Date(dateFrom) } : {}),
+          ...(dateTo   ? { lte: new Date(dateTo + 'T23:59:59Z') } : {}),
+        },
+      } : {}),
     };
 
     const [assessments, total] = await Promise.all([
       prisma.assessment.findMany({
         where,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { [sortField]: sortDir },
         skip,
         take: limit,
         include: {

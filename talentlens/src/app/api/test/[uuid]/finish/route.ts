@@ -8,14 +8,18 @@ import { ok, err } from '@/types';
 const FinishSchema = z.object({
   answers: z.array(
     z.object({
-      questionId: z.string(),
+      questionId:     z.string(),
       selectedOption: z.number().int().min(-1),
-      textAnswer: z.string().optional(),
-      answeredAt: z.string(),
-      responseMs: z.number().int().min(0),
+      textAnswer:     z.string().optional(),
+      answeredAt:     z.string(),
+      responseMs:     z.number().int().min(0),
+      changeCount:    z.number().int().min(0).optional(),
+      backNavigations: z.number().int().min(0).optional(),
     }),
   ),
-  tabSwitches: z.number().int().min(0),
+  tabSwitches:          z.number().int().min(0),
+  totalBackNavigations: z.number().int().min(0).optional(),
+  totalLongPauses:      z.number().int().min(0).optional(),
 });
 
 export async function POST(req: NextRequest, { params }: { params: { uuid: string } }) {
@@ -44,7 +48,7 @@ export async function POST(req: NextRequest, { params }: { params: { uuid: strin
       return NextResponse.json(ok({ alreadyDone: true }));
     }
 
-    const { answers, tabSwitches } = parsed.data;
+    const { answers, tabSwitches, totalBackNavigations = 0, totalLongPauses = 0 } = parsed.data;
 
     // ── Fetch questions needed for scoring ────────────────────────────────
     const blocks = assessment.position.blocksJson as string[];
@@ -61,7 +65,7 @@ export async function POST(req: NextRequest, { params }: { params: { uuid: strin
     const scores = calculateCompetencyScores(answers, questions, competencyWeights);
 
     // ── Risk flags §6 ─────────────────────────────────────────────────────
-    const flags = calculateRiskFlags(answers, tabSwitches);
+    const flags = calculateRiskFlags(answers, tabSwitches, totalBackNavigations, totalLongPauses);
 
     // ── Persist everything in a transaction ───────────────────────────────
     await prisma.$transaction([

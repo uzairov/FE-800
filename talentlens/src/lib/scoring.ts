@@ -8,9 +8,11 @@
 
 export interface Answer {
   questionId: string;
-  selectedOption: number; // 0-based index
+  selectedOption: number; // 0-based index; -1 for open-text
   answeredAt: string;
   responseMs: number;
+  changeCount?: number;     // how many times answer was changed on this question
+  backNavigations?: number; // cumulative back navigations at time of answer
 }
 
 export interface ScoringEntry {
@@ -95,6 +97,8 @@ export interface RiskFlagInput {
 export function calculateRiskFlags(
   answers: Answer[],
   tabSwitches: number,
+  totalBackNavigations = 0,
+  totalLongPauses = 0,
 ): RiskFlagInput[] {
   const flags: RiskFlagInput[] = [];
   const total = answers.length;
@@ -141,6 +145,40 @@ export function calculateRiskFlags(
         type: 'answer_pattern',
         descriptionRu: `${Math.round(ratio * 100)}% ответов одного типа — возможен паттерн`,
         value: Math.round(ratio * 100),
+      });
+    }
+  }
+
+  // ── Back navigations ─────────────────────────────────────────────────
+  if (totalBackNavigations > 0) {
+    flags.push({
+      level: totalBackNavigations > 10 ? 'WARNING' : 'INFO',
+      type: 'back_navigation',
+      descriptionRu: `Кандидат возвращался к предыдущим вопросам ${totalBackNavigations} раз`,
+      value: totalBackNavigations,
+    });
+  }
+
+  // ── Long pauses ───────────────────────────────────────────────────────
+  if (totalLongPauses > 0) {
+    flags.push({
+      level: totalLongPauses > 3 ? 'WARNING' : 'INFO',
+      type: 'long_pause',
+      descriptionRu: `Зафиксировано ${totalLongPauses} пауз длительностью более 60 секунд`,
+      value: totalLongPauses,
+    });
+  }
+
+  // ── Frequent answer changes ───────────────────────────────────────────
+  const totalChanges = answers.reduce((sum, a) => sum + (a.changeCount ?? 0), 0);
+  if (totalChanges > 0) {
+    const changeRatio = totalChanges / Math.max(answers.length, 1);
+    if (changeRatio > 0.3 || totalChanges > 10) {
+      flags.push({
+        level: totalChanges > 15 ? 'WARNING' : 'INFO',
+        type: 'answer_changes',
+        descriptionRu: `Кандидат изменял ответы ${totalChanges} раз — возможна неуверенность`,
+        value: totalChanges,
       });
     }
   }

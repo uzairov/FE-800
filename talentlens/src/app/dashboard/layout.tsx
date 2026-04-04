@@ -3,53 +3,55 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useTheme } from 'next-themes';
 
 const NAV = [
-  { href: '/dashboard', label: 'Обзор', icon: '◈' },
-  { href: '/dashboard/assessments', label: 'Оценки', icon: '☰' },
-  { href: '/dashboard/assessments/new', label: 'Новая оценка', icon: '+' },
+  { href: '/dashboard',                   label: 'Обзор',       icon: '◈' },
+  { href: '/dashboard/assessments',       label: 'Оценки',      icon: '☰' },
+  { href: '/dashboard/assessments/new',  label: 'Новая оценка', icon: '+' },
+  { href: '/dashboard/settings',          label: 'Настройки',   icon: '⚙' },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const router = useRouter();
+  const pathname  = usePathname();
+  const router    = useRouter();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [userEmail, setUserEmail] = useState('');
+  const [mounted, setMounted]     = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) { router.replace('/login'); return; }
-
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       setUserEmail(payload.email ?? '');
-      if (payload.exp * 1000 < Date.now()) {
-        router.replace('/login');
-      }
+      if (payload.exp * 1000 < Date.now()) router.replace('/login');
     } catch { router.replace('/login'); }
   }, [router]);
 
   function logout() {
     const rt = localStorage.getItem('refreshToken');
-    if (rt) {
-      fetch('/api/auth/logout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refreshToken: rt }),
-      });
-    }
+    if (rt) fetch('/api/auth/logout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ refreshToken: rt }) });
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     router.push('/login');
   }
 
+  const isDark = resolvedTheme === 'dark';
+
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
-      <aside className="w-56 bg-white border-r border-gray-100 flex flex-col shrink-0">
-        <div className="px-5 py-4 border-b border-gray-100">
+    <div className="flex min-h-screen bg-[var(--bg)]">
+      {/* ── Sidebar ─────────────────────────────────────────────────────── */}
+      <aside className="w-56 bg-[var(--surface)] border-r border-[var(--border)] flex flex-col shrink-0 shadow-sm">
+        {/* Logo */}
+        <div className="px-5 py-4 border-b border-[var(--border)]">
           <span className="font-bold text-blue-600 text-lg tracking-tight">TalentLens</span>
+          <span className="ml-1 text-[10px] font-medium bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 px-1.5 py-0.5 rounded-full align-middle">BETA</span>
         </div>
 
+        {/* Nav */}
         <nav className="flex-1 py-4 space-y-0.5 px-2">
           {NAV.map(({ href, label, icon }) => {
             const active = pathname === href || (href !== '/dashboard' && pathname.startsWith(href));
@@ -57,10 +59,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Link
                 key={href}
                 href={href}
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-150 ${
                   active
-                    ? 'bg-blue-50 text-blue-700 font-medium'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-[var(--text-muted)] hover:bg-[var(--border)] hover:text-[var(--text)]'
                 }`}
               >
                 <span className="text-base w-4 text-center">{icon}</span>
@@ -70,19 +72,34 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           })}
         </nav>
 
-        <div className="px-4 py-4 border-t border-gray-100">
-          <p className="text-xs text-gray-400 truncate mb-2">{userEmail}</p>
-          <button
-            onClick={logout}
-            className="text-xs text-gray-500 hover:text-red-600 transition-colors"
-          >
-            Выйти
-          </button>
+        {/* Bottom: theme toggle + user */}
+        <div className="px-4 py-4 border-t border-[var(--border)] space-y-3">
+          {/* Dark mode toggle */}
+          {mounted && (
+            <button
+              onClick={() => setTheme(isDark ? 'light' : 'dark')}
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-[var(--text-muted)] hover:bg-[var(--border)] transition-colors"
+            >
+              <span className="text-base">{isDark ? '☀️' : '🌙'}</span>
+              {isDark ? 'Светлая тема' : 'Тёмная тема'}
+            </button>
+          )}
+
+          {/* User info */}
+          <div>
+            <p className="text-xs text-[var(--text-faint)] truncate mb-1">{userEmail}</p>
+            <button
+              onClick={logout}
+              className="text-xs text-[var(--text-muted)] hover:text-red-500 transition-colors"
+            >
+              Выйти
+            </button>
+          </div>
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="flex-1 overflow-auto">{children}</main>
+      {/* ── Main ─────────────────────────────────────────────────────────── */}
+      <main className="flex-1 overflow-auto page-enter">{children}</main>
     </div>
   );
 }

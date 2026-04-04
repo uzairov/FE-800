@@ -2,20 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { apiFetch } from '@/lib/client-fetch';
 
 const STATUS_LABEL: Record<string, string> = {
-  CREATED: 'Создана',
+  CREATED:     'Создана',
   LINK_OPENED: 'Ссылка открыта',
   IN_PROGRESS: 'Проходит тест',
-  COMPLETED: 'Завершена',
+  COMPLETED:   'Завершена',
 };
 
 const STATUS_COLOR: Record<string, string> = {
-  CREATED: 'bg-gray-100 text-gray-600',
-  LINK_OPENED: 'bg-blue-50 text-blue-600',
-  IN_PROGRESS: 'bg-yellow-50 text-yellow-700',
-  COMPLETED: 'bg-green-50 text-green-700',
+  CREATED:     'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400',
+  LINK_OPENED: 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400',
+  IN_PROGRESS: 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+  COMPLETED:   'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
 };
 
 interface Assessment {
@@ -24,38 +25,38 @@ interface Assessment {
   status: string;
   createdAt: string;
   position: { name: string };
-  linkUuid: string;
 }
 
 export default function DashboardPage() {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
-  const [total, setTotal] = useState(0);
+  const [total,   setTotal]   = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiFetch<{ assessments: Assessment[]; total: number }>('/api/assessments?limit=5')
-      .then((res) => {
-        if (res.success) {
-          setAssessments(res.data.assessments);
-          setTotal(res.data.total);
-        }
-      })
+    apiFetch<{ assessments: Assessment[]; total: number }>('/api/assessments?limit=5&sort=createdAt&dir=desc')
+      .then((res) => { if (res.success) { setAssessments(res.data.assessments); setTotal(res.data.total); } })
       .finally(() => setLoading(false));
   }, []);
 
-  const stats = {
-    total,
-    completed: assessments.filter((a) => a.status === 'COMPLETED').length,
-    inProgress: assessments.filter((a) => a.status === 'IN_PROGRESS').length,
-  };
+  const completed  = assessments.filter((a) => a.status === 'COMPLETED').length;
+  const inProgress = assessments.filter((a) => a.status === 'IN_PROGRESS').length;
+
+  const statCards = [
+    { label: 'Всего оценок', value: total,      icon: '📋', color: 'text-blue-600' },
+    { label: 'Завершено',    value: completed,   icon: '✅', color: 'text-emerald-600' },
+    { label: 'В процессе',  value: inProgress,  icon: '⏳', color: 'text-amber-600' },
+  ];
 
   return (
-    <div className="p-8">
+    <div className="p-8 page-enter">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Обзор</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-[var(--text)]">Обзор</h1>
+          <p className="text-sm text-[var(--text-muted)] mt-0.5">Добро пожаловать в TalentLens</p>
+        </div>
         <Link
           href="/dashboard/assessments/new"
-          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-lg shadow-blue-600/20"
         >
           + Новая оценка
         </Link>
@@ -63,60 +64,69 @@ export default function DashboardPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-8">
-        {[
-          { label: 'Всего оценок', value: total },
-          { label: 'Завершено', value: stats.completed },
-          { label: 'В процессе', value: stats.inProgress },
-        ].map(({ label, value }) => (
-          <div key={label} className="bg-white rounded-xl border border-gray-100 p-5">
-            <p className="text-sm text-gray-500">{label}</p>
-            <p className="text-3xl font-bold text-gray-900 mt-1">{value}</p>
-          </div>
+        {statCards.map(({ label, value, icon, color }, i) => (
+          <motion.div
+            key={label}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0, transition: { delay: i * 0.07 } }}
+            className="bg-[var(--surface)] border border-[var(--border-strong)] rounded-2xl p-5"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-[var(--text-muted)]">{label}</p>
+              <span className="text-xl">{icon}</span>
+            </div>
+            <p className={`text-3xl font-bold ${color}`}>{value}</p>
+          </motion.div>
         ))}
       </div>
 
-      {/* Recent assessments */}
-      <div className="bg-white rounded-xl border border-gray-100">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h2 className="font-semibold text-gray-900">Последние оценки</h2>
-          <Link href="/dashboard/assessments" className="text-sm text-blue-600 hover:underline">
-            Все →
-          </Link>
+      {/* Recent */}
+      <div className="bg-[var(--surface)] border border-[var(--border-strong)] rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between">
+          <h2 className="font-semibold text-[var(--text)]">Последние оценки</h2>
+          <Link href="/dashboard/assessments" className="text-sm text-blue-600 hover:underline">Все →</Link>
         </div>
 
         {loading ? (
-          <div className="p-8 text-center text-sm text-gray-400">Загрузка...</div>
+          <div className="p-12 flex justify-center">
+            <svg className="animate-spin w-5 h-5 text-blue-500" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+            </svg>
+          </div>
         ) : assessments.length === 0 ? (
-          <div className="p-8 text-center text-sm text-gray-400">
-            Нет оценок. <Link href="/dashboard/assessments/new" className="text-blue-600 hover:underline">Создать первую →</Link>
+          <div className="p-12 text-center">
+            <p className="text-4xl mb-3">🚀</p>
+            <p className="text-sm text-[var(--text-muted)] mb-3">Пока нет оценок</p>
+            <Link href="/dashboard/assessments/new" className="text-sm text-blue-600 hover:underline font-medium">
+              Создать первую →
+            </Link>
           </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-gray-400 text-xs border-b border-gray-100">
-                <th className="text-left px-6 py-3 font-medium">Кандидат</th>
-                <th className="text-left px-6 py-3 font-medium">Должность</th>
-                <th className="text-left px-6 py-3 font-medium">Статус</th>
-                <th className="text-left px-6 py-3 font-medium">Дата</th>
-                <th className="px-6 py-3" />
+              <tr className="border-b border-[var(--border)] bg-[var(--bg)]">
+                {['Кандидат', 'Должность', 'Статус', 'Дата', ''].map((h) => (
+                  <th key={h} className="text-left px-6 py-3 text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">{h}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
               {assessments.map((a) => (
-                <tr key={a.id} className="border-b border-gray-50 hover:bg-gray-50">
-                  <td className="px-6 py-3 font-medium text-gray-900">{a.candidateName}</td>
-                  <td className="px-6 py-3 text-gray-600">{a.position.name}</td>
+                <tr key={a.id} className="border-b border-[var(--border)] hover:bg-[var(--bg)] transition-colors">
+                  <td className="px-6 py-3 font-medium text-[var(--text)]">{a.candidateName}</td>
+                  <td className="px-6 py-3 text-[var(--text-muted)]">{a.position.name}</td>
                   <td className="px-6 py-3">
-                    <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_COLOR[a.status]}`}>
+                    <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${STATUS_COLOR[a.status]}`}>
                       {STATUS_LABEL[a.status]}
                     </span>
                   </td>
-                  <td className="px-6 py-3 text-gray-400">
+                  <td className="px-6 py-3 text-[var(--text-faint)] text-xs tabular-nums">
                     {new Date(a.createdAt).toLocaleDateString('ru-RU')}
                   </td>
                   <td className="px-6 py-3 text-right">
-                    <Link href={`/dashboard/assessments/${a.id}`} className="text-blue-600 hover:underline">
-                      Открыть
+                    <Link href={`/dashboard/assessments/${a.id}`} className="text-xs text-blue-600 hover:underline font-medium">
+                      Открыть →
                     </Link>
                   </td>
                 </tr>
