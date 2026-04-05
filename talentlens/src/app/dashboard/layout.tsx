@@ -4,21 +4,23 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
+import { LangProvider, useLang } from '@/context/LangContext';
 
-const NAV = [
-  { href: '/dashboard',                  label: 'Обзор',        icon: '◈' },
-  { href: '/dashboard/assessments',      label: 'Оценки',       icon: '☰' },
-  { href: '/dashboard/assessments/new',  label: 'Новая оценка', icon: '+' },
-  { href: '/dashboard/settings',         label: 'Настройки',    icon: '⚙' },
-];
-
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+function Sidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router   = useRouter();
   const { theme, setTheme, resolvedTheme } = useTheme();
+  const { t } = useLang();
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName]   = useState('');
   const [mounted, setMounted]     = useState(false);
+
+  const NAV = [
+    { href: '/dashboard',                  label: t('nav_overview'),    icon: '◈' },
+    { href: '/dashboard/assessments',      label: t('nav_assessments'), icon: '☰' },
+    { href: '/dashboard/assessments/new',  label: t('nav_new'),         icon: '+' },
+    { href: '/dashboard/settings',         label: t('nav_settings'),    icon: '⚙' },
+  ];
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -61,14 +63,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <span className="text-white font-bold text-sm">T</span>
           </div>
           <div>
-            <div className="text-white font-bold text-sm leading-none">TalentLens</div>
+            <div className="text-white font-bold text-sm leading-none">Aptio</div>
             <div className="text-blue-400/60 text-[10px] mt-0.5">HR Platform</div>
           </div>
         </div>
 
         {/* Nav */}
         <nav className="flex-1 py-4 px-3 space-y-0.5">
-          <div className="text-white/20 text-[9px] font-semibold uppercase tracking-widest px-3 mb-2">Меню</div>
+          <div className="text-white/20 text-[9px] font-semibold uppercase tracking-widest px-3 mb-2">{t('nav_menu')}</div>
           {NAV.map(({ href, label, icon }) => {
             const active = pathname === href || (href !== '/dashboard' && pathname.startsWith(href));
             return (
@@ -107,7 +109,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs text-white/30 hover:text-white/60 hover:bg-white/5 transition-all"
             >
               <span>{isDark ? '☀️' : '🌙'}</span>
-              {isDark ? 'Светлая тема' : 'Тёмная тема'}
+              {isDark ? t('theme_light') : t('theme_dark')}
             </button>
           )}
 
@@ -130,5 +132,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* ── Main ─────────────────────────────────────────────────────────── */}
       <main className="flex-1 overflow-auto page-enter">{children}</main>
     </div>
+  );
+}
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <LangProvider>
+      <Sidebar>{children}</Sidebar>
+    </LangProvider>
   );
 }

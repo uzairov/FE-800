@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { apiFetch } from '@/lib/client-fetch';
+import { useLang } from '@/context/LangContext';
 
 interface Assessment {
   id: string;
@@ -16,13 +17,6 @@ interface Assessment {
   testSession: { startedAt: string | null; finishedAt: string | null; language: string } | null;
 }
 
-const STATUS_LABEL: Record<string, string> = {
-  CREATED:     'Создана',
-  LINK_OPENED: 'Ссылка открыта',
-  IN_PROGRESS: 'Проходит тест',
-  COMPLETED:   'Завершена',
-};
-
 const STATUS_COLOR: Record<string, string> = {
   CREATED:     'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400',
   LINK_OPENED: 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400',
@@ -34,6 +28,7 @@ type SortField = 'createdAt' | 'candidateName' | 'status';
 type SortDir   = 'asc' | 'desc';
 
 export default function AssessmentsPage() {
+  const { t } = useLang();
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [total,    setTotal]    = useState(0);
   const [loading,  setLoading]  = useState(true);
@@ -45,6 +40,14 @@ export default function AssessmentsPage() {
   const [dir,      setDir]      = useState<SortDir>('desc');
   const [page,     setPage]     = useState(1);
   const [copied,   setCopied]   = useState<string | null>(null);
+
+  const STATUS_OPTS = [
+    { value: '',            label: t('filter_all') },
+    { value: 'CREATED',     label: t('status_CREATED') },
+    { value: 'LINK_OPENED', label: t('status_LINK_OPENED') },
+    { value: 'IN_PROGRESS', label: t('status_IN_PROGRESS') },
+    { value: 'COMPLETED',   label: t('status_COMPLETED') },
+  ];
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -84,14 +87,14 @@ export default function AssessmentsPage() {
     <div className="p-8 page-enter">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--text)]">Оценки</h1>
-          <p className="text-sm text-[var(--text-muted)] mt-0.5">Всего: {total}</p>
+          <h1 className="text-2xl font-bold text-[var(--text)]">{t('page_assessments')}</h1>
+          <p className="text-sm text-[var(--text-muted)] mt-0.5">{t('stat_total')}: {total}</p>
         </div>
         <Link
           href="/dashboard/assessments/new"
           className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-lg shadow-blue-600/20"
         >
-          + Новая оценка
+          {t('btn_new')}
         </Link>
       </div>
 
@@ -101,7 +104,7 @@ export default function AssessmentsPage() {
           <input
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            placeholder="Поиск по имени кандидата..."
+            placeholder={t('search_ph')}
             className="flex-1 rounded-xl border border-[var(--border-strong)] bg-[var(--bg)] px-4 py-2 text-sm text-[var(--text)] placeholder:text-[var(--text-faint)] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
           />
           <select
@@ -109,14 +112,15 @@ export default function AssessmentsPage() {
             onChange={(e) => { setStatus(e.target.value); setPage(1); }}
             className="rounded-xl border border-[var(--border-strong)] bg-[var(--bg)] px-3 py-2 text-sm text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">Все статусы</option>
-            {Object.entries(STATUS_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+            {STATUS_OPTS.map(({ value, label }) => <option key={value} value={value}>{label}</option>)}
           </select>
         </div>
 
         {/* Date range */}
         <div className="flex items-center gap-3 text-sm">
-          <span className="text-[var(--text-muted)] shrink-0">Период:</span>
+          <span className="text-[var(--text-muted)] shrink-0">
+            {t('lbl_expires').replace('Истекает', 'Период').replace('Expires', 'Period').replace('Muddati', 'Davr')}:
+          </span>
           <input
             type="date"
             value={dateFrom}
@@ -135,7 +139,7 @@ export default function AssessmentsPage() {
               onClick={() => { setDateFrom(''); setDateTo(''); setPage(1); }}
               className="text-xs text-[var(--text-muted)] hover:text-red-500 transition-colors"
             >
-              Сбросить
+              ✕
             </button>
           )}
         </div>
@@ -153,7 +157,7 @@ export default function AssessmentsPage() {
         ) : assessments.length === 0 ? (
           <div className="p-12 text-center">
             <p className="text-4xl mb-3">📋</p>
-            <p className="text-sm text-[var(--text-muted)]">Оценок не найдено</p>
+            <p className="text-sm text-[var(--text-muted)]">{t('no_results')}</p>
           </div>
         ) : (
           <table className="w-full text-sm">
@@ -161,18 +165,18 @@ export default function AssessmentsPage() {
               <tr className="border-b border-[var(--border)] bg-[var(--bg)]">
                 <th className="text-left px-6 py-3 text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">
                   <button onClick={() => toggleSort('candidateName')} className="hover:text-[var(--text)] transition-colors">
-                    Кандидат <SortIcon field="candidateName" />
+                    {t('col_candidate')} <SortIcon field="candidateName" />
                   </button>
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">Должность</th>
+                <th className="text-left px-6 py-3 text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">{t('col_position')}</th>
                 <th className="text-left px-6 py-3 text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">
                   <button onClick={() => toggleSort('status')} className="hover:text-[var(--text)] transition-colors">
-                    Статус <SortIcon field="status" />
+                    {t('col_status')} <SortIcon field="status" />
                   </button>
                 </th>
                 <th className="text-left px-6 py-3 text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">
                   <button onClick={() => toggleSort('createdAt')} className="hover:text-[var(--text)] transition-colors">
-                    Дата <SortIcon field="createdAt" />
+                    {t('col_date')} <SortIcon field="createdAt" />
                   </button>
                 </th>
                 <th className="px-6 py-3" />
@@ -194,7 +198,7 @@ export default function AssessmentsPage() {
                     </td>
                     <td className="px-6 py-3">
                       <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${STATUS_COLOR[a.status]}`}>
-                        {STATUS_LABEL[a.status]}
+                        {t(`status_${a.status}` as Parameters<typeof t>[0])}
                       </span>
                     </td>
                     <td className="px-6 py-3 text-[var(--text-faint)] text-xs tabular-nums">
@@ -206,15 +210,15 @@ export default function AssessmentsPage() {
                           onClick={() => copyLink(a.linkUuid)}
                           className="text-xs text-[var(--text-muted)] hover:text-blue-600 transition-colors"
                         >
-                          {copied === a.linkUuid ? '✓ Скопировано' : 'Ссылка'}
+                          {copied === a.linkUuid ? t('copied') : t('btn_copy')}
                         </button>
                         {a.status === 'COMPLETED' && (
                           <Link href={`/dashboard/assessments/${a.id}/report`} className="text-xs text-blue-600 hover:underline font-medium">
-                            Отчёт
+                            {t('btn_report').replace(' →', '')}
                           </Link>
                         )}
                         <Link href={`/dashboard/assessments/${a.id}`} className="text-xs text-[var(--text-muted)] hover:text-[var(--text)] transition-colors">
-                          Детали →
+                          {t('open')}
                         </Link>
                       </div>
                     </td>
@@ -229,7 +233,7 @@ export default function AssessmentsPage() {
       {/* ── Pagination ──────────────────────────────────────────────────── */}
       {pages > 1 && (
         <div className="flex items-center justify-between mt-4 text-sm text-[var(--text-muted)]">
-          <span>{page} / {pages} страниц</span>
+          <span>{page} / {pages}</span>
           <div className="flex gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}

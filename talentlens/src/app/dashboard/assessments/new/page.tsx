@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/lib/client-fetch';
+import { useLang } from '@/context/LangContext';
 
 interface Template {
   id: string;
@@ -40,6 +41,7 @@ const WEIGHT_LABEL: Record<number, { label: string; color: string }> = {
 
 export default function NewAssessmentPage() {
   const router = useRouter();
+  const { t } = useLang();
   const [templates, setTemplates] = useState<Template[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [candidateName, setCandidateName] = useState('');
@@ -96,17 +98,15 @@ export default function NewAssessmentPage() {
     return (
       <div className="p-8 max-w-xl">
         <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
-          <h2 className="font-semibold text-green-800 mb-1">Оценка создана!</h2>
-          <p className="text-sm text-green-700 mb-4">
-            Скопируйте ссылку и отправьте кандидату. Ссылка действительна 7 дней.
-          </p>
+          <h2 className="font-semibold text-green-800 mb-1">{t('link_ready')}</h2>
+          <p className="text-sm text-green-700 mb-4">{t('link_hint')}</p>
           <div className="bg-white rounded-lg border border-green-200 flex items-center gap-2 px-3 py-2">
             <span className="text-sm text-gray-700 flex-1 break-all">{createdLink}</span>
             <button
               onClick={() => navigator.clipboard.writeText(createdLink)}
               className="text-xs bg-green-600 text-white px-3 py-1 rounded shrink-0 hover:bg-green-700"
             >
-              Копировать
+              {t('btn_copy')}
             </button>
           </div>
         </div>
@@ -115,13 +115,13 @@ export default function NewAssessmentPage() {
             onClick={() => router.push('/dashboard/assessments')}
             className="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700"
           >
-            Список оценок
+            {t('btn_assessments')}
           </button>
           <button
             onClick={() => { setCreatedLink(''); setCandidateName(''); setSelectedTemplate(null); }}
             className="text-sm px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50"
           >
-            Новая оценка
+            {t('btn_new')}
           </button>
         </div>
       </div>
@@ -131,7 +131,7 @@ export default function NewAssessmentPage() {
   // ── Form ───────────────────────────────────────────────────────────────
   return (
     <div className="p-8 max-w-2xl">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Новая оценка</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">{t('page_new')}</h1>
 
       {error && (
         <div className="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
@@ -143,13 +143,13 @@ export default function NewAssessmentPage() {
         {/* Candidate name */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Имя кандидата
+            {t('lbl_candidate')}
           </label>
           <input
             required
             value={candidateName}
             onChange={(e) => setCandidateName(e.target.value)}
-            placeholder="Иванов Иван Иванович"
+            placeholder={t('ph_candidate')}
             className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -157,7 +157,7 @@ export default function NewAssessmentPage() {
         {/* Position template */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Должность
+            {t('lbl_position')}
           </label>
           <div className="grid grid-cols-2 gap-3">
             {templates.map((t) => (
@@ -229,7 +229,7 @@ export default function NewAssessmentPage() {
           disabled={!selectedTemplate || !candidateName || selectedCompetencies.length === 0 || loading}
           className="bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition-colors"
         >
-          {loading ? 'Создаём...' : 'Создать и получить ссылку'}
+          {loading ? t('creating') : t('btn_create')}
         </button>
       </form>
     </div>

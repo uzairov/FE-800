@@ -4,13 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { apiFetch } from '@/lib/client-fetch';
-
-const STATUS_LABEL: Record<string, string> = {
-  CREATED:     'Создана',
-  LINK_OPENED: 'Ссылка открыта',
-  IN_PROGRESS: 'Проходит тест',
-  COMPLETED:   'Завершена',
-};
+import { useLang } from '@/context/LangContext';
 
 const STATUS_COLOR: Record<string, string> = {
   CREATED:     'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400',
@@ -28,6 +22,7 @@ interface Assessment {
 }
 
 export default function DashboardPage() {
+  const { t } = useLang();
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [total,   setTotal]   = useState(0);
   const [loading, setLoading] = useState(true);
@@ -42,23 +37,23 @@ export default function DashboardPage() {
   const inProgress = assessments.filter((a) => a.status === 'IN_PROGRESS').length;
 
   const statCards = [
-    { label: 'Всего оценок', value: total,      icon: '📋', color: 'text-blue-600' },
-    { label: 'Завершено',    value: completed,   icon: '✅', color: 'text-emerald-600' },
-    { label: 'В процессе',  value: inProgress,  icon: '⏳', color: 'text-amber-600' },
+    { label: t('stat_total'),    value: total,      icon: '📋', color: 'text-blue-600' },
+    { label: t('stat_done'),     value: completed,   icon: '✅', color: 'text-emerald-600' },
+    { label: t('stat_progress'), value: inProgress,  icon: '⏳', color: 'text-amber-600' },
   ];
 
   return (
     <div className="p-8 page-enter">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--text)]">Обзор</h1>
-          <p className="text-sm text-[var(--text-muted)] mt-0.5">Добро пожаловать в TalentLens</p>
+          <h1 className="text-2xl font-bold text-[var(--text)]">{t('page_overview')}</h1>
+          <p className="text-sm text-[var(--text-muted)] mt-0.5">{t('welcome')}</p>
         </div>
         <Link
           href="/dashboard/assessments/new"
           className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-lg shadow-blue-600/20"
         >
-          + Новая оценка
+          {t('btn_new')}
         </Link>
       </div>
 
@@ -83,8 +78,8 @@ export default function DashboardPage() {
       {/* Recent */}
       <div className="bg-[var(--surface)] border border-[var(--border-strong)] rounded-2xl overflow-hidden">
         <div className="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between">
-          <h2 className="font-semibold text-[var(--text)]">Последние оценки</h2>
-          <Link href="/dashboard/assessments" className="text-sm text-blue-600 hover:underline">Все →</Link>
+          <h2 className="font-semibold text-[var(--text)]">{t('recent')}</h2>
+          <Link href="/dashboard/assessments" className="text-sm text-blue-600 hover:underline">{t('all')}</Link>
         </div>
 
         {loading ? (
@@ -97,16 +92,16 @@ export default function DashboardPage() {
         ) : assessments.length === 0 ? (
           <div className="p-12 text-center">
             <p className="text-4xl mb-3">🚀</p>
-            <p className="text-sm text-[var(--text-muted)] mb-3">Пока нет оценок</p>
+            <p className="text-sm text-[var(--text-muted)] mb-3">{t('no_assessments')}</p>
             <Link href="/dashboard/assessments/new" className="text-sm text-blue-600 hover:underline font-medium">
-              Создать первую →
+              {t('create_first')}
             </Link>
           </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-[var(--border)] bg-[var(--bg)]">
-                {['Кандидат', 'Должность', 'Статус', 'Дата', ''].map((h) => (
+                {[t('col_candidate'), t('col_position'), t('col_status'), t('col_date'), ''].map((h) => (
                   <th key={h} className="text-left px-6 py-3 text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">{h}</th>
                 ))}
               </tr>
@@ -118,7 +113,7 @@ export default function DashboardPage() {
                   <td className="px-6 py-3 text-[var(--text-muted)]">{a.position.name}</td>
                   <td className="px-6 py-3">
                     <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${STATUS_COLOR[a.status]}`}>
-                      {STATUS_LABEL[a.status]}
+                      {t(`status_${a.status}` as Parameters<typeof t>[0])}
                     </span>
                   </td>
                   <td className="px-6 py-3 text-[var(--text-faint)] text-xs tabular-nums">
@@ -126,7 +121,7 @@ export default function DashboardPage() {
                   </td>
                   <td className="px-6 py-3 text-right">
                     <Link href={`/dashboard/assessments/${a.id}`} className="text-xs text-blue-600 hover:underline font-medium">
-                      Открыть →
+                      {t('open')}
                     </Link>
                   </td>
                 </tr>

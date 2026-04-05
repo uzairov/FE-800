@@ -80,7 +80,7 @@ function MockDashboard() {
             <div className="w-6 h-6 rounded-lg bg-blue-600 flex items-center justify-center">
               <span className="text-white text-[10px] font-bold">T</span>
             </div>
-            <span className="text-white/80 text-xs font-semibold">TalentLens</span>
+            <span className="text-white/80 text-xs font-semibold">Aptio</span>
           </div>
           {['◈ Обзор', '☰ Оценки', '+ Новая', '⚙ Настройки'].map((item, i) => (
             <div key={i}
@@ -146,7 +146,7 @@ export default function LandingPage() {
           <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/30">
             <span className="text-white font-bold text-sm">T</span>
           </div>
-          <span className="text-white font-bold text-lg tracking-tight">TalentLens</span>
+          <span className="text-white font-bold text-lg tracking-tight">Aptio</span>
           <span className="text-[10px] font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded-full">BETA</span>
         </div>
 
@@ -186,7 +186,7 @@ export default function LandingPage() {
         </motion.h1>
 
         <motion.p {...fadeUp(0.2)} className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed">
-          TalentLens автоматизирует психометрическую оценку кандидатов: научные тесты,
+          Aptio автоматизирует психометрическую оценку кандидатов: научные тесты,
           мгновенный отчёт с Radar-профилем и интеллектуальная защита от списывания.
         </motion.p>
 
@@ -317,7 +317,7 @@ export default function LandingPage() {
       {/* ── Footer ────────────────────────────────────────────────────────── */}
       <footer className="py-8 px-6 text-center" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <p className="text-white/20 text-sm">
-          © 2026 TalentLens · HR-Tech платформа психометрической оценки
+          © 2026 Aptio · HR-Tech платформа психометрической оценки
         </p>
       </footer>
     </div>

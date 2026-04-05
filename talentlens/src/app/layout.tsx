@@ -3,7 +3,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
-  title: 'TalentLens',
+  title: 'Aptio',
   description: 'HR-Tech платформа психометрической оценки кандидатов',
 };
 

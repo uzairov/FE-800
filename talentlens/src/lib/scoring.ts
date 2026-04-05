@@ -1,5 +1,5 @@
 /**
- * TalentLens scoring algorithm — §7 of the TZ.
+ * Aptio scoring algorithm — §7 of the TZ.
  *
  * Each answer scores 1-4 per competency.
  * Raw score per competency = sum of answer scores / max possible * 100.
@@ -50,6 +50,7 @@ export function calculateCompetencyScores(
   const raw: Record<string, { sum: number; max: number }> = {};
 
   for (const answer of answers) {
+    if (answer.selectedOption === -1) continue; // open-text: not scoreable
     const question = qMap.get(answer.questionId);
     if (!question) continue;
 

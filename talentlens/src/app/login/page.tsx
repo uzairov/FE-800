@@ -52,7 +52,7 @@ export default function LoginPage() {
           <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center shadow-xl shadow-blue-600/40">
             <span className="text-white font-bold text-lg">T</span>
           </div>
-          <span className="text-white font-bold text-xl tracking-tight">TalentLens</span>
+          <span className="text-white font-bold text-xl tracking-tight">Aptio</span>
         </Link>
 
         {/* Center content */}
@@ -90,7 +90,7 @@ export default function LoginPage() {
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-violet-600"/>
             <div>
-              <div className="text-white/60 text-xs font-medium">TalentLens Team</div>
+              <div className="text-white/60 text-xs font-medium">Aptio Team</div>
               <div className="text-white/25 text-[10px]">2026</div>
             </div>
           </div>
@@ -110,7 +110,7 @@ export default function LoginPage() {
             <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/30">
               <span className="text-white font-bold">T</span>
             </div>
-            <span className="text-white font-bold text-xl">TalentLens</span>
+            <span className="text-white font-bold text-xl">Aptio</span>
           </div>
 
           <div className="rounded-2xl p-8" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
