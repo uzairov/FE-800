@@ -45,10 +45,13 @@ export default function NewAssessmentPage() {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [candidateName, setCandidateName] = useState('');
+  const [candidateEmail, setCandidateEmail] = useState('');
+  const [expiryDays, setExpiryDays] = useState(7);
   const [selectedCompetencies, setSelectedCompetencies] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [createdLink, setCreatedLink] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
 
   useEffect(() => {
     apiFetch<Template[]>('/api/templates').then((res) => {
@@ -77,6 +80,8 @@ export default function NewAssessmentPage() {
       method: 'POST',
       body: JSON.stringify({
         candidateName,
+        candidateEmail: candidateEmail.trim() || undefined,
+        expiryDays,
         positionId: selectedTemplate.id,
         competencies: selectedCompetencies,
       }),
@@ -89,6 +94,7 @@ export default function NewAssessmentPage() {
       return;
     }
 
+    setEmailSent(!!candidateEmail.trim());
     const link = `${window.location.origin}/test/${res.data.linkUuid}`;
     setCreatedLink(link);
   }
@@ -97,14 +103,22 @@ export default function NewAssessmentPage() {
   if (createdLink) {
     return (
       <div className="p-8 max-w-xl">
-        <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
-          <h2 className="font-semibold text-green-800 mb-1">{t('link_ready')}</h2>
-          <p className="text-sm text-green-700 mb-4">{t('link_hint')}</p>
-          <div className="bg-white rounded-lg border border-green-200 flex items-center gap-2 px-3 py-2">
-            <span className="text-sm text-gray-700 flex-1 break-all">{createdLink}</span>
+        <div className="bg-[var(--surface)] border border-emerald-500/30 rounded-2xl p-6 mb-6">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-8 h-8 rounded-full bg-emerald-500/15 flex items-center justify-center text-emerald-500">✓</div>
+            <h2 className="font-semibold text-[var(--text)]">{t('link_ready')}</h2>
+          </div>
+          {emailSent && (
+            <p className="text-sm text-emerald-600 dark:text-emerald-400 mb-3">
+              📧 Ссылка отправлена кандидату на email
+            </p>
+          )}
+          <p className="text-sm text-[var(--text-muted)] mb-4">{t('link_hint')}</p>
+          <div className="flex items-center gap-2 bg-[var(--bg)] border border-[var(--border-strong)] rounded-xl px-3 py-2">
+            <span className="text-sm text-[var(--text-muted)] flex-1 break-all">{createdLink}</span>
             <button
               onClick={() => navigator.clipboard.writeText(createdLink)}
-              className="text-xs bg-green-600 text-white px-3 py-1 rounded shrink-0 hover:bg-green-700"
+              className="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-lg shrink-0 hover:bg-blue-700"
             >
               {t('btn_copy')}
             </button>
@@ -131,7 +145,7 @@ export default function NewAssessmentPage() {
   // ── Form ───────────────────────────────────────────────────────────────
   return (
     <div className="p-8 max-w-2xl">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">{t('page_new')}</h1>
+      <h1 className="text-2xl font-bold text-[var(--text)] mb-6">{t('page_new')}</h1>
 
       {error && (
         <div className="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
@@ -142,7 +156,7 @@ export default function NewAssessmentPage() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Candidate name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-[var(--text)] mb-1">
             {t('lbl_candidate')}
           </label>
           <input
@@ -150,13 +164,45 @@ export default function NewAssessmentPage() {
             value={candidateName}
             onChange={(e) => setCandidateName(e.target.value)}
             placeholder={t('ph_candidate')}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--text)] placeholder:text-[var(--text-faint)] focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+        </div>
+
+        {/* Email (optional) */}
+        <div>
+          <label className="block text-sm font-medium text-[var(--text)] mb-1">
+            {t('lbl_email')}
+          </label>
+          <input
+            type="email"
+            value={candidateEmail}
+            onChange={(e) => setCandidateEmail(e.target.value)}
+            placeholder={t('ph_email')}
+            className="w-full rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--text)] placeholder:text-[var(--text-faint)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p className="text-xs text-[var(--text-faint)] mt-1">Кандидату будет отправлена ссылка автоматически</p>
+        </div>
+
+        {/* Expiry */}
+        <div>
+          <label className="block text-sm font-medium text-[var(--text)] mb-2">{t('lbl_expires')}</label>
+          <div className="flex gap-2">
+            {[3, 7, 14, 30].map((d) => (
+              <button key={d} type="button" onClick={() => setExpiryDays(d)}
+                className={`flex-1 py-2 rounded-xl text-sm font-medium transition-all border ${
+                  expiryDays === d
+                    ? 'bg-blue-600 border-blue-600 text-white'
+                    : 'border-[var(--border-strong)] text-[var(--text-muted)] hover:border-blue-500'
+                }`}>
+                {d}д
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Position template */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-[var(--text)] mb-2">
             {t('lbl_position')}
           </label>
           <div className="grid grid-cols-2 gap-3">

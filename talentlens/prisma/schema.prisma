@@ -45,8 +45,10 @@ model Company {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users       User[]
-  assessments Assessment[]
+  users          User[]
+  assessments    Assessment[]
+  teamInvites    TeamInvite[]
+  webhookSetting WebhookSetting?
 }
 
 // ─────────────────────────────────────────────
@@ -64,8 +66,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  assessments   Assessment[]
-  refreshTokens RefreshToken[]
+  assessments     Assessment[]
+  refreshTokens   RefreshToken[]
+  reportComments  ReportComment[]
+  sentInvites     TeamInvite[]
 
   @@index([companyId])
 }
@@ -134,6 +138,7 @@ model Assessment {
   testSession       TestSession?
   riskFlags         RiskFlag[]
   competencyResults CompetencyResult[]
+  reportComments    ReportComment[]
 
   @@index([companyId])
   @@index([createdById])
@@ -213,6 +218,65 @@ model CompetencyResult {
   weight       Int        @default(1)
   createdAt    DateTime   @default(now())
 
+  comments     ReportComment[]
+
   @@unique([assessmentId, competency])
   @@index([assessmentId])
+}
+
+// ─────────────────────────────────────────────
+// REPORT COMMENT  (HR annotations on report)
+// ─────────────────────────────────────────────
+
+model ReportComment {
+  id                 String           @id @default(cuid())
+  assessmentId       String
+  assessment         Assessment       @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  competencyResultId String?
+  competencyResult   CompetencyResult? @relation(fields: [competencyResultId], references: [id], onDelete: SetNull)
+  authorId           String
+  author             User             @relation(fields: [authorId], references: [id])
+  text               String           @db.Text
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  @@index([assessmentId])
+}
+
+// ─────────────────────────────────────────────
+// TEAM INVITE
+// ─────────────────────────────────────────────
+
+model TeamInvite {
+  id          String   @id @default(cuid())
+  email       String
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  invitedById String
+  invitedBy   User     @relation(fields: [invitedById], references: [id])
+  role        Role     @default(HR)
+  token       String   @unique @default(uuid())
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  createdAt   DateTime @default(now())
+
+  @@index([companyId])
+  @@index([token])
+}
+
+// ─────────────────────────────────────────────
+// WEBHOOK SETTING
+// ─────────────────────────────────────────────
+
+model WebhookSetting {
+  id        String   @id @default(cuid())
+  companyId String   @unique
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  telegramBotToken String?
+  telegramChatId   String?
+  slackWebhookUrl  String?
+  onCompleted      Boolean @default(true)
+  onCreated        Boolean @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }

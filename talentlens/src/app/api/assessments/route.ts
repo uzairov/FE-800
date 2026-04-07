@@ -3,12 +3,15 @@ import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { getRequestUser } from '@/lib/api-helpers';
 import { setAssessmentStatus } from '@/lib/redis';
+import { sendCandidateLink } from '@/lib/email';
 import { ok, err } from '@/types';
 
 const CreateSchema = z.object({
-  candidateName: z.string().min(1, 'Candidate name required'),
-  positionId: z.string().min(1, 'Position required'),
-  competencies: z.array(z.string()).min(1, 'At least one competency required'),
+  candidateName:  z.string().min(1, 'Candidate name required'),
+  positionId:     z.string().min(1, 'Position required'),
+  competencies:   z.array(z.string()).min(1, 'At least one competency required'),
+  candidateEmail: z.string().email().optional().or(z.literal('')),
+  expiryDays:     z.number().int().min(1).max(30).default(7),
 });
 
 export async function GET(req: NextRequest) {
@@ -75,7 +78,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const { candidateName, positionId, competencies } = parsed.data;
+    const { candidateName, positionId, competencies, candidateEmail, expiryDays } = parsed.data;
 
     const template = await prisma.positionTemplate.findUnique({
       where: { id: positionId },
@@ -84,7 +87,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(err('Position template not found'), { status: 404 });
     }
 
-    const linkExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    const linkExpiresAt = new Date(Date.now() + expiryDays * 24 * 60 * 60 * 1000);
 
     const assessment = await prisma.assessment.create({
       data: {
@@ -93,17 +96,32 @@ export async function POST(req: NextRequest) {
         competencies,
         estimatedMinutes: template.estimatedMinutes,
         linkExpiresAt,
-        companyId: user.companyId,
+        companyId:   user.companyId,
         createdById: user.id,
       },
       include: {
-        position: { select: { name: true } },
+        position:  { select: { name: true } },
+        createdBy: { select: { name: true, email: true } },
       },
     });
 
     await setAssessmentStatus(assessment.id, 'CREATED');
 
-    return NextResponse.json(ok(assessment), { status: 201 });
+    // Send link to candidate if email provided
+    if (candidateEmail) {
+      const origin = req.nextUrl.origin;
+      const link   = `${origin}/test/${assessment.linkUuid}`;
+      await sendCandidateLink({
+        to:           candidateEmail,
+        candidateName,
+        positionName: template.name,
+        link,
+        expiresAt:    linkExpiresAt,
+        senderName:   assessment.createdBy.name ?? assessment.createdBy.email,
+      });
+    }
+
+    return NextResponse.json(ok({ ...assessment, candidateEmail: candidateEmail ?? null }), { status: 201 });
   } catch (error) {
     console.error('[assessments POST]', error);
     return NextResponse.json(err('Internal server error'), { status: 500 });

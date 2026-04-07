@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { setAssessmentStatus, clearSessionProgress } from '@/lib/redis';
 import { calculateCompetencyScores, calculateRiskFlags } from '@/lib/scoring';
+import { sendWebhookNotification } from '@/app/api/webhooks/route';
 import { ok, err } from '@/types';
 
 const FinishSchema = z.object({
@@ -112,6 +113,17 @@ export async function POST(req: NextRequest, { params }: { params: { uuid: strin
 
     await setAssessmentStatus(assessment.id, 'COMPLETED');
     await clearSessionProgress(params.uuid);
+
+    // Fire-and-forget webhook notification
+    const avgScore = scores.length > 0
+      ? Math.round(scores.reduce((s, r) => s + r.score, 0) / scores.length)
+      : undefined;
+    sendWebhookNotification(assessment.companyId, {
+      type:          'assessment.completed',
+      candidateName: assessment.candidateName,
+      positionName:  assessment.position.name,
+      score:         avgScore,
+    }).catch(console.error);
 
     return NextResponse.json(ok({ done: true, competencies: scores.length }));
   } catch (error) {

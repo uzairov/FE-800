@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   RadarChart,
   Radar,
@@ -13,6 +14,13 @@ import {
   Tooltip,
 } from 'recharts';
 import { apiFetch } from '@/lib/client-fetch';
+import dynamic from 'next/dynamic';
+
+const PDFDownloadLink = dynamic(
+  () => import('@react-pdf/renderer').then((m) => m.PDFDownloadLink),
+  { ssr: false, loading: () => null },
+);
+const ReportPdf = dynamic(() => import('@/components/ReportPdf'), { ssr: false });
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -29,6 +37,14 @@ interface RiskFlag {
   type: string;
   descriptionRu: string;
   value: number | null;
+}
+
+interface Comment {
+  id: string;
+  text: string;
+  competencyResultId: string | null;
+  createdAt: string;
+  author: { name: string | null; email: string };
 }
 
 interface ReportData {
@@ -84,9 +100,33 @@ const WEIGHT_LABEL: Record<number, string> = { 3: 'Обязательная', 2:
 
 export default function ReportPage() {
   const { id } = useParams<{ id: string }>();
-  const [data, setData] = useState<ReportData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [data,     setData]     = useState<ReportData | null>(null);
+  const [loading,  setLoading]  = useState(true);
+  const [error,    setError]    = useState('');
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState('');
+  const [commenting, setCommenting] = useState(false);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
+
+  async function loadComments() {
+    const res = await apiFetch<Comment[]>(`/api/assessments/${id}/comments`);
+    if (res.success) setComments(res.data);
+  }
+
+  async function submitComment(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newComment.trim()) return;
+    setCommenting(true);
+    const res = await apiFetch(`/api/assessments/${id}/comments`, {
+      method: 'POST',
+      body: JSON.stringify({ text: newComment.trim() }),
+    });
+    setCommenting(false);
+    if (res.success) {
+      setNewComment('');
+      loadComments();
+    }
+  }
 
   useEffect(() => {
     apiFetch<ReportData>(`/api/assessments/${id}/report`)
@@ -95,6 +135,7 @@ export default function ReportPage() {
         else setError(res.error);
       })
       .finally(() => setLoading(false));
+    loadComments();
   }, [id]);
 
   if (loading) return <div className="p-8 text-sm text-gray-400">Загрузка отчёта...</div>;
@@ -141,12 +182,21 @@ export default function ReportPage() {
             {data.position.name} · {data.position.industry}
           </p>
         </div>
-        <button
-          onClick={() => window.print()}
-          className="text-sm border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
-        >
-          Печать / PDF
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => window.print()}
+            className="text-sm border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            Печать
+          </button>
+          <PDFDownloadLink
+            document={<ReportPdf data={data} />}
+            fileName={`aptio-report-${data.candidateName.replace(/\s+/g, '-')}.pdf`}
+            className="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            {({ loading }: { loading: boolean }) => loading ? 'Генерация...' : '⬇ Скачать PDF'}
+          </PDFDownloadLink>
+        </div>
       </div>
 
       {/* Critical risk banner */}
@@ -290,6 +340,65 @@ export default function ReportPage() {
           })}
         </div>
       )}
+
+      {/* ── HR Comments ─────────────────────────────────────────────────── */}
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Заметки HR</h2>
+
+        {/* Add comment form */}
+        <form onSubmit={submitComment} className="mb-5">
+          <textarea
+            ref={commentRef}
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Добавьте заметку по кандидату или результатам оценки..."
+            rows={3}
+            className="w-full rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 px-4 py-3 text-sm text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          />
+          <div className="flex justify-end mt-2">
+            <motion.button
+              type="submit"
+              disabled={!newComment.trim() || commenting}
+              whileTap={{ scale: 0.97 }}
+              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white text-sm font-medium px-5 py-2 rounded-xl transition-colors"
+            >
+              {commenting ? 'Сохранение...' : 'Добавить заметку'}
+            </motion.button>
+          </div>
+        </form>
+
+        {/* Comments list */}
+        <AnimatePresence>
+          {comments.length === 0 ? (
+            <p className="text-sm text-gray-400 dark:text-white/30">Заметок пока нет</p>
+          ) : (
+            <div className="space-y-3">
+              {comments.map((c, i) => (
+                <motion.div
+                  key={c.id}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="bg-white dark:bg-white/5 border border-gray-100 dark:border-white/08 rounded-xl p-4"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white text-[10px] font-bold">
+                      {(c.author.name ?? c.author.email).charAt(0).toUpperCase()}
+                    </div>
+                    <span className="text-xs font-medium text-gray-600 dark:text-white/60">
+                      {c.author.name ?? c.author.email}
+                    </span>
+                    <span className="text-xs text-gray-400 dark:text-white/30 ml-auto">
+                      {new Date(c.createdAt).toLocaleString('ru-RU')}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 dark:text-white/70 leading-relaxed whitespace-pre-wrap">{c.text}</p>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
