@@ -23,6 +23,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
     { href: '/dashboard/assessments/new',  label: t('nav_new'),         icon: '+' },
     { href: '/dashboard/analytics',        label: 'Аналитика',          icon: '📊' },
     { href: '/dashboard/team',             label: 'Команда',            icon: '👥' },
+    { href: '/dashboard/templates',        label: 'Банк вопросов',      icon: '📚' },
     { href: '/dashboard/settings',         label: t('nav_settings'),    icon: '⚙' },
   ];
 
