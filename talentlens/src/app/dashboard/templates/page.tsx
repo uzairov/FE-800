@@ -93,16 +93,14 @@ function CreateModal({ onClose, onCreated }: CreateModalProps) {
     setSaving(true);
     setError('');
     try {
-      const res = await apiFetch('/api/questions', {
+      const res = await apiFetch<Question>('/api/questions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ blockType: blockType.toLowerCase().trim(), textRu, optionsJson: filledOptions }),
       });
-      const json = await res.json();
-      if (json.ok) {
-        onCreated(json.data);
+      if (res.success) {
+        onCreated(res.data);
       } else {
-        setError(json.error ?? 'Ошибка');
+        setError((res as { success: false; error: string }).error ?? 'Ошибка');
       }
     } catch {
       setError('Ошибка сети');
@@ -470,9 +468,8 @@ export default function TemplatesPage() {
   useEffect(() => {
     async function load() {
       try {
-        const res  = await apiFetch('/api/questions');
-        const json = await res.json();
-        if (json.ok) setBlocks(json.data.blocks);
+        const res = await apiFetch<{ blocks: Block[]; total: number }>('/api/questions');
+        if (res.success) setBlocks(res.data.blocks);
       } finally {
         setLoading(false);
       }
