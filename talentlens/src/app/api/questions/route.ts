@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { ok, err } from '@/types';
-import { verifyToken } from '@/lib/auth';
+import { getRequestUser } from '@/lib/api-helpers';
 import { z } from 'zod';
 
 // ─── GET /api/questions ─────────────────────────────────────────────────────
@@ -62,9 +62,7 @@ const CreateSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    const auth = req.headers.get('authorization');
-    if (!auth?.startsWith('Bearer ')) return NextResponse.json(err('Unauthorized'), { status: 401 });
-    verifyToken(auth.slice(7)); // throws if invalid
+    getRequestUser(req); // ensures middleware validated the JWT
 
     const body = await req.json();
     const data = CreateSchema.parse(body);
@@ -81,9 +79,7 @@ export async function POST(req: NextRequest) {
 // ─── DELETE /api/questions ──────────────────────────────────────────────────
 export async function DELETE(req: NextRequest) {
   try {
-    const auth = req.headers.get('authorization');
-    if (!auth?.startsWith('Bearer ')) return NextResponse.json(err('Unauthorized'), { status: 401 });
-    verifyToken(auth.slice(7));
+    getRequestUser(req);
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');

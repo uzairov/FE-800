@@ -10,6 +10,8 @@
     --border: #e2e8f0;
     --border-strong: #cbd5e1;
     --text: #0f172a;
+    --text-2: #64748b;
+    --text-3: #94a3b8;
     --text-muted: #64748b;
     --text-faint: #94a3b8;
     --accent: #2563eb;
@@ -23,6 +25,8 @@
     --border: #1e2a3e;
     --border-strong: #253047;
     --text: #e2e8f0;
+    --text-2: #7c8fa8;
+    --text-3: #4a5568;
     --text-muted: #7c8fa8;
     --text-faint: #4a5568;
     --accent: #3b82f6;

@@ -41,7 +41,8 @@ export function signAccessToken(payload: AccessTokenPayload): string {
   if (!secret) throw new Error('JWT_ACCESS_SECRET is not set');
 
   return jwt.sign(payload, secret, {
-    expiresIn: process.env.JWT_ACCESS_EXPIRES_IN ?? '15m',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expiresIn: (process.env.JWT_ACCESS_EXPIRES_IN ?? '15m') as any,
   });
 }
 
@@ -50,7 +51,8 @@ export function signRefreshToken(payload: RefreshTokenPayload): string {
   if (!secret) throw new Error('JWT_REFRESH_SECRET is not set');
 
   return jwt.sign(payload, secret, {
-    expiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN ?? '7d') as any,
   });
 }
 
