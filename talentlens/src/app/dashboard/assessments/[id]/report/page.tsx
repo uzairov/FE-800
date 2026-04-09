@@ -14,13 +14,6 @@ import {
   Tooltip,
 } from 'recharts';
 import { apiFetch } from '@/lib/client-fetch';
-import dynamic from 'next/dynamic';
-
-const PDFDownloadLink = dynamic(
-  () => import('@react-pdf/renderer').then((m) => m.PDFDownloadLink),
-  { ssr: false, loading: () => null },
-);
-const ReportPdf = dynamic(() => import('@/components/ReportPdf'), { ssr: false });
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -162,7 +155,36 @@ export default function ReportPage() {
   const criticalFlags = data.riskFlags.filter((f) => f.level === 'CRITICAL');
 
   return (
-    <div className="p-8 max-w-4xl">
+    <div className="p-8 max-w-4xl" id="report-content">
+      {/* Print styles */}
+      <style>{`
+        @media print {
+          /* Hide everything except the report */
+          body > * { display: none !important; }
+          #__next > * { display: none !important; }
+          aside, nav, header, footer { display: none !important; }
+          /* Show the report */
+          #report-content,
+          #report-content * { display: revert !important; }
+          /* Reset layout for print */
+          #report-content {
+            padding: 0 !important;
+            max-width: 100% !important;
+          }
+          .print\\:hidden { display: none !important; }
+          /* Force white background for cards */
+          .bg-white { background: white !important; }
+          .bg-green-50  { background: #f0fdf4 !important; }
+          .bg-yellow-50 { background: #fefce8 !important; }
+          .bg-red-50    { background: #fef2f2 !important; }
+          .bg-orange-50 { background: #fff7ed !important; }
+          .bg-gray-50   { background: #f9fafb !important; }
+          /* Avoid page breaks inside cards */
+          .rounded-xl { break-inside: avoid; }
+          /* Page setup */
+          @page { margin: 1.5cm; size: A4; }
+        }
+      `}</style>
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
         <Link href="/dashboard/assessments" className="hover:text-gray-600">Оценки</Link>
@@ -182,20 +204,24 @@ export default function ReportPage() {
             {data.position.name} · {data.position.industry}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 print:hidden">
           <button
             onClick={() => window.print()}
-            className="text-sm border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+            className="text-sm border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-1.5"
           >
-            Печать
+            <span>🖨</span> Печать
           </button>
-          <PDFDownloadLink
-            document={<ReportPdf data={data} />}
-            fileName={`aptio-report-${data.candidateName.replace(/\s+/g, '-')}.pdf`}
-            className="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          <button
+            onClick={() => {
+              const prev = document.title;
+              document.title = `Aptio — ${data.candidateName} — Отчёт`;
+              window.print();
+              document.title = prev;
+            }}
+            className="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1.5"
           >
-            {({ loading }: { loading: boolean }) => loading ? 'Генерация...' : '⬇ Скачать PDF'}
-          </PDFDownloadLink>
+            <span>⬇</span> Сохранить PDF
+          </button>
         </div>
       </div>
 
