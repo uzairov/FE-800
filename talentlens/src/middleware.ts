@@ -3,13 +3,13 @@ import { jwtVerify } from 'jose';
 
 // Routes that do NOT require authentication
 const PUBLIC_PREFIXES = [
-  '/api/auth/',       // register, login, refresh, logout
+  '/api/auth/',       // register, login, refresh, logout, google OAuth
   '/test/',           // candidate test pages
   '/api/test/',       // candidate test API
   '/_next/',
   '/favicon.ico',
-  '/login',           // login page
-  '/register',        // register page
+  '/login',
+  '/register',
 ];
 
 export async function middleware(req: NextRequest) {
@@ -21,18 +21,13 @@ export async function middleware(req: NextRequest) {
   }
 
   // Allow root redirect
-  if (pathname === '/') {
-    return NextResponse.next();
-  }
+  if (pathname === '/') return NextResponse.next();
 
-  // Require Bearer token for all /api/* HR routes
+  // Page routes are protected client-side; only enforce auth on API routes
+  if (!pathname.startsWith('/api/')) return NextResponse.next();
+
   const authHeader = req.headers.get('authorization');
   const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
-
-  // Only enforce auth on API routes — page routes are protected client-side (dashboard/layout.tsx)
-  if (!pathname.startsWith('/api/')) {
-    return NextResponse.next();
-  }
 
   if (!token) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
@@ -42,11 +37,18 @@ export async function middleware(req: NextRequest) {
     const secret = new TextEncoder().encode(process.env.JWT_ACCESS_SECRET ?? '');
     const { payload } = await jwtVerify(token, secret);
 
+    const role = String(payload.role ?? '');
+
+    // /api/admin/* — SUPERADMIN only
+    if (pathname.startsWith('/api/admin') && role !== 'SUPERADMIN') {
+      return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+    }
+
     // Forward user info as headers to API routes
     const headers = new Headers(req.headers);
-    headers.set('x-user-id', String(payload.sub ?? ''));
-    headers.set('x-user-email', String(payload.email ?? ''));
-    headers.set('x-user-role', String(payload.role ?? ''));
+    headers.set('x-user-id',         String(payload.sub ?? ''));
+    headers.set('x-user-email',      String(payload.email ?? ''));
+    headers.set('x-user-role',       role);
     headers.set('x-user-company-id', String(payload.companyId ?? ''));
 
     return NextResponse.next({ request: { headers } });
@@ -59,7 +61,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };

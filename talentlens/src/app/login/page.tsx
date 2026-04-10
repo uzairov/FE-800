@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -106,14 +107,50 @@ function OrbitDot({ radius, angle, delay }: { radius: number; angle: number; del
   );
 }
 
+const OAUTH_ERRORS: Record<string, string> = {
+  invalid_state:          'Ошибка безопасности. Попробуйте снова.',
+  google_not_configured:  'Google OAuth не настроен.',
+  oauth_failed:           'Ошибка входа через Google.',
+  account_blocked:        'Аккаунт заблокирован.',
+  token_exchange_failed:  'Ошибка получения токена Google.',
+};
+
 // ── Main page ─────────────────────────────────────────────────────────────────
-export default function LoginPage() {
-  const router = useRouter();
+export default function LoginPageWrapper() {
+  return (
+    <Suspense>
+      <LoginPage />
+    </Suspense>
+  );
+}
+
+function LoginPage() {
+  const router       = useRouter();
+  const searchParams = useSearchParams();
+
   const [mode,    setMode]    = useState<Mode>('login');
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState('');
   const [form, setForm] = useState({ email: '', password: '', name: '', companyName: '' });
   const [particles, setParticles] = useState<Array<{ x: number; y: number; size: number; delay: number; duration: number }>>([]);
+
+  // Handle Google OAuth callback — tokens arrive as ?at=...&rt=...
+  // Handle OAuth error — arrives as ?error=...
+  useEffect(() => {
+    const at  = searchParams.get('at');
+    const rt  = searchParams.get('rt');
+    const oauthErr = searchParams.get('error');
+
+    if (at && rt) {
+      localStorage.setItem('accessToken',  at);
+      localStorage.setItem('refreshToken', rt);
+      router.replace('/dashboard');
+      return;
+    }
+    if (oauthErr) {
+      setError(OAUTH_ERRORS[oauthErr] ?? `Ошибка: ${oauthErr}`);
+    }
+  }, [searchParams, router]);
 
   // Generate particles client-side only to avoid hydration mismatch
   useEffect(() => {
@@ -315,41 +352,35 @@ export default function LoginPage() {
 
               {/* OAuth buttons */}
               <div className="space-y-2 mb-5">
-                {[
-                  {
-                    label: 'Продолжить через Google',
-                    onClick: () => setError('Для Google OAuth нужны Google Cloud credentials'),
-                    icon: (
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                      </svg>
-                    ),
-                  },
-                  {
-                    label: 'Продолжить через Apple',
-                    onClick: () => setError('Для Apple Sign In нужен Apple Developer Account'),
-                    icon: (
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0 fill-white/80">
-                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                      </svg>
-                    ),
-                  },
-                ].map(({ label, onClick, icon }) => (
-                  <motion.button
-                    key={label}
-                    onClick={onClick}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full flex items-center gap-3 py-2.5 px-4 rounded-xl text-sm text-white/60 hover:text-white/90 transition-all"
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
-                  >
-                    {icon}
-                    {label}
-                  </motion.button>
-                ))}
+                {/* Google — real OAuth redirect */}
+                <motion.a
+                  href="/api/auth/google"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full flex items-center gap-3 py-2.5 px-4 rounded-xl text-sm text-white/60 hover:text-white/90 transition-all"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+                >
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                  </svg>
+                  Продолжить через Google
+                </motion.a>
+                {/* Apple — placeholder */}
+                <motion.button
+                  onClick={() => setError('Apple Sign In будет доступен в следующей версии.')}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full flex items-center gap-3 py-2.5 px-4 rounded-xl text-sm text-white/60 hover:text-white/90 transition-all"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+                >
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0 fill-white/80">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                  Продолжить через Apple
+                </motion.button>
               </div>
 
               <div className="flex items-center gap-3 mb-5">

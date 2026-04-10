@@ -80,6 +80,29 @@ export async function POST(req: NextRequest) {
 
     const { candidateName, positionId, competencies, candidateEmail, expiryDays } = parsed.data;
 
+    // ── Plan limit check ────────────────────────────────────────────────
+    if (user.role !== 'SUPERADMIN') {
+      const company = await prisma.company.findUnique({
+        where:   { id: user.companyId },
+        include: { planTier: true },
+      });
+      const plan = company?.planTier;
+      if (plan && plan.maxAssessmentsPerMonth > 0) {
+        const startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
+        const monthlyCount = await prisma.assessment.count({
+          where: { companyId: user.companyId, createdAt: { gte: startOfMonth } },
+        });
+        if (monthlyCount >= plan.maxAssessmentsPerMonth) {
+          return NextResponse.json(
+            err(`Лимит оценок для плана «${plan.displayName}» (${plan.maxAssessmentsPerMonth}/мес) исчерпан. Обновите тариф.`),
+            { status: 403 },
+          );
+        }
+      }
+    }
+
     const template = await prisma.positionTemplate.findUnique({
       where: { id: positionId },
     });
@@ -107,7 +130,6 @@ export async function POST(req: NextRequest) {
 
     await setAssessmentStatus(assessment.id, 'CREATED');
 
-    // Send link to candidate if email provided
     if (candidateEmail) {
       const origin = req.nextUrl.origin;
       const link   = `${origin}/test/${assessment.linkUuid}`;

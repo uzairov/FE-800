@@ -1,5 +1,5 @@
-// TalentLens — Prisma Schema v2
-// Relations added, CompetencyResult linked to Assessment
+// Aptio — Prisma Schema v3
+// Added: SUPERADMIN role, Plan model, Google OAuth, plan limits
 
 generator client {
   provider = "prisma-client-js"
@@ -15,6 +15,7 @@ datasource db {
 // ─────────────────────────────────────────────
 
 enum Role {
+  SUPERADMIN
   ADMIN
   HR
   VIEWER
@@ -34,14 +35,34 @@ enum FlagLevel {
 }
 
 // ─────────────────────────────────────────────
+// PLAN (тарифный план)
+// ─────────────────────────────────────────────
+
+model Plan {
+  id                     String    @id @default(cuid())
+  name                   String    @unique  // free | starter | professional | enterprise
+  displayName            String
+  maxAssessmentsPerMonth Int       // -1 = unlimited
+  maxUsers               Int       // -1 = unlimited
+  hasAiAssistant         Boolean   @default(false)
+  priceUsd               Int       @default(0)
+  features               Json      @default("[]") // string[]
+  createdAt              DateTime  @default(now())
+
+  companies              Company[]
+}
+
+// ─────────────────────────────────────────────
 // COMPANY
 // ─────────────────────────────────────────────
 
 model Company {
   id        String   @id @default(cuid())
   name      String
-  plan      String   @default("free")
+  planId    String?
+  planTier  Plan?    @relation(fields: [planId], references: [id])
   logo      String?
+  isBlocked Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -49,6 +70,8 @@ model Company {
   assessments    Assessment[]
   teamInvites    TeamInvite[]
   webhookSetting WebhookSetting?
+
+  @@index([planId])
 }
 
 // ─────────────────────────────────────────────
@@ -61,8 +84,10 @@ model User {
   password  String
   name      String?
   role      Role     @default(HR)
+  googleId  String?  @unique
   companyId String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  isBlocked Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -178,9 +203,11 @@ model Question {
   textUz      String   @db.Text
   textEn      String   @db.Text
   optionsJson Json
-  // Array<{ textRu: string; textUz: string; textEn: string }>
+  // Array<{ textRu: string; textUz: string; textEn: string; scores?: number[] }>
   scoringJson Json
   // Array<{ competency: string; scores: number[] }>  — scores[optionIndex] = 1..4
+  hrHint      String?  @db.Text  // пояснение для HR
+  riskFlag    Boolean  @default(false)
   orderIndex  Int      @default(0)
   createdAt   DateTime @default(now())
 
@@ -213,9 +240,10 @@ model CompetencyResult {
   assessmentId String
   assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   competency   String
-  score        Float      // 0–100 %
-  level        String     // high | medium | low
+  score        Float      // 0–100 %, or -1 if pending HR review (open_text only)
+  level        String     // high | medium | low | pending
   weight       Int        @default(1)
+  hrScore      Float?     // manual HR override for open_text questions
   createdAt    DateTime   @default(now())
 
   comments     ReportComment[]

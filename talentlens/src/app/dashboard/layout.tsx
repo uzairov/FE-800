@@ -8,14 +8,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LangProvider, useLang } from '@/context/LangContext';
 import Onboarding from '@/components/Onboarding';
 
+type PlanInfo = { name: string; displayName: string; maxAssessmentsPerMonth: number } | null;
+
 function SidebarContent({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
   const router   = useRouter();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const { t } = useLang();
-  const [userEmail, setUserEmail] = useState('');
-  const [userName,  setUserName]  = useState('');
-  const [mounted,   setMounted]   = useState(false);
+  const [userEmail,   setUserEmail]   = useState('');
+  const [userName,    setUserName]    = useState('');
+  const [userRole,    setUserRole]    = useState('');
+  const [mounted,     setMounted]     = useState(false);
+  const [planInfo,    setPlanInfo]    = useState<PlanInfo>(null);
+  const [usageCount,  setUsageCount]  = useState(0);
+
+  const isSuperAdmin = userRole === 'SUPERADMIN';
 
   const NAV = [
     { href: '/dashboard',                  label: t('nav_overview'),    icon: '◈' },
@@ -36,7 +43,19 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
       const p = JSON.parse(atob(token.split('.')[1]));
       setUserEmail(p.email ?? '');
       setUserName((p.email ?? '').split('@')[0]);
+      setUserRole(p.role ?? '');
       if (p.exp * 1000 < Date.now()) router.replace('/login');
+
+      // Fetch plan info (non-blocking)
+      fetch('/api/plan', { headers: { Authorization: `Bearer ${token}` } })
+        .then((r) => r.json())
+        .then((res) => {
+          if (res.success) {
+            setPlanInfo(res.data.plan);
+            setUsageCount(res.data.usage.assessmentsThisMonth);
+          }
+        })
+        .catch(() => {});
     } catch { router.replace('/login'); }
   }, [router]);
 
@@ -95,10 +114,65 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
             </Link>
           );
         })}
+
+        {/* SuperAdmin link — only for SUPERADMIN role */}
+        {isSuperAdmin && (
+          <>
+            <div className="text-white/20 text-[9px] font-semibold uppercase tracking-widest px-3 mt-4 mb-2">Администрирование</div>
+            {(() => {
+              const active = pathname.startsWith('/admin');
+              return (
+                <Link
+                  href="/admin"
+                  onClick={onClose}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150 group ${
+                    active ? 'text-white font-medium' : 'text-white/40 hover:text-white/80 hover:bg-white/5'
+                  }`}
+                  style={active ? {
+                    background: 'linear-gradient(135deg, rgba(139,92,246,0.35) 0%, rgba(139,92,246,0.15) 100%)',
+                    border: '1px solid rgba(139,92,246,0.3)',
+                    boxShadow: '0 0 20px rgba(139,92,246,0.15)',
+                  } : {}}
+                >
+                  <span className={`text-base w-5 text-center transition-colors ${active ? 'text-violet-400' : 'text-white/25 group-hover:text-white/50'}`}>
+                    🛡
+                  </span>
+                  Суперадмин
+                  {active && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-400" />}
+                </Link>
+              );
+            })()}
+          </>
+        )}
       </nav>
 
       {/* Bottom */}
       <div className="px-3 pb-4 space-y-2" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
+        {/* Plan badge */}
+        {planInfo && !isSuperAdmin && (
+          <div className="px-3 py-2 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-white/40 text-[10px]">Тариф</span>
+              <span className="text-blue-400 text-[10px] font-semibold">{planInfo.displayName}</span>
+            </div>
+            {planInfo.maxAssessmentsPerMonth > 0 && (
+              <>
+                <div className="w-full rounded-full overflow-hidden" style={{ height: 3, background: 'rgba(255,255,255,0.08)' }}>
+                  <div
+                    className="h-full rounded-full bg-blue-500 transition-all"
+                    style={{ width: `${Math.min(100, (usageCount / planInfo.maxAssessmentsPerMonth) * 100)}%` }}
+                  />
+                </div>
+                <div className="text-white/20 text-[9px] mt-0.5">{usageCount} / {planInfo.maxAssessmentsPerMonth} оценок/мес</div>
+              </>
+            )}
+          </div>
+        )}
+        {isSuperAdmin && (
+          <div className="px-3 py-1.5 rounded-xl text-center" style={{ background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.25)' }}>
+            <span className="text-violet-400 text-[10px] font-semibold tracking-wide">SUPERADMIN</span>
+          </div>
+        )}
         {mounted && (
           <button
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
