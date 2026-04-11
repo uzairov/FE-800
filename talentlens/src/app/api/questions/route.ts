@@ -6,14 +6,24 @@ import { z } from 'zod';
 
 // ─── GET /api/questions ─────────────────────────────────────────────────────
 // Returns all questions grouped by blockType.
-// Query params: ?blockType=... to filter
+// Query params: ?blockType=... ?search=... to filter
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const blockType = searchParams.get('blockType') ?? undefined;
+    const search    = searchParams.get('search')?.trim() ?? '';
 
-    const where = blockType ? { blockType } : {};
+    const where: Record<string, unknown> = {};
+    if (blockType) where.blockType = blockType;
+    if (search) {
+      where.OR = [
+        { textRu: { contains: search, mode: 'insensitive' } },
+        { textUz: { contains: search, mode: 'insensitive' } },
+        { textEn: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
     const questions = await prisma.question.findMany({
       where,
       orderBy: [{ blockType: 'asc' }, { orderIndex: 'asc' }],
@@ -26,7 +36,6 @@ export async function GET(req: NextRequest) {
       grouped[q.blockType].push(q);
     }
 
-    // Block meta summary
     const blocks = Object.entries(grouped).map(([type, qs]) => ({
       blockType: type,
       count: qs.length,
@@ -40,33 +49,38 @@ export async function GET(req: NextRequest) {
   }
 }
 
+// ─── Shared schema ──────────────────────────────────────────────────────────
+
+const OptionSchema = z.object({
+  textRu: z.string().default(''),
+  textUz: z.string().default(''),
+  textEn: z.string().default(''),
+});
+
+const ScoringEntrySchema = z.object({
+  competency: z.string(),
+  scores: z.array(z.number().min(0).max(4)),
+});
+
 // ─── POST /api/questions ────────────────────────────────────────────────────
-// Create a new custom question (HR-authored)
 
 const CreateSchema = z.object({
   blockType:   z.string().min(1).max(64),
   textRu:      z.string().min(1),
   textUz:      z.string().default(''),
   textEn:      z.string().default(''),
-  optionsJson: z.array(z.object({
-    textRu: z.string(),
-    textUz: z.string().optional().default(''),
-    textEn: z.string().optional().default(''),
-  })).min(2).max(6),
-  scoringJson: z.array(z.object({
-    competency: z.string(),
-    scores: z.array(z.number().min(0).max(4)),
-  })).default([]),
-  orderIndex: z.number().int().default(0),
+  optionsJson: z.array(OptionSchema).min(0).max(6),
+  scoringJson: z.array(ScoringEntrySchema).default([]),
+  hrHint:      z.string().optional(),
+  riskFlag:    z.boolean().default(false),
+  orderIndex:  z.number().int().default(0),
 });
 
 export async function POST(req: NextRequest) {
   try {
-    getRequestUser(req); // ensures middleware validated the JWT
-
+    getRequestUser(req);
     const body = await req.json();
     const data = CreateSchema.parse(body);
-
     const question = await prisma.question.create({ data });
     return NextResponse.json(ok(question), { status: 201 });
   } catch (error) {
@@ -76,15 +90,43 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// ─── PATCH /api/questions ───────────────────────────────────────────────────
+
+const UpdateSchema = z.object({
+  id:          z.string().min(1),
+  blockType:   z.string().min(1).max(64).optional(),
+  textRu:      z.string().min(1).optional(),
+  textUz:      z.string().optional(),
+  textEn:      z.string().optional(),
+  optionsJson: z.array(OptionSchema).min(0).max(6).optional(),
+  scoringJson: z.array(ScoringEntrySchema).optional(),
+  hrHint:      z.string().nullable().optional(),
+  riskFlag:    z.boolean().optional(),
+  orderIndex:  z.number().int().optional(),
+});
+
+export async function PATCH(req: NextRequest) {
+  try {
+    getRequestUser(req);
+    const body = await req.json();
+    const { id, ...data } = UpdateSchema.parse(body);
+    const question = await prisma.question.update({ where: { id }, data });
+    return NextResponse.json(ok(question));
+  } catch (error) {
+    if (error instanceof z.ZodError) return NextResponse.json(err(error.issues[0].message), { status: 400 });
+    console.error('[questions PATCH]', error);
+    return NextResponse.json(err('Internal server error'), { status: 500 });
+  }
+}
+
 // ─── DELETE /api/questions ──────────────────────────────────────────────────
+
 export async function DELETE(req: NextRequest) {
   try {
     getRequestUser(req);
-
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
     if (!id) return NextResponse.json(err('Missing id'), { status: 400 });
-
     await prisma.question.delete({ where: { id } });
     return NextResponse.json(ok({ deleted: true }));
   } catch (error) {
