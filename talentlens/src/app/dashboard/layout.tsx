@@ -7,6 +7,7 @@ import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LangProvider, useLang } from '@/context/LangContext';
 import Onboarding from '@/components/Onboarding';
+import AiChat from '@/components/AiChat';
 
 type PlanInfo = { name: string; displayName: string; maxAssessmentsPerMonth: number } | null;
 
@@ -259,6 +260,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <LangProvider>
       <Sidebar>{children}</Sidebar>
       <Onboarding />
+      <AiChat />
     </LangProvider>
   );
 }
