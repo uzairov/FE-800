@@ -68,10 +68,12 @@ model Company {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 
-  users          User[]
-  assessments    Assessment[]
-  teamInvites    TeamInvite[]
-  webhookSetting WebhookSetting?
+  users             User[]
+  assessments       Assessment[]
+  teamInvites       TeamInvite[]
+  webhookSetting    WebhookSetting?
+  customQuestions   Question[]
+  customTemplates   PositionTemplate[]
 
   @@index([planId])
 }
@@ -139,10 +141,15 @@ model PositionTemplate {
   blocksJson       Json
   // string[] — ordered block type keys
   estimatedMinutes Int      @default(30)
+  // null = system template visible to all; companyId = private to that company
+  companyId        String?
+  company          Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
   assessments      Assessment[]
+
+  @@index([companyId])
 }
 
 // ─────────────────────────────────────────────
@@ -217,9 +224,14 @@ model Question {
   hrHint      String?  @db.Text  // пояснение для HR
   riskFlag    Boolean  @default(false)
   orderIndex  Int      @default(0)
+  // null = system question (visible to all, editable by SUPERADMIN only)
+  // companyId = private to that company
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
 
   @@index([blockType])
+  @@index([companyId])
 }
 
 // ─────────────────────────────────────────────

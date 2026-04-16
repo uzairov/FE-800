@@ -5,22 +5,45 @@ import { getRequestUser } from '@/lib/api-helpers';
 import { z } from 'zod';
 
 // ─── GET /api/questions ─────────────────────────────────────────────────────
-// Returns all questions grouped by blockType.
-// Query params: ?blockType=... ?search=... to filter
+// ?scope=all|system|mine  (default: all = system + company's own)
+// ?blockType=...
+// ?search=...
 
 export async function GET(req: NextRequest) {
   try {
+    const user = getRequestUser(req);
     const { searchParams } = new URL(req.url);
-    const blockType = searchParams.get('blockType') ?? undefined;
-    const search    = searchParams.get('search')?.trim() ?? '';
+    const blockType  = searchParams.get('blockType') ?? undefined;
+    const search     = searchParams.get('search')?.trim() ?? '';
+    const scope      = searchParams.get('scope') ?? 'all'; // all | system | mine
 
-    const where: Record<string, unknown> = {};
+    // Build scope filter
+    let scopeFilter: Record<string, unknown>;
+    if (scope === 'system') {
+      scopeFilter = { companyId: null };
+    } else if (scope === 'mine') {
+      scopeFilter = { companyId: user.companyId };
+    } else {
+      // all = system questions + this company's own
+      scopeFilter = {
+        OR: [
+          { companyId: null },
+          { companyId: user.companyId },
+        ],
+      };
+    }
+
+    const where: Record<string, unknown> = { ...scopeFilter };
     if (blockType) where.blockType = blockType;
     if (search) {
-      where.OR = [
-        { textRu: { contains: search, mode: 'insensitive' } },
-        { textUz: { contains: search, mode: 'insensitive' } },
-        { textEn: { contains: search, mode: 'insensitive' } },
+      where.AND = [
+        {
+          OR: [
+            { textRu: { contains: search, mode: 'insensitive' } },
+            { textUz: { contains: search, mode: 'insensitive' } },
+            { textEn: { contains: search, mode: 'insensitive' } },
+          ],
+        },
       ];
     }
 
@@ -78,10 +101,16 @@ const CreateSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    getRequestUser(req);
+    const user = getRequestUser(req);
     const body = await req.json();
     const data = CreateSchema.parse(body);
-    const question = await prisma.question.create({ data });
+
+    // HR creates a company-private question; SUPERADMIN creates system question
+    const companyId = user.role === 'SUPERADMIN' ? null : user.companyId;
+
+    const question = await prisma.question.create({
+      data: { ...data, companyId },
+    });
     return NextResponse.json(ok(question), { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) return NextResponse.json(err(error.issues[0].message), { status: 400 });
@@ -107,9 +136,21 @@ const UpdateSchema = z.object({
 
 export async function PATCH(req: NextRequest) {
   try {
-    getRequestUser(req);
+    const user = getRequestUser(req);
     const body = await req.json();
     const { id, ...data } = UpdateSchema.parse(body);
+
+    // Guard: system questions (companyId = null) only editable by SUPERADMIN
+    const existing = await prisma.question.findUnique({ where: { id }, select: { companyId: true } });
+    if (!existing) return NextResponse.json(err('Not found'), { status: 404 });
+
+    if (existing.companyId === null && user.role !== 'SUPERADMIN') {
+      return NextResponse.json(err('Системные вопросы могут редактировать только SuperAdmin'), { status: 403 });
+    }
+    if (existing.companyId !== null && existing.companyId !== user.companyId && user.role !== 'SUPERADMIN') {
+      return NextResponse.json(err('Нет доступа'), { status: 403 });
+    }
+
     const question = await prisma.question.update({ where: { id }, data });
     return NextResponse.json(ok(question));
   } catch (error) {
@@ -123,10 +164,21 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    getRequestUser(req);
+    const user = getRequestUser(req);
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
     if (!id) return NextResponse.json(err('Missing id'), { status: 400 });
+
+    const existing = await prisma.question.findUnique({ where: { id }, select: { companyId: true } });
+    if (!existing) return NextResponse.json(err('Not found'), { status: 404 });
+
+    if (existing.companyId === null && user.role !== 'SUPERADMIN') {
+      return NextResponse.json(err('Системные вопросы может удалять только SuperAdmin'), { status: 403 });
+    }
+    if (existing.companyId !== null && existing.companyId !== user.companyId && user.role !== 'SUPERADMIN') {
+      return NextResponse.json(err('Нет доступа'), { status: 403 });
+    }
+
     await prisma.question.delete({ where: { id } });
     return NextResponse.json(ok({ deleted: true }));
   } catch (error) {

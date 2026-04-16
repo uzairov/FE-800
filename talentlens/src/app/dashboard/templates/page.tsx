@@ -31,6 +31,7 @@ interface Question {
   hrHint: string | null;
   riskFlag: boolean;
   orderIndex: number;
+  companyId: string | null;
   createdAt: string;
 }
 
@@ -479,18 +480,21 @@ function optionText(opt: Option, lang: string) {
 
 // ─── Question Card ────────────────────────────────────────────────────────────
 function QuestionCard({
-  question, onDelete, onEdit, index, previewLang,
+  question, onDelete, onEdit, index, previewLang, userRole,
 }: {
   question: Question;
   onDelete: (id: string) => void;
   onEdit: (q: Question) => void;
   index: number;
   previewLang: string;
+  userRole: string;
 }) {
   const [expanded, setExpanded] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const options = question.optionsJson as Option[];
-  const scoring = question.scoringJson as ScoringEntry[];
+  const options  = question.optionsJson as Option[];
+  const scoring  = question.scoringJson as ScoringEntry[];
+  const isSystem = question.companyId === null;
+  const canEdit  = !isSystem || userRole === 'SUPERADMIN';
 
   async function handleDelete() {
     if (!confirm('Удалить вопрос?')) return;
@@ -521,6 +525,12 @@ function QuestionCard({
           {questionText(question, previewLang)}
         </p>
         <div className="flex items-center gap-2 shrink-0">
+          {isSystem && (
+            <span title="Системный вопрос" className="text-[10px] px-1.5 py-0.5 rounded font-semibold"
+              style={{ background: 'rgba(99,102,241,0.15)', color: '#818cf8' }}>
+              🔒 Системный
+            </span>
+          )}
           {question.riskFlag && (
             <span className="text-[10px] px-1.5 py-0.5 rounded font-semibold"
               style={{ background: 'rgba(239,68,68,0.15)', color: '#f87171' }}>
@@ -613,14 +623,23 @@ function QuestionCard({
                   ))}
                 </div>
                 <div className="flex items-center gap-3">
-                  <button onClick={() => onEdit(question)}
-                    className="text-xs text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1">
-                    ✏ Изменить
-                  </button>
-                  <button onClick={handleDelete} disabled={deleting}
-                    className="text-xs text-[var(--text-3)] hover:text-red-400 transition-colors disabled:opacity-40 flex items-center gap-1">
-                    {deleting ? '...' : '🗑 Удалить'}
-                  </button>
+                  {canEdit ? (
+                    <button onClick={() => onEdit(question)}
+                      className="text-xs text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1">
+                      ✏ Изменить
+                    </button>
+                  ) : (
+                    <span className="text-xs text-[var(--text-3)] flex items-center gap-1 cursor-not-allowed"
+                      title="Только SuperAdmin может редактировать системные вопросы">
+                      🔒 Только чтение
+                    </span>
+                  )}
+                  {canEdit && (
+                    <button onClick={handleDelete} disabled={deleting}
+                      className="text-xs text-[var(--text-3)] hover:text-red-400 transition-colors disabled:opacity-40 flex items-center gap-1">
+                      {deleting ? '...' : '🗑 Удалить'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -632,11 +651,12 @@ function QuestionCard({
 }
 
 // ─── Block Panel ──────────────────────────────────────────────────────────────
-function BlockPanel({ block, onDelete, onEdit, previewLang }: {
+function BlockPanel({ block, onDelete, onEdit, previewLang, userRole }: {
   block: Block;
   onDelete: (id: string) => void;
   onEdit: (q: Question) => void;
   previewLang: string;
+  userRole: string;
 }) {
   const [open, setOpen] = useState(false);
   const meta = getBlockMeta(block.blockType);
@@ -697,7 +717,7 @@ function BlockPanel({ block, onDelete, onEdit, previewLang }: {
               ) : (
                 block.questions.map((q, i) => (
                   <QuestionCard key={q.id} question={q} onDelete={onDelete}
-                    onEdit={onEdit} index={i} previewLang={previewLang} />
+                    onEdit={onEdit} index={i} previewLang={previewLang} userRole={userRole} />
                 ))
               )}
             </div>
@@ -709,30 +729,44 @@ function BlockPanel({ block, onDelete, onEdit, previewLang }: {
 }
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
+type Scope = 'all' | 'system' | 'mine';
+
 export default function TemplatesPage() {
-  const [blocks,       setBlocks]       = useState<Block[]>([]);
-  const [loading,      setLoading]      = useState(true);
-  const [search,       setSearch]       = useState('');
-  const [showCreate,   setShowCreate]   = useState(false);
-  const [editQuestion, setEditQuestion] = useState<Question | null>(null);
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
-  const [riskOnly,     setRiskOnly]     = useState(false);
-  const [previewLang,  setPreviewLang]  = useState('ru');
-  const [importing,    setImporting]    = useState(false);
-  const [importMsg,    setImportMsg]    = useState('');
+  const [blocks,              setBlocks]              = useState<Block[]>([]);
+  const [loading,             setLoading]             = useState(true);
+  const [search,              setSearch]              = useState('');
+  const [scope,               setScope]               = useState<Scope>('all');
+  const [showCreate,          setShowCreate]          = useState(false);
+  const [showCreateTemplate,  setShowCreateTemplate]  = useState(false);
+  const [editQuestion,        setEditQuestion]        = useState<Question | null>(null);
+  const [activeFilter,        setActiveFilter]        = useState<string | null>(null);
+  const [riskOnly,            setRiskOnly]            = useState(false);
+  const [previewLang,         setPreviewLang]         = useState('ru');
+  const [importing,           setImporting]           = useState(false);
+  const [importMsg,           setImportMsg]           = useState('');
+  const [userRole,            setUserRole]            = useState('');
   const importRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    // Read user role from stored JWT (client-side decode)
+    const token = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken');
+    if (token) {
+      try { setUserRole(JSON.parse(atob(token.split('.')[1])).role ?? ''); } catch { /* ignore */ }
+    }
+  }, []);
+
+  useEffect(() => {
     async function load() {
+      setLoading(true);
       try {
-        const res = await apiFetch<{ blocks: Block[]; total: number }>('/api/questions');
+        const res = await apiFetch<{ blocks: Block[]; total: number }>(`/api/questions?scope=${scope}`);
         if (res.success) setBlocks(res.data.blocks);
       } finally {
         setLoading(false);
       }
     }
     load();
-  }, []);
+  }, [scope]);
 
   function handleDelete(id: string) {
     setBlocks(prev => prev
@@ -864,6 +898,18 @@ export default function TemplatesPage() {
               {importing ? '...' : '⬆ Импорт JSON'}
             </button>
 
+            {['ADMIN', 'SUPERADMIN'].includes(userRole) && (
+              <motion.button
+                onClick={() => setShowCreateTemplate(true)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium"
+                style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-2)' }}
+              >
+                📋 Новый шаблон
+              </motion.button>
+            )}
+
             <motion.button
               onClick={() => setShowCreate(true)}
               whileHover={{ scale: 1.03, boxShadow: '0 8px 24px rgba(37,99,235,0.3)' }}
@@ -916,6 +962,19 @@ export default function TemplatesPage() {
       {/* Search + filters */}
       <motion.div className="mb-6 space-y-3"
         initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+
+        {/* Row 0: scope tabs */}
+        <div className="flex rounded-xl overflow-hidden w-fit" style={{ border: '1px solid var(--border)' }}>
+          {([['all', 'Все'], ['system', 'Системные'], ['mine', 'Мои']] as [Scope, string][]).map(([key, label]) => (
+            <button key={key} onClick={() => { setScope(key); setActiveFilter(null); }}
+              className="px-4 py-2 text-xs font-medium transition-all"
+              style={scope === key
+                ? { background: '#2563eb', color: '#fff' }
+                : { background: 'var(--surface)', color: 'var(--text-2)' }}>
+              {label}
+            </button>
+          ))}
+        </div>
 
         {/* Row 1: search + lang switcher + risk toggle */}
         <div className="flex gap-3 flex-wrap items-center">
@@ -1016,7 +1075,7 @@ export default function TemplatesPage() {
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}>
               <BlockPanel block={block} onDelete={handleDelete}
-                onEdit={setEditQuestion} previewLang={previewLang} />
+                onEdit={setEditQuestion} previewLang={previewLang} userRole={userRole} />
             </motion.div>
           ))}
         </div>
@@ -1035,7 +1094,170 @@ export default function TemplatesPage() {
             onCreated={handleUpdated}
           />
         )}
+        {showCreateTemplate && (
+          <CreateTemplateModal
+            onClose={() => setShowCreateTemplate(false)}
+            onCreated={() => setShowCreateTemplate(false)}
+          />
+        )}
       </AnimatePresence>
     </div>
+  );
+}
+
+// ─── Create Template Modal ────────────────────────────────────────────────────
+function CreateTemplateModal({ onClose, onCreated }: {
+  onClose: () => void;
+  onCreated: () => void;
+}) {
+  const [name,             setName]             = useState('');
+  const [nameUz,           setNameUz]           = useState('');
+  const [nameEn,           setNameEn]           = useState('');
+  const [industry,         setIndustry]         = useState('');
+  const [level,            setLevel]            = useState('linear');
+  const [estimatedMinutes, setEstimatedMinutes] = useState(30);
+  const [blocks,           setBlocks]           = useState('');
+  const [competencies,     setCompetencies]     = useState('');
+  const [saving,           setSaving]           = useState(false);
+  const [error,            setError]            = useState('');
+
+  const inputCls   = 'w-full px-3 py-2 rounded-xl text-sm text-[var(--text)] placeholder-[var(--text-3)] outline-none transition-all';
+  const inputStyle = { background: 'var(--bg)', border: '1px solid var(--border)' };
+
+  async function submit() {
+    if (!name.trim()) return setError('Укажите название шаблона');
+    if (!industry.trim()) return setError('Укажите отрасль');
+
+    // Parse blocks (comma-separated)
+    const blocksJson = blocks.split(',').map(s => s.trim()).filter(Boolean);
+    if (blocksJson.length === 0) return setError('Укажите хотя бы один блок');
+
+    // Parse competencies (one per line: key:weight)
+    const competenciesJson = competencies.split('\n').map(line => {
+      const [key, w] = line.trim().split(':');
+      return { key: key?.trim(), weight: parseInt(w?.trim() ?? '2', 10) || 2 };
+    }).filter(c => c.key);
+    if (competenciesJson.length === 0) return setError('Укажите хотя бы одну компетенцию');
+
+    setSaving(true);
+    setError('');
+    try {
+      const res = await apiFetch('/api/templates', {
+        method: 'POST',
+        body: JSON.stringify({ name, nameUz, nameEn, industry, level, estimatedMinutes, blocksJson, competenciesJson }),
+      });
+      if (res.success) {
+        onCreated();
+      } else {
+        setError((res as { success: false; error: string }).error ?? 'Ошибка');
+      }
+    } catch {
+      setError('Ошибка сети');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <motion.div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+      <motion.div
+        className="relative w-full max-w-lg rounded-2xl flex flex-col"
+        style={{ background: 'var(--surface)', border: '1px solid var(--border)', maxHeight: '90vh' }}
+        initial={{ scale: 0.92, y: 24, opacity: 0 }}
+        animate={{ scale: 1, y: 0, opacity: 1 }}
+        exit={{ scale: 0.92, y: 24, opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+      >
+        <div className="px-6 py-4 flex items-center justify-between shrink-0"
+          style={{ borderBottom: '1px solid var(--border)' }}>
+          <h2 className="font-bold text-[var(--text)] text-lg">Новый шаблон должности</h2>
+          <button onClick={onClose}
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-[var(--text-2)] hover:text-[var(--text)] hover:bg-[var(--border)] transition-colors">
+            ✕
+          </button>
+        </div>
+
+        <div className="overflow-y-auto flex-1 px-6 py-5 space-y-4">
+          <div className="grid grid-cols-1 gap-3">
+            <div>
+              <label className="block text-xs text-[var(--text-3)] mb-1">Название (RU) *</label>
+              <input value={name} onChange={e => setName(e.target.value)}
+                placeholder="Менеджер по продажам" className={inputCls} style={inputStyle} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-[var(--text-3)] mb-1">Название (UZ)</label>
+                <input value={nameUz} onChange={e => setNameUz(e.target.value)}
+                  placeholder="Sotish menejeri" className={inputCls} style={inputStyle} />
+              </div>
+              <div>
+                <label className="block text-xs text-[var(--text-3)] mb-1">Название (EN)</label>
+                <input value={nameEn} onChange={e => setNameEn(e.target.value)}
+                  placeholder="Sales Manager" className={inputCls} style={inputStyle} />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-[var(--text-3)] mb-1">Отрасль *</label>
+                <input value={industry} onChange={e => setIndustry(e.target.value)}
+                  placeholder="Продажи" className={inputCls} style={inputStyle} />
+              </div>
+              <div>
+                <label className="block text-xs text-[var(--text-3)] mb-1">Уровень</label>
+                <select value={level} onChange={e => setLevel(e.target.value)}
+                  className={inputCls} style={inputStyle}>
+                  <option value="linear">Линейный</option>
+                  <option value="specialist">Специалист</option>
+                  <option value="manager">Менеджер</option>
+                  <option value="top">Топ-менеджмент</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs text-[var(--text-3)] mb-1">
+                Время (мин): {estimatedMinutes}
+              </label>
+              <input type="range" min={5} max={180} step={5}
+                value={estimatedMinutes} onChange={e => setEstimatedMinutes(Number(e.target.value))}
+                className="w-full" />
+            </div>
+            <div>
+              <label className="block text-xs text-[var(--text-3)] mb-1">
+                Блоки * <span className="text-[var(--text-3)]">(через запятую, например: SM_SJT, SM_PSS)</span>
+              </label>
+              <input value={blocks} onChange={e => setBlocks(e.target.value)}
+                placeholder="BLOCK_1, BLOCK_2, BLOCK_OPEN" className={inputCls} style={inputStyle} />
+            </div>
+            <div>
+              <label className="block text-xs text-[var(--text-3)] mb-1">
+                Компетенции * <span className="text-[var(--text-3)]">(одна на строку: ключ:вес)</span>
+              </label>
+              <textarea value={competencies} onChange={e => setCompetencies(e.target.value)}
+                rows={4} placeholder={"sales_skills:3\nnegotiation:2\nstress_resistance:1"}
+                className={inputCls} style={{ ...inputStyle, resize: 'none' }} />
+              <p className="text-[10px] text-[var(--text-3)] mt-1">Вес: 3=обязательная, 2=важная, 1=опциональная</p>
+            </div>
+          </div>
+
+          {error && <p className="text-red-400 text-sm">{error}</p>}
+        </div>
+
+        <div className="px-6 py-4 flex items-center justify-end gap-3 shrink-0"
+          style={{ borderTop: '1px solid var(--border)' }}>
+          <button onClick={onClose}
+            className="px-4 py-2 rounded-xl text-sm text-[var(--text-2)] hover:text-[var(--text)] hover:bg-[var(--border)] transition-all">
+            Отмена
+          </button>
+          <motion.button onClick={submit} disabled={saving}
+            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+            className="px-5 py-2 rounded-xl text-sm font-semibold text-white disabled:opacity-50"
+            style={{ background: 'linear-gradient(135deg, #2563eb, #7c3aed)' }}>
+            {saving ? 'Создаю...' : 'Создать шаблон'}
+          </motion.button>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
