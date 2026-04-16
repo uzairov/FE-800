@@ -119,6 +119,78 @@ export async function sendCandidateLink(params: SendCandidateLinkParams): Promis
   }
 }
 
+// ── Email verification ────────────────────────────────────────────────────────
+
+export async function sendVerifyEmail(to: string, token: string): Promise<void> {
+  const apiKey  = process.env.RESEND_API_KEY;
+  const appUrl  = process.env.APP_URL ?? 'http://localhost:3000';
+  const from    = process.env.EMAIL_FROM ?? 'Aptio <noreply@aptio.app>';
+  const url     = `${appUrl}/api/auth/verify-email?token=${token}`;
+
+  if (!apiKey || apiKey === 'your_resend_key_here') {
+    console.log('[email:DEV] Verify email link:', url);
+    return;
+  }
+
+  await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      subject: 'Подтвердите email — Aptio',
+      html: `<div style="font-family:sans-serif;max-width:480px;margin:40px auto;padding:32px;background:#111827;border-radius:16px;color:#e5e7eb">
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:24px">
+          <div style="width:36px;height:36px;background:#2563eb;border-radius:10px;display:inline-flex;align-items:center;justify-content:center">
+            <span style="color:#fff;font-weight:900;font-size:16px">A</span>
+          </div>
+          <span style="color:#fff;font-weight:800;font-size:20px">Aptio</span>
+        </div>
+        <h2 style="color:#f9fafb;margin:0 0 12px">Подтвердите ваш email</h2>
+        <p style="color:#9ca3af;line-height:1.6;margin:0 0 28px">Нажмите кнопку ниже, чтобы активировать аккаунт. Ссылка действительна <strong>24 часа</strong>.</p>
+        <a href="${url}" style="display:inline-block;background:#2563eb;color:#fff;padding:13px 30px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px">Подтвердить email →</a>
+        <p style="color:#4b5563;font-size:12px;margin-top:28px">Если вы не создавали аккаунт в Aptio — проигнорируйте это письмо.</p>
+      </div>`,
+    }),
+  });
+}
+
+// ── Password reset ────────────────────────────────────────────────────────────
+
+export async function sendResetEmail(to: string, token: string): Promise<void> {
+  const apiKey  = process.env.RESEND_API_KEY;
+  const appUrl  = process.env.APP_URL ?? 'http://localhost:3000';
+  const from    = process.env.EMAIL_FROM ?? 'Aptio <noreply@aptio.app>';
+  const url     = `${appUrl}/reset-password?token=${token}`;
+
+  if (!apiKey || apiKey === 'your_resend_key_here') {
+    console.log('[email:DEV] Reset password link:', url);
+    return;
+  }
+
+  await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      subject: 'Сброс пароля — Aptio',
+      html: `<div style="font-family:sans-serif;max-width:480px;margin:40px auto;padding:32px;background:#111827;border-radius:16px;color:#e5e7eb">
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:24px">
+          <div style="width:36px;height:36px;background:#2563eb;border-radius:10px;display:inline-flex;align-items:center;justify-content:center">
+            <span style="color:#fff;font-weight:900;font-size:16px">A</span>
+          </div>
+          <span style="color:#fff;font-weight:800;font-size:20px">Aptio</span>
+        </div>
+        <h2 style="color:#f9fafb;margin:0 0 12px">Сброс пароля</h2>
+        <p style="color:#9ca3af;line-height:1.6;margin:0 0 28px">Нажмите кнопку для установки нового пароля. Ссылка действительна <strong>1 час</strong>.</p>
+        <a href="${url}" style="display:inline-block;background:#2563eb;color:#fff;padding:13px 30px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px">Сбросить пароль →</a>
+        <p style="color:#4b5563;font-size:12px;margin-top:28px">Если вы не запрашивали сброс пароля — проигнорируйте это письмо.</p>
+      </div>`,
+    }),
+  });
+}
+
 export async function sendTeamInvite(params: {
   to: string;
   inviterName: string;

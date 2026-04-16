@@ -3,13 +3,15 @@ import { jwtVerify } from 'jose';
 
 // Routes that do NOT require authentication
 const PUBLIC_PREFIXES = [
-  '/api/auth/',       // register, login, refresh, logout, google OAuth
-  '/test/',           // candidate test pages
-  '/api/test/',       // candidate test API
+  '/api/auth/',         // register, login, refresh, logout, google OAuth, verify-email, forgot/reset-password
+  '/test/',             // candidate test pages
+  '/api/test/',         // candidate test API
   '/_next/',
   '/favicon.ico',
   '/login',
   '/register',
+  '/forgot-password',
+  '/reset-password',
 ];
 
 export async function middleware(req: NextRequest) {

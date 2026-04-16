@@ -57,14 +57,16 @@ model Plan {
 // ─────────────────────────────────────────────
 
 model Company {
-  id        String   @id @default(cuid())
-  name      String
-  planId    String?
-  planTier  Plan?    @relation(fields: [planId], references: [id])
-  logo      String?
-  isBlocked Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  name               String
+  planId             String?
+  planTier           Plan?    @relation(fields: [planId], references: [id])
+  logo               String?
+  industry           String?
+  size               String?  // "1-10" | "11-50" | "51-200" | "201-500" | "500+"
+  isBlocked          Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
   users          User[]
   assessments    Assessment[]
@@ -79,17 +81,23 @@ model Company {
 // ─────────────────────────────────────────────
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String?
-  role      Role     @default(HR)
-  googleId  String?  @unique
-  companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  isBlocked Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                   String    @id @default(cuid())
+  email                String    @unique
+  password             String
+  name                 String?
+  role                 Role      @default(HR)
+  googleId             String?   @unique
+  companyId            String
+  company              Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  isBlocked            Boolean   @default(false)
+  emailVerified        Boolean   @default(false)
+  emailVerifyToken     String?   @unique
+  emailVerifyExpires   DateTime?
+  resetPasswordToken   String?   @unique
+  resetPasswordExpires DateTime?
+  onboardingDone       Boolean   @default(false)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
   assessments     Assessment[]
   refreshTokens   RefreshToken[]

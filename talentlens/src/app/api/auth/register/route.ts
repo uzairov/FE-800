@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { randomUUID } from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { hashPassword, signAccessToken, createRefreshToken } from '@/lib/auth';
+import { sendVerifyEmail } from '@/lib/email';
 import { ok, err } from '@/types';
 
 const RegisterSchema = z.object({
@@ -32,6 +34,9 @@ export async function POST(req: NextRequest) {
 
     const passwordHash = await hashPassword(password);
 
+    const verifyToken   = randomUUID();
+    const verifyExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+
     // Create company + user in a transaction
     const user = await prisma.$transaction(async (tx) => {
       const company = await tx.company.create({
@@ -43,12 +48,21 @@ export async function POST(req: NextRequest) {
           email,
           password: passwordHash,
           name,
-          role: 'HR',
+          role: 'ADMIN' as const,
           companyId: company.id,
+          emailVerified:      false,
+          emailVerifyToken:   verifyToken,
+          emailVerifyExpires: verifyExpires,
         },
       });
     });
 
+    // Send verification email (non-blocking — don't fail registration if email fails)
+    sendVerifyEmail(email, verifyToken).catch((e) =>
+      console.error('[register] email send failed:', e),
+    );
+
+    // Issue tokens so they're logged in immediately (but onboarding not done yet)
     const accessToken = signAccessToken({
       sub: user.id,
       email: user.email,
@@ -61,12 +75,15 @@ export async function POST(req: NextRequest) {
       ok({
         accessToken,
         refreshToken,
+        emailSent: true,
         user: {
           id: user.id,
           email: user.email,
           name: user.name,
           role: user.role,
           companyId: user.companyId,
+          emailVerified: false,
+          onboardingDone: false,
         },
       }),
       { status: 201 },

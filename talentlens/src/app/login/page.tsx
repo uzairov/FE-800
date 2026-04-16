@@ -113,6 +113,12 @@ const OAUTH_ERRORS: Record<string, string> = {
   oauth_failed:           'Ошибка входа через Google.',
   account_blocked:        'Аккаунт заблокирован.',
   token_exchange_failed:  'Ошибка получения токена Google.',
+  invalid_token:          'Ссылка недействительна. Запросите новую.',
+  token_expired:          'Ссылка истекла. Запросите новую.',
+};
+
+const AUTH_MESSAGES: Record<string, string> = {
+  verify_email: '📬 Проверьте почту — мы отправили ссылку для подтверждения.',
 };
 
 // ── Main page ─────────────────────────────────────────────────────────────────
@@ -131,6 +137,7 @@ function LoginPage() {
   const [mode,    setMode]    = useState<Mode>('login');
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState('');
+  const [info,    setInfo]    = useState('');
   const [form, setForm] = useState({ email: '', password: '', name: '', companyName: '' });
   const [particles, setParticles] = useState<Array<{ x: number; y: number; size: number; delay: number; duration: number }>>([]);
 
@@ -149,6 +156,10 @@ function LoginPage() {
     }
     if (oauthErr) {
       setError(OAUTH_ERRORS[oauthErr] ?? `Ошибка: ${oauthErr}`);
+    }
+    const msg = searchParams.get('message');
+    if (msg && AUTH_MESSAGES[msg]) {
+      setInfo(AUTH_MESSAGES[msg]);
     }
   }, [searchParams, router]);
 
@@ -177,7 +188,16 @@ function LoginPage() {
       if (!json.success) { setError(json.error ?? 'Что-то пошло не так'); return; }
       localStorage.setItem('accessToken',  json.data.accessToken);
       localStorage.setItem('refreshToken', json.data.refreshToken);
-      router.push('/dashboard');
+      if (mode === 'register') {
+        // Show verify-email notice, stay on login page
+        setMode('login');
+        setInfo('📬 Письмо с подтверждением отправлено на ' + form.email);
+        setForm({ email: form.email, password: '', name: '', companyName: '' });
+      } else {
+        // Login: go to onboarding if not done, else dashboard
+        const onboardingDone = json.data.user?.onboardingDone ?? true;
+        router.push(onboardingDone ? '/dashboard' : '/onboarding');
+      }
     } catch {
       setError('Ошибка сети. Проверьте подключение.');
     } finally {
@@ -389,6 +409,21 @@ function LoginPage() {
                 <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }}/>
               </div>
 
+              {/* Info banner */}
+              <AnimatePresence>
+                {info && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                    animate={{ opacity: 1, height: 'auto', marginBottom: 16 }}
+                    exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                    className="rounded-xl px-4 py-3 text-sm text-blue-300 overflow-hidden"
+                    style={{ background: 'rgba(37,99,235,0.12)', border: '1px solid rgba(37,99,235,0.25)' }}
+                  >
+                    {info}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               {/* Error banner */}
               <AnimatePresence>
                 {error && (
@@ -428,11 +463,20 @@ function LoginPage() {
                 <input type="email" placeholder="Email" required autoComplete="email" value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   className={inputCls} style={inputStyle}/>
-                <input type="password" placeholder="Пароль (мин. 8 символов)" required minLength={8}
-                  autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                  value={form.password}
-                  onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  className={inputCls} style={inputStyle}/>
+                <div>
+                  <input type="password" placeholder="Пароль (мин. 8 символов)" required minLength={8}
+                    autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                    value={form.password}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    className={inputCls} style={inputStyle}/>
+                  {mode === 'login' && (
+                    <div className="text-right mt-1.5">
+                      <Link href="/forgot-password" className="text-xs text-blue-400/70 hover:text-blue-400 transition-colors">
+                        Забыли пароль?
+                      </Link>
+                    </div>
+                  )}
+                </div>
 
                 <motion.button
                   type="submit"
