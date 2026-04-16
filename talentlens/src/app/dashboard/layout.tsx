@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LangProvider, useLang } from '@/context/LangContext';
 import Onboarding from '@/components/Onboarding';
 import AiChat from '@/components/AiChat';
+import { useTokenRefresh } from '@/hooks/useTokenRefresh';
 
 type PlanInfo = { name: string; displayName: string; maxAssessmentsPerMonth: number } | null;
 
@@ -37,34 +38,73 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
   useEffect(() => { setMounted(true); }, []);
 
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) { router.replace('/login'); return; }
-    try {
-      const p = JSON.parse(atob(token.split('.')[1]));
-      setUserEmail(p.email ?? '');
-      setUserName((p.email ?? '').split('@')[0]);
-      setUserRole(p.role ?? '');
-      if (p.exp * 1000 < Date.now()) router.replace('/login');
+  // Activate silent token refresh
+  useTokenRefresh();
 
-      // Fetch plan info (non-blocking)
-      fetch('/api/plan', { headers: { Authorization: `Bearer ${token}` } })
-        .then((r) => r.json())
-        .then((res) => {
-          if (res.success) {
-            setPlanInfo(res.data.plan);
-            setUsageCount(res.data.usage.assessmentsThisMonth);
+  useEffect(() => {
+    // Check localStorage first (rememberMe), then sessionStorage (tab-only)
+    const token = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken');
+
+    async function init(at: string | null) {
+      if (!at) {
+        // No token in storage — try auto-login from httpOnly cookie
+        try {
+          const res  = await fetch('/api/auth/refresh', {
+            method:      'POST',
+            headers:     { 'Content-Type': 'application/json' },
+            body:        '{}',
+            credentials: 'include',
+          });
+          const json = await res.json();
+          if (json.success) {
+            // Store new tokens in localStorage (cookie flow = rememberMe)
+            localStorage.setItem('accessToken', json.data.accessToken);
+            if (json.data.refreshToken) localStorage.setItem('refreshToken', json.data.refreshToken);
+            await init(json.data.accessToken);
+          } else {
+            router.replace('/login');
           }
-        })
-        .catch(() => {});
-    } catch { router.replace('/login'); }
+        } catch {
+          router.replace('/login');
+        }
+        return;
+      }
+
+      try {
+        const p = JSON.parse(atob(at.split('.')[1]));
+        if (p.exp * 1000 < Date.now()) { router.replace('/login'); return; }
+        setUserEmail(p.email ?? '');
+        setUserName((p.email ?? '').split('@')[0]);
+        setUserRole(p.role ?? '');
+
+        // Fetch plan info (non-blocking)
+        fetch('/api/plan', { headers: { Authorization: `Bearer ${at}` } })
+          .then((r) => r.json())
+          .then((res) => {
+            if (res.success) {
+              setPlanInfo(res.data.plan);
+              setUsageCount(res.data.usage.assessmentsThisMonth);
+            }
+          })
+          .catch(() => {});
+      } catch { router.replace('/login'); }
+    }
+
+    init(token);
   }, [router]);
 
   function logout() {
-    const rt = localStorage.getItem('refreshToken');
-    if (rt) fetch('/api/auth/logout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ refreshToken: rt }) });
+    const rt = localStorage.getItem('refreshToken') ?? sessionStorage.getItem('refreshToken') ?? '';
+    fetch('/api/auth/logout', {
+      method:      'POST',
+      headers:     { 'Content-Type': 'application/json' },
+      body:        JSON.stringify({ refreshToken: rt }),
+      credentials: 'include',
+    }).catch(() => {});
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
     router.push('/login');
   }
 

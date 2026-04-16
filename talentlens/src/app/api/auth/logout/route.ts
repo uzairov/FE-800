@@ -1,24 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
 import { revokeRefreshToken } from '@/lib/auth';
 import { ok } from '@/types';
 
-const LogoutSchema = z.object({
-  refreshToken: z.string().min(1),
-});
+const COOKIE_NAME = 'rt';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
-    const parsed = LogoutSchema.safeParse(body);
 
-    if (parsed.success) {
-      await revokeRefreshToken(parsed.data.refreshToken);
+    // Revoke from body
+    if (typeof body?.refreshToken === 'string' && body.refreshToken) {
+      await revokeRefreshToken(body.refreshToken).catch(() => {});
     }
 
-    return NextResponse.json(ok(null));
+    // Revoke from cookie
+    const cookieToken = req.cookies.get(COOKIE_NAME)?.value;
+    if (cookieToken) {
+      await revokeRefreshToken(cookieToken).catch(() => {});
+    }
+
+    const res = NextResponse.json(ok(null));
+    res.cookies.delete(COOKIE_NAME);
+    return res;
   } catch (error) {
     console.error('[logout]', error);
-    return NextResponse.json(ok(null)); // always succeed on logout
+    const res = NextResponse.json(ok(null));
+    res.cookies.delete(COOKIE_NAME);
+    return res;
   }
 }

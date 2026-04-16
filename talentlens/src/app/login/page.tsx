@@ -134,10 +134,11 @@ function LoginPage() {
   const router       = useRouter();
   const searchParams = useSearchParams();
 
-  const [mode,    setMode]    = useState<Mode>('login');
-  const [loading, setLoading] = useState(false);
-  const [error,   setError]   = useState('');
-  const [info,    setInfo]    = useState('');
+  const [mode,       setMode]       = useState<Mode>('login');
+  const [loading,    setLoading]    = useState(false);
+  const [error,      setError]      = useState('');
+  const [info,       setInfo]       = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [form, setForm] = useState({ email: '', password: '', name: '', companyName: '' });
   const [particles, setParticles] = useState<Array<{ x: number; y: number; size: number; delay: number; duration: number }>>([]);
 
@@ -182,12 +183,21 @@ function LoginPage() {
     setError('');
     try {
       const endpoint = mode === 'login' ? '/api/auth/login' : '/api/auth/register';
-      const body     = mode === 'login' ? { email: form.email, password: form.password } : form;
+      const body     = mode === 'login'
+        ? { email: form.email, password: form.password, rememberMe }
+        : form;
       const res      = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const json     = await res.json();
       if (!json.success) { setError(json.error ?? 'Что-то пошло не так'); return; }
-      localStorage.setItem('accessToken',  json.data.accessToken);
-      localStorage.setItem('refreshToken', json.data.refreshToken);
+
+      // Store tokens: localStorage (persist) or sessionStorage (tab-only)
+      const store = rememberMe ? localStorage : sessionStorage;
+      store.setItem('accessToken', json.data.accessToken);
+      // refreshToken in body only when rememberMe=false (cookie handles rememberMe=true)
+      if (json.data.refreshToken) {
+        store.setItem('refreshToken', json.data.refreshToken);
+      }
+
       if (mode === 'register') {
         // Show verify-email notice, stay on login page
         setMode('login');
@@ -477,6 +487,26 @@ function LoginPage() {
                     </div>
                   )}
                 </div>
+
+                {mode === 'login' && (
+                  <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                    <div
+                      onClick={() => setRememberMe((v) => !v)}
+                      className="w-4 h-4 rounded flex items-center justify-center shrink-0 transition-all"
+                      style={{
+                        background: rememberMe ? '#2563eb' : 'rgba(255,255,255,0.07)',
+                        border: `1px solid ${rememberMe ? '#2563eb' : 'rgba(255,255,255,0.2)'}`,
+                      }}
+                    >
+                      {rememberMe && (
+                        <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 12 12" fill="none">
+                          <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                    </div>
+                    <span className="text-sm text-white/40">Запомнить меня</span>
+                  </label>
+                )}
 
                 <motion.button
                   type="submit"

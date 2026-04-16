@@ -78,15 +78,18 @@ export function verifyRefreshToken(token: string): RefreshTokenPayload {
 // Refresh token — DB persistence & rotation
 // ─────────────────────────────────────────────
 
-const REFRESH_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+const REFRESH_TTL_SHORT = 7  * 24 * 60 * 60 * 1000; //  7 days (default)
+const REFRESH_TTL_LONG  = 30 * 24 * 60 * 60 * 1000; // 30 days (rememberMe)
 
-export async function createRefreshToken(userId: string): Promise<string> {
+export async function createRefreshToken(userId: string, longLived = false): Promise<string> {
+  const ttlMs = longLived ? REFRESH_TTL_LONG : REFRESH_TTL_SHORT;
+
   // Create a DB record first to get the jti
   const record = await prisma.refreshToken.create({
     data: {
       token: 'placeholder',
       userId,
-      expiresAt: new Date(Date.now() + REFRESH_TTL_MS),
+      expiresAt: new Date(Date.now() + ttlMs),
     },
   });
 
