@@ -19,9 +19,10 @@ export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
   const { lang, setLang, t } = useLang();
   const [tab,     setTab]     = useState<Tab>('profile');
-  const [name,    setName]    = useState('');
-  const [email,   setEmail]   = useState('');
-  const [saved,   setSaved]   = useState(false);
+  const [name,     setName]     = useState('');
+  const [email,    setEmail]    = useState('');
+  const [saved,    setSaved]    = useState(false);
+  const [saving,   setSaving]   = useState(false);
   const [mounted, setMounted] = useState(false);
 
   // Webhook state
@@ -38,6 +39,10 @@ export default function SettingsPage() {
         setEmail(p.email ?? '');
       } catch {}
     }
+    // Load profile (name) from API
+    apiFetch<{ name: string | null; email: string }>('/api/profile').then((res) => {
+      if (res.success) setName(res.data.name ?? '');
+    });
     // Load webhook settings
     apiFetch<typeof wh>('/api/webhooks').then((res) => {
       if (res.success && res.data && Object.keys(res.data).length > 0) setWh((prev) => ({ ...prev, ...res.data }));
@@ -46,8 +51,14 @@ export default function SettingsPage() {
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2500);
+    if (!name.trim()) return;
+    setSaving(true);
+    const res = await apiFetch('/api/profile', { method: 'PATCH', body: JSON.stringify({ name }) });
+    setSaving(false);
+    if (res.success) {
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    }
   }
 
   async function handleWhSave(e: React.FormEvent) {
@@ -111,9 +122,9 @@ export default function SettingsPage() {
                   <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t('ph_name')}
                     className="w-full rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-2.5 text-sm text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
-                <button type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-xl transition-colors">
-                  {saved ? t('saved') : t('btn_save')}
+                <button type="submit" disabled={saving}
+                  className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm font-medium px-5 py-2 rounded-xl transition-colors">
+                  {saving ? 'Сохранение...' : saved ? t('saved') : t('btn_save')}
                 </button>
               </form>
             </section>

@@ -12,6 +12,8 @@ const PUBLIC_PREFIXES = [
   '/register',
   '/forgot-password',
   '/reset-password',
+  '/invite/',
+  '/api/team/accept',
 ];
 
 export async function middleware(req: NextRequest) {
