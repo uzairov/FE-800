@@ -1,0 +1,2680 @@
+{
+  "version": "2.0",
+  "generated_at": "2026-04-17",
+  "positions": [
+    {
+      "id": "sales_head",
+      "name_ru": "Руководитель отдела продаж",
+      "name_uz": "Sotish bo'limi boshlig'i",
+      "name_en": "Head of Sales",
+      "industry": "sales",
+      "level": "management",
+      "competencies": {
+        "required": [
+          "leadership",
+          "negotiation",
+          "result_orientation"
+        ],
+        "important": [
+          "stress_resistance",
+          "emotional_intelligence",
+          "strategic_thinking"
+        ],
+        "optional": [
+          "locus_of_control",
+          "self_motivation"
+        ]
+      },
+      "blocks": [
+        {
+          "id": "A",
+          "type": "SJT",
+          "label_ru": "Блок A — Ситуационные задачи",
+          "label_uz": "A blok — Vaziyat masalalari",
+          "label_en": "Block A — Situational Tasks",
+          "time_limit_seconds": 600,
+          "measures": [
+            "leadership",
+            "strategic_thinking"
+          ],
+          "questions": [
+            {
+              "id": "SH-A-01",
+              "text_ru": "Два ваших лучших менеджера конфликтуют и это влияет на команду. Что делаете?",
+              "text_uz": "Ikki eng yaxshi menjeringiz mojaroga tushdi va bu jamoaga ta'sir qilmoqda. Nima qilasiz?",
+              "text_en": "Two of your best managers are in conflict and it's affecting the team. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Жду, пока сами разберутся",
+                  "text_uz": "O'zlari hal qilishini kutaman",
+                  "text_en": "Wait for them to sort it out",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Провожу индивидуальные беседы, затем общую встречу для поиска решения",
+                  "text_uz": "Individual suhbatlar o'tkazaman, keyin yechim topish uchun umumiy uchrashuv",
+                  "text_en": "Hold individual talks, then a joint meeting to find a solution",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Перевожу одного в другой отдел",
+                  "text_uz": "Birini boshqa bo'limga o'tkazaman",
+                  "text_en": "Transfer one to another department",
+                  "score": 2,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Говорю обоим: «Решайте или уволю»",
+                  "text_uz": "Ikkalasiga aytaman: «Hal qilinglar yoki ishdan bo'shataman»",
+                  "text_en": "Tell both: 'Fix it or I'll fire you'",
+                  "score": 1,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Лидер решает конфликты через диалог, а не давление или избегание."
+            },
+            {
+              "id": "SH-A-02",
+              "text_ru": "Ваш отдел стабильно выполняет план, но не растёт. Руководство требует +30% за квартал. Ваш подход?",
+              "text_uz": "Bo'limingiz rejani barqaror bajaradi, lekin o'smayapti. Rahbariyat chorakda +30% talab qilmoqda. Yondashuvingiz?",
+              "text_en": "Your department consistently meets targets but isn't growing. Management demands +30% per quarter. Your approach?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Увеличиваю план каждому менеджеру пропорционально",
+                  "text_uz": "Har bir menjerga rejani proporsional oshiraman",
+                  "text_en": "Increase each manager's target proportionally",
+                  "score": 2,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Анализирую воронку, нахожу узкие места, меняю процессы и добавляю новые каналы",
+                  "text_uz": "Voronkani tahlil qilaman, tor joylarni topaman, jarayonlarni o'zgartiraman va yangi kanallar qo'shaman",
+                  "text_en": "Analyze the funnel, find bottlenecks, change processes and add new channels",
+                  "score": 4,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Говорю руководству, что +30% нереально",
+                  "text_uz": "Rahbariyatga +30% real emas deb aytaman",
+                  "text_en": "Tell management that +30% is unrealistic",
+                  "score": 1,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Нанимаю ещё менеджеров",
+                  "text_uz": "Yana menjerlar yollaman",
+                  "text_en": "Hire more managers",
+                  "score": 2,
+                  "competency": "strategic_thinking"
+                }
+              ],
+              "explanation_ru": "Стратегическое мышление — искать рычаги роста, а не просто масштабировать текущую модель."
+            },
+            {
+              "id": "SH-A-03",
+              "text_ru": "Ваш менеджер закрыл крупную сделку, но нарушил правила компании (дал неразрешённую скидку). Как поступите?",
+              "text_uz": "Menjeringiz katta bitim yopdi, lekin kompaniya qoidalarini buzdi (ruxsat etilmagan chegirma berdi). Qanday qilasiz?",
+              "text_en": "Your manager closed a big deal but violated company rules (gave an unauthorized discount). What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Похвалю за сделку — результат важнее правил",
+                  "text_uz": "Bitim uchun maqtayman — natija qoidalardan muhimroq",
+                  "text_en": "Praise the deal — results matter more than rules",
+                  "score": 1,
+                  "competency": "leadership",
+                  "flag": "risk"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Поговорю приватно: признаю результат, но объясню риски и последствия нарушения",
+                  "text_uz": "Shaxsan gaplashaman: natijani tan olaman, lekin buzilish xatarlari va oqibatlarini tushuntiraman",
+                  "text_en": "Talk privately: acknowledge the result but explain the risks and consequences of the violation",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Объявлю выговор при всей команде",
+                  "text_uz": "Butun jamoa oldida hayfsan e'lon qilaman",
+                  "text_en": "Announce a reprimand in front of the whole team",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Промолчу в этот раз, но буду следить",
+                  "text_uz": "Bu safar jim turaman, lekin kuzatib boraman",
+                  "text_en": "Stay silent this time but keep watching",
+                  "score": 2,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Баланс между признанием результата и соблюдением правил. Публичный выговор демотивирует."
+            },
+            {
+              "id": "SH-A-04",
+              "text_ru": "Ключевой клиент хочет эксклюзивные условия, которые могут повредить отношениям с другими клиентами. Что делаете?",
+              "text_uz": "Asosiy mijoz boshqa mijozlar bilan munosabatlarga zarar yetkazishi mumkin bo'lgan eksklyuziv shartlarni xohlaydi. Nima qilasiz?",
+              "text_en": "A key client wants exclusive terms that could harm relationships with other clients. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Соглашаюсь — ключевой клиент важнее",
+                  "text_uz": "Rozi bo'laman — asosiy mijoz muhimroq",
+                  "text_en": "Agree — the key client is more important",
+                  "score": 1,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Предлагаю альтернативу: уникальный пакет услуг вместо ценовых условий",
+                  "text_uz": "Muqobil taklif qilaman: narx shartlari o'rniga noyob xizmatlar paketi",
+                  "text_en": "Offer an alternative: a unique service package instead of price conditions",
+                  "score": 4,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Отказываю — все клиенты равны",
+                  "text_uz": "Rad etaman — barcha mijozlar teng",
+                  "text_en": "Refuse — all clients are equal",
+                  "score": 2,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Эскалирую на генерального директора",
+                  "text_uz": "Bosh direktorga ko'taraman",
+                  "text_en": "Escalate to the CEO",
+                  "score": 2,
+                  "competency": "negotiation"
+                }
+              ],
+              "explanation_ru": "Переговоры на уровне руководителя — создание ценности, а не уступки."
+            },
+            {
+              "id": "SH-A-05",
+              "text_ru": "Новый менеджер в вашей команде не выполняет план второй месяц подряд. Остальная команда перевыполняет. Что делаете?",
+              "text_uz": "Jamoangizdagi yangi menjer ikkinchi oy ketma-ket rejani bajarmayapti. Qolgan jamoa rejani ortiqcha bajarmoqda. Nima qilasiz?",
+              "text_en": "A new manager on your team has missed targets for the second month in a row. The rest of the team is exceeding. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Увольняю — два месяца достаточно",
+                  "text_uz": "Ishdan bo'shataman — ikki oy yetarli",
+                  "text_en": "Fire them — two months is enough",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Анализирую причины, составляю план развития на 30 дней с чёткими метриками и менторством",
+                  "text_uz": "Sabablarni tahlil qilaman, aniq metrikalar va mentorlik bilan 30 kunlik rivojlanish rejasini tuzaman",
+                  "text_en": "Analyze the reasons, create a 30-day development plan with clear metrics and mentoring",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Перераспределяю его клиентов сильным менеджерам",
+                  "text_uz": "Uning mijozlarini kuchli menjerlarga qayta taqsimlayman",
+                  "text_en": "Redistribute their clients to stronger managers",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Назначаю опытного менеджера наставником",
+                  "text_uz": "Tajribali menjerni murabbiy qilib tayinlayman",
+                  "text_en": "Assign an experienced manager as a mentor",
+                  "score": 3,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Развитие команды — ответственность руководителя. Системный подход вместо крайних мер."
+            },
+            {
+              "id": "SH-A-06",
+              "text_ru": "Вы заметили, что лучший менеджер выгорает: результаты падают, настроение хуже. Ваши действия?",
+              "text_uz": "Eng yaxshi menjer kuyib-pishayotganini payqadingiz: natijalar tushmoqda, kayfiyat yomonlashmoqda. Harakatlaringiz?",
+              "text_en": "You notice your best manager is burning out: results declining, mood worsening. Your actions?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Жду — это временно",
+                  "text_uz": "Kutaman — bu vaqtinchalik",
+                  "text_en": "Wait — it's temporary",
+                  "score": 1,
+                  "competency": "emotional_intelligence"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Провожу личную беседу, предлагаю перераспределить нагрузку и обсуждаю карьерные цели",
+                  "text_uz": "Shaxsiy suhbat o'tkazaman, yukni qayta taqsimlashni taklif qilaman va martaba maqsadlarini muhokama qilaman",
+                  "text_en": "Have a personal conversation, offer to redistribute workload and discuss career goals",
+                  "score": 4,
+                  "competency": "emotional_intelligence"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Даю бонус за результаты",
+                  "text_uz": "Natijalar uchun bonus beraman",
+                  "text_en": "Give a bonus for results",
+                  "score": 2,
+                  "competency": "emotional_intelligence"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Ставлю ультиматум: либо работает, либо ищу замену",
+                  "text_uz": "Ultimatum qo'yaman: yo ishlaydi, yo almashtirish qidiraman",
+                  "text_en": "Give an ultimatum: either they work or I find a replacement",
+                  "score": 1,
+                  "competency": "emotional_intelligence",
+                  "flag": "risk"
+                }
+              ],
+              "explanation_ru": "EQ руководителя — видеть выгорание и реагировать проактивно."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "type": "PSS",
+          "label_ru": "Блок B — Оценка реакций",
+          "label_uz": "B blok — Reaktsiyalarni baholash",
+          "label_en": "Block B — Reaction Assessment",
+          "time_limit_seconds": 360,
+          "measures": [
+            "stress_resistance"
+          ],
+          "questions": [
+            {
+              "id": "SH-B-01",
+              "text_ru": "Как часто вы чувствуете, что ответственность за результаты всей команды давит на вас?",
+              "text_uz": "Butun jamoa natijalari uchun javobgarlik sizga qanchalik tez-tez bosim o'tkazayotganini his qilasiz?",
+              "text_en": "How often do you feel that responsibility for the entire team's results weighs on you?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Никогда — это мотивирует",
+                  "text_uz": "Hech qachon — bu motivatsiya beradi",
+                  "text_en": "Never — it motivates me",
+                  "score": 4,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Редко",
+                  "text_uz": "Kamdan-kam",
+                  "text_en": "Rarely",
+                  "score": 3,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Иногда",
+                  "text_uz": "Ba'zan",
+                  "text_en": "Sometimes",
+                  "score": 2,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Часто — это основной источник стресса",
+                  "text_uz": "Tez-tez — bu asosiy stress manbai",
+                  "text_en": "Often — it's the main source of stress",
+                  "score": 1,
+                  "competency": "stress_resistance"
+                }
+              ],
+              "explanation_ru": "Стрессоустойчивость руководителя — способность выдерживать давление ответственности."
+            },
+            {
+              "id": "SH-B-02",
+              "text_ru": "Клиент жалуется напрямую генеральному директору, минуя вас. Ваша реакция?",
+              "text_uz": "Mijoz sizni chetlab o'tib, to'g'ridan-to'g'ri bosh direktorga shikoyat qiladi. Reaktsiyangiz?",
+              "text_en": "A client complains directly to the CEO, bypassing you. Your reaction?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Обижаюсь и выясняю, кто дал контакт директора",
+                  "text_uz": "Xafa bo'laman va direktorning kontaktini kim berganini aniqlayman",
+                  "text_en": "Get offended and find out who gave the director's contact",
+                  "score": 1,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Спокойно связываюсь с клиентом, решаю проблему, информирую директора о результате",
+                  "text_uz": "Tinchgina mijoz bilan bog'lanaman, muammoni hal qilaman, direktorni natija haqida xabardor qilaman",
+                  "text_en": "Calmly contact the client, solve the problem, inform the director of the result",
+                  "score": 4,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Перекладываю на менеджера, ответственного за клиента",
+                  "text_uz": "Mijoz uchun mas'ul menjerga topshiraman",
+                  "text_en": "Pass it to the manager responsible for the client",
+                  "score": 2,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Паникую — значит, я не справляюсь",
+                  "text_uz": "Vahimaga tushaman — demak, uddalay olmayapman",
+                  "text_en": "Panic — it means I'm not coping",
+                  "score": 1,
+                  "competency": "stress_resistance"
+                }
+              ],
+              "explanation_ru": "Управление давлением — реагировать профессионально, а не эмоционально."
+            },
+            {
+              "id": "SH-B-03",
+              "text_ru": "В конце квартала одновременно: отчёт руководству, увольнение менеджера и срочная сделка. Как расставляете приоритеты?",
+              "text_uz": "Chorak oxirida bir vaqtda: rahbariyatga hisobot, menjer ishdan bo'shatish va shoshilinch bitim. Ustuvorliklarni qanday belgilaysiz?",
+              "text_en": "End of quarter: a report to management, a termination, and an urgent deal all at once. How do you prioritize?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Всё делаю сам, работаю до ночи",
+                  "text_uz": "Hammasini o'zim qilaman, kechgacha ishlayman",
+                  "text_en": "Do everything myself, work until night",
+                  "score": 1,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Делегирую отчёт заместителю, сделку — старшему менеджеру, увольнение — провожу сам",
+                  "text_uz": "Hisobotni o'rinbosarga, bitimni katta menjerga topshiraman, ishdan bo'shatishni o'zim o'tkazaman",
+                  "text_en": "Delegate the report to deputy, deal to senior manager, handle the termination myself",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Откладываю увольнение — не к спеху",
+                  "text_uz": "Ishdan bo'shatishni keyinga qo'yaman — shoshilmaslik kerak",
+                  "text_en": "Postpone the termination — it's not urgent",
+                  "score": 2,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Прошу перенести дедлайн по отчёту",
+                  "text_uz": "Hisobot muddatini ko'chirishni so'rayman",
+                  "text_en": "Ask to extend the report deadline",
+                  "score": 2,
+                  "competency": "stress_resistance"
+                }
+              ],
+              "explanation_ru": "Делегирование под давлением — ключевой навык руководителя."
+            },
+            {
+              "id": "SH-B-04",
+              "text_ru": "Ваш KPI: выручка отдела. Последний месяц — минус 15%. Руководство вызывает на ковёр. Что чувствуете?",
+              "text_uz": "KPI'ingiz: bo'lim daromadi. Oxirgi oy — minus 15%. Rahbariyat hisob so'ramoqda. Nima his qilasiz?",
+              "text_en": "Your KPI: department revenue. Last month — minus 15%. Management summons you. How do you feel?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Напряжён, но иду с готовым планом исправления",
+                  "text_uz": "Tarangman, lekin tayyor tuzatish rejasi bilan boraman",
+                  "text_en": "Tense, but go with a ready recovery plan",
+                  "score": 4,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Готовлю оправдания — рынок просел",
+                  "text_uz": "Oqlashlar tayyorlayman — bozor tushdi",
+                  "text_en": "Prepare excuses — the market dipped",
+                  "score": 1,
+                  "competency": "locus_of_control"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Сильно нервничаю, плохо сплю накануне",
+                  "text_uz": "Juda asabiylashaman, arafada yomon uxlayman",
+                  "text_en": "Very nervous, sleep poorly the night before",
+                  "score": 1,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Спокоен — бывает, отобьюсь",
+                  "text_uz": "Tinchman — bo'ladi, chiqaman",
+                  "text_en": "Calm — it happens, I'll handle it",
+                  "score": 3,
+                  "competency": "stress_resistance"
+                }
+              ],
+              "explanation_ru": "Стрессоустойчивость + проактивность: идти с решением, а не с оправданиями."
+            }
+          ]
+        },
+        {
+          "id": "C",
+          "type": "CASE",
+          "label_ru": "Блок C — Рабочие кейсы",
+          "label_uz": "C blok — Ish keyslari",
+          "label_en": "Block C — Work Cases",
+          "time_limit_seconds": 600,
+          "measures": [
+            "negotiation",
+            "result_orientation"
+          ],
+          "questions": [
+            {
+              "id": "SH-C-01",
+              "text_ru": "Ваш менеджер обещал клиенту функционал, которого нет. Клиент подписал договор. Вы узнали после подписания. Что делаете?",
+              "text_uz": "Menjeringiz mijozga yo'q funksionalni va'da qildi. Mijoz shartnoma imzoladi. Siz imzolanganidan keyin bildingiz. Nima qilasiz?",
+              "text_en": "Your manager promised a client functionality that doesn't exist. The client signed. You found out after signing. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Связываюсь с клиентом, честно объясняю ситуацию и предлагаю компенсацию",
+                  "text_uz": "Mijoz bilan bog'lanaman, vaziyatni ochiq tushuntiraman va kompensatsiya taklif qilaman",
+                  "text_en": "Contact the client, honestly explain and offer compensation",
+                  "score": 4,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Пытаюсь быстро доработать продукт под обещание",
+                  "text_uz": "Mahsulotni va'daga moslash uchun tezda ishlab chiqishga harakat qilaman",
+                  "text_en": "Try to quickly modify the product to match the promise",
+                  "score": 3,
+                  "competency": "result_orientation"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Молчу и надеюсь, что клиент не заметит",
+                  "text_uz": "Jim turaman va mijoz sezmasligiga umid qilaman",
+                  "text_en": "Stay silent and hope the client won't notice",
+                  "score": 1,
+                  "competency": "negotiation",
+                  "flag": "risk"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Увольняю менеджера за обман",
+                  "text_uz": "Menjerni aldash uchun ishdan bo'shataman",
+                  "text_en": "Fire the manager for lying",
+                  "score": 1,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Честность с клиентом важнее краткосрочной выгоды. Вариант (c) — критический риск."
+            },
+            {
+              "id": "SH-C-02",
+              "text_ru": "Вам предлагают переманить сильного продавца из компании-партнёра. Это может испортить партнёрство. Решение?",
+              "text_uz": "Sizga sherik kompaniyadan kuchli sotuvchini jalb qilish taklif etilmoqda. Bu sheriklikni buzishi mumkin. Qaroringiz?",
+              "text_en": "You're offered to poach a strong salesperson from a partner company. It could damage the partnership. Your decision?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Переманиваю — бизнес есть бизнес",
+                  "text_uz": "Jalb qilaman — biznes bu biznes",
+                  "text_en": "Poach them — business is business",
+                  "score": 1,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Обсуждаю с партнёром открыто: возможен ли переход с сохранением отношений",
+                  "text_uz": "Sherik bilan ochiq muhokama qilaman: munosabatlarni saqlab o'tish mumkinmi",
+                  "text_en": "Discuss openly with the partner: is a transition possible while preserving the relationship",
+                  "score": 4,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Отказываюсь — партнёрство важнее",
+                  "text_uz": "Rad etaman — sheriklik muhimroq",
+                  "text_en": "Refuse — the partnership is more important",
+                  "score": 3,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Тайно переманиваю и скрываю от партнёра",
+                  "text_uz": "Yashirincha jalb qilaman va sherikdan yashiraman",
+                  "text_en": "Secretly poach and hide from the partner",
+                  "score": 1,
+                  "competency": "strategic_thinking",
+                  "flag": "risk"
+                }
+              ],
+              "explanation_ru": "Стратегическое мышление — учитывать долгосрочные последствия решений."
+            },
+            {
+              "id": "SH-C-03",
+              "text_ru": "Ваш отдел перевыполнил план на 150%. Руководство поднимает план на следующий квартал на 50%. Как реагируете?",
+              "text_uz": "Bo'limingiz rejani 150% bajarildi. Rahbariyat keyingi chorak rejasini 50% ga oshirmoqda. Qanday munosabat bildirasiz?",
+              "text_en": "Your department exceeded the plan by 150%. Management raises next quarter's target by 50%. How do you react?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Соглашаюсь без обсуждения",
+                  "text_uz": "Muhokama qilmasdan rozi bo'laman",
+                  "text_en": "Agree without discussion",
+                  "score": 2,
+                  "competency": "result_orientation"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Обсуждаю с руководством: показываю анализ, какой рост реалистичен, и что нужно для его достижения",
+                  "text_uz": "Rahbariyat bilan muhokama qilaman: tahlilni ko'rsataman, qanday o'sish real va bunga erishish uchun nima kerak",
+                  "text_en": "Discuss with management: show analysis of what growth is realistic and what's needed to achieve it",
+                  "score": 4,
+                  "competency": "result_orientation"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Отказываюсь — нельзя поднимать план за хорошую работу",
+                  "text_uz": "Rad etaman — yaxshi ish uchun rejani ko'tarish mumkin emas",
+                  "text_en": "Refuse — you can't raise the plan for good work",
+                  "score": 1,
+                  "competency": "result_orientation"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Принимаю, но заранее начинаю искать оправдания",
+                  "text_uz": "Qabul qilaman, lekin oldindan oqlashlarni qidirishni boshlayman",
+                  "text_en": "Accept but start looking for excuses in advance",
+                  "score": 1,
+                  "competency": "result_orientation"
+                }
+              ],
+              "explanation_ru": "Ориентация на результат + переговоры с руководством — аргументированный подход."
+            },
+            {
+              "id": "SH-C-04",
+              "text_ru": "Менеджер просит повышение зарплаты. Бюджета нет. Но он — ключевой сотрудник. Как поступите?",
+              "text_uz": "Menjer ish haqi oshirishni so'raydi. Byudjet yo'q. Lekin u kalit xodim. Qanday qilasiz?",
+              "text_en": "A manager asks for a raise. No budget. But they're a key employee. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Говорю «нет» — бюджета нет и точка",
+                  "text_uz": "«Yo'q» deb aytaman — byudjet yo'q va tamom",
+                  "text_en": "Say 'no' — no budget, period",
+                  "score": 1,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Предлагаю альтернативу: бонусная система, обучение, гибкий график, план карьерного роста",
+                  "text_uz": "Muqobil taklif qilaman: bonus tizimi, o'qitish, moslashuvchan jadval, martaba o'sish rejasi",
+                  "text_en": "Offer alternatives: bonus system, training, flexible schedule, career growth plan",
+                  "score": 4,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Обещаю повысить через полгода",
+                  "text_uz": "Yarim yildan keyin oshirishni va'da qilaman",
+                  "text_en": "Promise a raise in six months",
+                  "score": 2,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Пусть уходит — незаменимых нет",
+                  "text_uz": "Ketsin — almashtirib bo'lmaydiganlar yo'q",
+                  "text_en": "Let them leave — no one is irreplaceable",
+                  "score": 1,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Удержание ключевых сотрудников через нематериальную мотивацию."
+            },
+            {
+              "id": "SH-C-05",
+              "text_ru": "Конкурент запустил агрессивную акцию: цены на 40% ниже ваших. Клиенты начинают уходить. Ваша стратегия?",
+              "text_uz": "Raqobatchi agressiv aksiya boshladi: narxlar siznikidan 40% past. Mijozlar ketishni boshladi. Strategiyangiz?",
+              "text_en": "A competitor launched aggressive pricing: 40% below yours. Clients are leaving. Your strategy?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Снижаю цены до их уровня",
+                  "text_uz": "Narxlarni ularning darajasiga tushiraman",
+                  "text_en": "Lower prices to their level",
+                  "score": 1,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Усиливаю ценность: дополнительный сервис, гарантии, обучение — и коммуницирую это клиентам",
+                  "text_uz": "Qiymatni kuchaytiraman: qo'shimcha xizmat, kafolatlar, o'qitish — va buni mijozlarga yetkazaman",
+                  "text_en": "Strengthen value: additional service, guarantees, training — and communicate this to clients",
+                  "score": 4,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Ничего не делаю — демпинг долго не продержится",
+                  "text_uz": "Hech narsa qilmayman — demping uzoq davom etmaydi",
+                  "text_en": "Do nothing — dumping won't last long",
+                  "score": 1,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Звоню каждому уходящему клиенту и предлагаю индивидуальную скидку",
+                  "text_uz": "Har bir ketayotgan mijozga qo'ng'iroq qilaman va individual chegirma taklif qilaman",
+                  "text_en": "Call each leaving client and offer individual discounts",
+                  "score": 2,
+                  "competency": "negotiation"
+                }
+              ],
+              "explanation_ru": "Стратегия в конкурентной среде — конкурировать ценностью, не ценой."
+            }
+          ]
+        },
+        {
+          "id": "D",
+          "type": "INTERVIEW",
+          "label_ru": "Блок D — Открытые вопросы",
+          "label_uz": "D blok — Ochiq savollar",
+          "label_en": "Block D — Open Questions",
+          "time_limit_seconds": 900,
+          "measures": [
+            "self_motivation",
+            "leadership"
+          ],
+          "questions": [
+            {
+              "id": "SH-D-01",
+              "text_ru": "Опишите ситуацию, когда вам пришлось уволить хорошего специалиста. Почему и как вы это сделали?",
+              "text_uz": "Yaxshi mutaxassisni ishdan bo'shatishga to'g'ri kelgan vaziyatni tasvirlab bering. Nima uchun va qanday qildingiz?",
+              "text_en": "Describe a situation when you had to fire a good specialist. Why and how did you do it?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: зрелость решения, эмпатия, фокус на процессе и команде",
+              "max_score": 4,
+              "competency": "leadership"
+            },
+            {
+              "id": "SH-D-02",
+              "text_ru": "Какая ваша самая большая управленческая ошибка? Что вы извлекли из неё?",
+              "text_uz": "Eng katta boshqaruv xatongiz qanday edi? Undan nima o'rgandingiz?",
+              "text_en": "What's your biggest management mistake? What did you learn from it?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: честность, рефлексия, способность учиться на ошибках",
+              "max_score": 4,
+              "competency": "self_motivation"
+            },
+            {
+              "id": "SH-D-03",
+              "text_ru": "Как вы мотивируете команду, когда рынок стагнирует и результаты падают?",
+              "text_uz": "Bozor turg'un bo'lganda va natijalar tushayotganda jamoani qanday motivatsiya qilasiz?",
+              "text_en": "How do you motivate your team when the market stagnates and results decline?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: конкретные инструменты мотивации, реалистичность, фокус на команде",
+              "max_score": 4,
+              "competency": "leadership"
+            },
+            {
+              "id": "SH-D-04",
+              "text_ru": "Опишите вашу стратегию выхода на новый рынок или сегмент. Что бы вы сделали в первые 90 дней?",
+              "text_uz": "Yangi bozor yoki segmentga chiqish strategiyangizni tasvirlab bering. Birinchi 90 kunda nima qilardingiz?",
+              "text_en": "Describe your strategy for entering a new market or segment. What would you do in the first 90 days?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Оценивается: системность мышления, конкретность плана, понимание рынка",
+              "max_score": 4,
+              "competency": "strategic_thinking"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cc_supervisor",
+      "name_ru": "Супервайзер колл-центра",
+      "name_uz": "Qo'ng'iroq markazi supervayzer",
+      "name_en": "Call Center Supervisor",
+      "industry": "call_center",
+      "level": "management",
+      "competencies": {
+        "required": [
+          "leadership",
+          "stress_resistance",
+          "monotolerance"
+        ],
+        "important": [
+          "emotional_intelligence",
+          "communication_flexibility"
+        ],
+        "optional": [
+          "locus_of_control",
+          "self_motivation"
+        ]
+      },
+      "blocks": [
+        {
+          "id": "A",
+          "type": "SJT",
+          "label_ru": "Блок A — Ситуационные задачи",
+          "label_uz": "A blok — Vaziyat masalalari",
+          "label_en": "Block A — Situational Tasks",
+          "time_limit_seconds": 600,
+          "measures": [
+            "leadership",
+            "stress_resistance"
+          ],
+          "questions": [
+            {
+              "id": "CS-A-01",
+              "text_ru": "Три оператора одновременно просят отгул в пиковый день. Как решите?",
+              "text_uz": "Uch operator bir vaqtda eng band kunda ta'til so'ramoqda. Qanday hal qilasiz?",
+              "text_en": "Three operators simultaneously request time off on a peak day. How do you decide?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Отказываю всем — работа важнее",
+                  "text_uz": "Hammaga rad etaman — ish muhimroq",
+                  "text_en": "Refuse all — work is more important",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Обсуждаю с каждым причину, нахожу компромисс: один берёт отгул, двое меняют смену",
+                  "text_uz": "Har biri bilan sababini muhokama qilaman, murosa topaman: biri ta'til oladi, ikkisi smenani almashtiradi",
+                  "text_en": "Discuss the reason with each, find compromise: one takes off, two swap shifts",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Разрешаю первому, кто попросил",
+                  "text_uz": "Birinchi so'raganiga ruxsat beraman",
+                  "text_en": "Allow the first one who asked",
+                  "score": 2,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Решаю жребием",
+                  "text_uz": "Qur'a bilan hal qilaman",
+                  "text_en": "Decide by drawing lots",
+                  "score": 1,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Справедливое решение с учётом контекста — навык управления командой."
+            },
+            {
+              "id": "CS-A-02",
+              "text_ru": "Оператор грубо ответил клиенту. Клиент написал жалобу. Ваши действия?",
+              "text_uz": "Operator mijozga qo'pol javob berdi. Mijoz shikoyat yozdi. Harakatlaringiz?",
+              "text_en": "An operator responded rudely to a client. The client filed a complaint. Your actions?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Сразу увольняю — нельзя грубить клиентам",
+                  "text_uz": "Darhol ishdan bo'shataman — mijozlarga qo'pollik qilish mumkin emas",
+                  "text_en": "Fire immediately — can't be rude to clients",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Слушаю запись, беседую с оператором, даю обратную связь, связываюсь с клиентом для извинения",
+                  "text_uz": "Yozuvni tinglayman, operator bilan gaplashaman, fikr-mulohaza beraman, uzr so'rash uchun mijoz bilan bog'lanaman",
+                  "text_en": "Listen to the recording, talk to the operator, give feedback, contact the client to apologize",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Делаю выговор при всей команде — чтобы другим неповадно было",
+                  "text_uz": "Butun jamoa oldida hayfsan beraman — boshqalarga ibrat bo'lsin",
+                  "text_en": "Reprimand in front of the whole team — as a warning to others",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Пишу ответ клиенту, но с оператором не разговариваю",
+                  "text_uz": "Mijozga javob yozaman, lekin operator bilan gaplashmayman",
+                  "text_en": "Reply to the client but don't talk to the operator",
+                  "score": 2,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Системный подход: разобраться в причине, дать обратную связь, решить проблему клиента."
+            },
+            {
+              "id": "CS-A-03",
+              "text_ru": "Среднее время обработки звонка (AHT) вашей команды растёт. Качество при этом не падает. Что делаете?",
+              "text_uz": "Jamoangizdagi qo'ng'iroqni qayta ishlashning o'rtacha vaqti (AHT) oshmoqda. Sifat tushmamoqda. Nima qilasiz?",
+              "text_en": "Your team's Average Handle Time is increasing. Quality isn't dropping. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Требую сократить AHT — это метрика эффективности",
+                  "text_uz": "AHTni qisqartirishni talab qilaman — bu samaradorlik metriki",
+                  "text_en": "Demand AHT reduction — it's an efficiency metric",
+                  "score": 2,
+                  "competency": "result_orientation"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Анализирую причины роста: новые продукты, сложные запросы, недостаток обучения — и решаю корневую проблему",
+                  "text_uz": "O'sish sabablarini tahlil qilaman: yangi mahsulotlar, murakkab so'rovlar, o'qitish yetishmasligi — va asosiy muammoni hal qilaman",
+                  "text_en": "Analyze growth causes: new products, complex requests, training gaps — and solve the root issue",
+                  "score": 4,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Игнорирую — качество важнее скорости",
+                  "text_uz": "E'tibor bermay qo'yaman — sifat tezlikdan muhimroq",
+                  "text_en": "Ignore — quality matters more than speed",
+                  "score": 2,
+                  "competency": "result_orientation"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Ввожу штрафы за длинные звонки",
+                  "text_uz": "Uzun qo'ng'iroqlar uchun jarimalar kirgitiaman",
+                  "text_en": "Introduce penalties for long calls",
+                  "score": 1,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Системный анализ вместо давления на метрику."
+            },
+            {
+              "id": "CS-A-04",
+              "text_ru": "Вы заметили, что два оператора сидят в телефонах между звонками и это влияет на скорость ответа. Как поступите?",
+              "text_uz": "Ikki operator qo'ng'iroqlar orasida telefonlarida o'tirishini va bu javob tezligiga ta'sir qilayotganini payqadingiz. Qanday qilasiz?",
+              "text_en": "You notice two operators on their phones between calls, affecting response speed. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Запрещаю телефоны на рабочем месте",
+                  "text_uz": "Ish joyida telefonlarni taqiqlayman",
+                  "text_en": "Ban phones at the workplace",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Говорю с ними лично, объясняю влияние на метрики, договариваемся о правилах",
+                  "text_uz": "Ular bilan shaxsan gaplashaman, metrikalarga ta'sirini tushuntiraman, qoidalar haqida kelishamiz",
+                  "text_en": "Talk to them personally, explain the impact on metrics, agree on rules",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Сообщаю руководству пусть они решают",
+                  "text_uz": "Rahbariyatga xabar beraman ular hal qilsin",
+                  "text_en": "Report to management let them decide",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Устанавливаю камеры наблюдения",
+                  "text_uz": "Kuzatuv kameralarini o'rnataman",
+                  "text_en": "Install surveillance cameras",
+                  "score": 1,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Лидерство через диалог, а не контроль и запреты."
+            },
+            {
+              "id": "CS-A-05",
+              "text_ru": "Новый оператор за первую неделю уже хочет уволиться. Говорит «не моё». Что делаете?",
+              "text_uz": "Yangi operator birinchi haftadayoq ishdan ketmoqchi. «Mening ishim emas» deydi. Nima qilasiz?",
+              "text_en": "A new operator wants to quit after the first week. Says 'it's not for me.' What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Отпускаю — не все подходят для КЦ",
+                  "text_uz": "Qo'yib yuboraman — hamma KM uchun mos emas",
+                  "text_en": "Let them go — not everyone is suited for a call center",
+                  "score": 2,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Беседую: выясняю что именно не нравится, назначаю наставника, даю ещё неделю с поддержкой",
+                  "text_uz": "Gaplashaman: nimasi yoqmayotganini aniqlayman, murabbiy tayinlayman, qo'llab-quvvatlash bilan yana bir hafta beraman",
+                  "text_en": "Talk: find out what specifically they don't like, assign a mentor, give another supported week",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Говорю «потерпи, привыкнешь»",
+                  "text_uz": "«Chiday, o'rganib ketasan» deyman",
+                  "text_en": "Say 'be patient, you'll get used to it'",
+                  "score": 1,
+                  "competency": "emotional_intelligence"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Предлагаю перевод в другой отдел",
+                  "text_uz": "Boshqa bo'limga o'tishni taklif qilaman",
+                  "text_en": "Offer a transfer to another department",
+                  "score": 2,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Удержание новых сотрудников — экономит ресурсы на найм и обучение."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "type": "EQ",
+          "label_ru": "Блок B — Понимание ситуаций",
+          "label_uz": "B blok — Vaziyatlarni tushunish",
+          "label_en": "Block B — Understanding Situations",
+          "time_limit_seconds": 360,
+          "measures": [
+            "emotional_intelligence",
+            "communication_flexibility"
+          ],
+          "questions": [
+            {
+              "id": "CS-B-01",
+              "text_ru": "Оператор плачет после тяжёлого звонка. Остальная команда наблюдает. Ваши действия?",
+              "text_uz": "Operator og'ir qo'ng'iroqdan keyin yig'lamoqda. Qolgan jamoa kuzatmoqda. Harakatlaringiz?",
+              "text_en": "An operator is crying after a tough call. The rest of the team is watching. Your actions?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Приглашаю в отдельную комнату, даю время, предлагаю поддержку",
+                  "text_uz": "Alohida xonaga taklif qilaman, vaqt beraman, yordam taklif qilaman",
+                  "text_en": "Invite to a private room, give time, offer support",
+                  "score": 4,
+                  "competency": "emotional_intelligence"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Говорю при всех: «Успокойся, это просто работа»",
+                  "text_uz": "Hamma oldida aytaman: «Tinchlaning, bu shunchaki ish»",
+                  "text_en": "Say in front of everyone: 'Calm down, it's just a job'",
+                  "score": 1,
+                  "competency": "emotional_intelligence"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Не обращаю внимания — все иногда плачут",
+                  "text_uz": "E'tibor bermay qo'yaman — hamma ba'zan yig'laydi",
+                  "text_en": "Don't pay attention — everyone cries sometimes",
+                  "score": 1,
+                  "competency": "emotional_intelligence"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Отправляю домой на остаток смены",
+                  "text_uz": "Smena qolgan qismiga uyga jo'nataman",
+                  "text_en": "Send home for the rest of the shift",
+                  "score": 2,
+                  "competency": "emotional_intelligence"
+                }
+              ],
+              "explanation_ru": "EQ супервайзера: защитить достоинство сотрудника + оказать поддержку."
+            },
+            {
+              "id": "CS-B-02",
+              "text_ru": "Вы слышите, что оператор в разговоре с клиентом использует неправильный скрипт. Клиент пока доволен. Вмешаетесь?",
+              "text_uz": "Operator mijoz bilan suhbatda noto'g'ri skript ishlatayotganini eshitasiz. Mijoz hozircha mamnun. Aralashasizmi?",
+              "text_en": "You hear an operator using the wrong script with a client. The client is satisfied so far. Do you intervene?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Нет — клиент доволен, зачем вмешиваться",
+                  "text_uz": "Yo'q — mijoz mamnun, nima uchun aralashish kerak",
+                  "text_en": "No — the client is happy, why intervene",
+                  "score": 1,
+                  "competency": "communication_flexibility"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Не вмешиваюсь в звонок, но после — обсуждаю с оператором и показываю правильный скрипт",
+                  "text_uz": "Qo'ng'iroqqa aralashmayman, lekin keyin — operator bilan muhokama qilaman va to'g'ri skriptni ko'rsataman",
+                  "text_en": "Don't interrupt the call, but afterward — discuss with operator and show the correct script",
+                  "score": 4,
+                  "competency": "communication_flexibility"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Вмешиваюсь прямо во время звонка",
+                  "text_uz": "Qo'ng'iroq paytidayoq aralashaman",
+                  "text_en": "Intervene during the call",
+                  "score": 1,
+                  "competency": "communication_flexibility"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Запишу инцидент и отправлю в отчёте",
+                  "text_uz": "Voqeani yozib olaman va hisobotda yuboraman",
+                  "text_en": "Record the incident and include in a report",
+                  "score": 2,
+                  "competency": "communication_flexibility"
+                }
+              ],
+              "explanation_ru": "Обратная связь после звонка — не прерывать процесс, но корректировать."
+            },
+            {
+              "id": "CS-B-03",
+              "text_ru": "Команда жалуется на новую CRM-систему: «Старая была лучше». Как реагируете?",
+              "text_uz": "Jamoa yangi CRM-tizimdan shikoyat qilmoqda: «Eskisi yaxshiroq edi». Qanday reaktsiya berasiz?",
+              "text_en": "The team complains about the new CRM: 'The old one was better.' How do you react?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Согласен, пишу руководству вернуть старую",
+                  "text_uz": "Roziman, rahbariyatga eskisini qaytarish haqida yozaman",
+                  "text_en": "Agree, write to management to bring back the old one",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Организую дополнительное обучение, собираю конкретные проблемы и передаю IT для доработки",
+                  "text_uz": "Qo'shimcha o'qitish tashkil qilaman, aniq muammolarni yig'aman va IT ga qayta ishlash uchun topshiraman",
+                  "text_en": "Organize additional training, collect specific issues and pass to IT for improvements",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Говорю: «Решение принято, привыкайте»",
+                  "text_uz": "Aytaman: «Qaror qabul qilingan, o'rganinglar»",
+                  "text_en": "Say: 'The decision is made, get used to it'",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Игнорирую — это нормальное сопротивление изменениям",
+                  "text_uz": "E'tibor bermay qo'yaman — bu o'zgarishlarga normal qarshilik",
+                  "text_en": "Ignore — it's normal resistance to change",
+                  "score": 2,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Управление изменениями: обучение + сбор обратной связи."
+            }
+          ]
+        },
+        {
+          "id": "C",
+          "type": "INTERVIEW",
+          "label_ru": "Блок C — Открытые вопросы",
+          "label_uz": "C blok — Ochiq savollar",
+          "label_en": "Block C — Open Questions",
+          "time_limit_seconds": 600,
+          "measures": [
+            "self_motivation",
+            "leadership"
+          ],
+          "questions": [
+            {
+              "id": "CS-C-01",
+              "text_ru": "Как вы справляетесь с текучкой операторов? Какие методы удержания используете?",
+              "text_uz": "Operatorlar almashinuvi bilan qanday kurashyapsiz? Qanday ushlab turish usullarini qo'llaysiz?",
+              "text_en": "How do you handle operator turnover? What retention methods do you use?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Конкретные методы, системность, понимание причин текучки",
+              "max_score": 4,
+              "competency": "leadership"
+            },
+            {
+              "id": "CS-C-02",
+              "text_ru": "Расскажите о самой сложной смене в вашей карьере. Что произошло и как вы справились?",
+              "text_uz": "Karera davomidagi eng qiyin smenangiz haqida gapirib bering. Nima bo'ldi va qanday engdingiz?",
+              "text_en": "Tell about the most difficult shift in your career. What happened and how did you cope?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Конкретность, действия под давлением, эмоциональная зрелость",
+              "max_score": 4,
+              "competency": "stress_resistance"
+            },
+            {
+              "id": "CS-C-03",
+              "text_ru": "Что вы делаете, чтобы поддерживать мотивацию команды при монотонной работе?",
+              "text_uz": "Bir xil ishda jamoa motivatsiyasini saqlab qolish uchun nima qilasiz?",
+              "text_en": "What do you do to maintain team motivation during monotonous work?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Инструменты мотивации, креативность, эмпатия",
+              "max_score": 4,
+              "competency": "self_motivation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "marketer",
+      "name_ru": "Маркетолог",
+      "name_uz": "Marketolog",
+      "name_en": "Marketer",
+      "industry": "marketing",
+      "level": "specialist",
+      "competencies": {
+        "required": [
+          "analytical_thinking",
+          "communication_flexibility",
+          "creative_thinking"
+        ],
+        "important": [
+          "attention_to_detail",
+          "strategic_thinking"
+        ],
+        "optional": [
+          "self_motivation",
+          "stress_resistance"
+        ]
+      },
+      "blocks": [
+        {
+          "id": "A",
+          "type": "SJT",
+          "label_ru": "Блок A — Ситуационные задачи",
+          "label_uz": "A blok — Vaziyat masalalari",
+          "label_en": "Block A — Situational Tasks",
+          "time_limit_seconds": 600,
+          "measures": [
+            "analytical_thinking",
+            "creative_thinking",
+            "communication_flexibility"
+          ],
+          "questions": [
+            {
+              "id": "MK-A-01",
+              "text_ru": "Рекламная кампания не приносит результатов: бюджет потрачен на 60%, лидов мало. Что делаете?",
+              "text_uz": "Reklama kampaniyasi natija bermayapti: byudjetning 60% sarflangan, lidlar kam. Nima qilasiz?",
+              "text_en": "An ad campaign isn't delivering results: 60% budget spent, few leads. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Останавливаю кампанию и перераспределяю бюджет",
+                  "text_uz": "Kampaniyani to'xtataman va byudjetni qayta taqsimlayman",
+                  "text_en": "Stop the campaign and reallocate budget",
+                  "score": 2,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Анализирую данные по сегментам, тестирую новые креативы и аудитории на оставшемся бюджете",
+                  "text_uz": "Segmentlar bo'yicha ma'lumotlarni tahlil qilaman, qolgan byudjetda yangi kreativlar va auditoriyalarni sinab ko'raman",
+                  "text_en": "Analyze data by segments, test new creatives and audiences with remaining budget",
+                  "score": 4,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Увеличиваю бюджет — может нужен масштаб",
+                  "text_uz": "Byudjetni oshiraman — ehtimol ko'lam kerak",
+                  "text_en": "Increase budget — maybe it needs scale",
+                  "score": 1,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Жду до конца кампании — рано делать выводы",
+                  "text_uz": "Kampaniya oxirigacha kutaman — xulosa qilish erta",
+                  "text_en": "Wait until the campaign ends — too early to draw conclusions",
+                  "score": 1,
+                  "competency": "analytical_thinking"
+                }
+              ],
+              "explanation_ru": "Data-driven подход: анализ → гипотеза → тест, не увеличивать бюджет вслепую."
+            },
+            {
+              "id": "MK-A-02",
+              "text_ru": "Руководитель хочет скопировать маркетинговую стратегию конкурента. Ваше мнение?",
+              "text_uz": "Rahbar raqobatchining marketing strategiyasini ko'chirishni xohlaydi. Fikringiz?",
+              "text_en": "The manager wants to copy a competitor's marketing strategy. Your opinion?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Копирую — если у них работает, у нас тоже будет",
+                  "text_uz": "Ko'chiraman — agar ularda ishlasa, bizda ham ishlaydi",
+                  "text_en": "Copy it — if it works for them, it'll work for us",
+                  "score": 1,
+                  "competency": "creative_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Изучаю что сработало у конкурента, адаптирую под наши сильные стороны и аудиторию",
+                  "text_uz": "Raqobatchida nima ishlganini o'rganaman, bizning kuchli tomonlarimiz va auditoriyamizga moslashtraman",
+                  "text_en": "Study what worked for the competitor, adapt to our strengths and audience",
+                  "score": 4,
+                  "competency": "creative_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Отказываюсь — нужна оригинальная стратегия",
+                  "text_uz": "Rad etaman — original strategiya kerak",
+                  "text_en": "Refuse — need an original strategy",
+                  "score": 2,
+                  "competency": "creative_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Делаю как просит руководитель",
+                  "text_uz": "Rahbar aytganday qilaman",
+                  "text_en": "Do as the manager says",
+                  "score": 1,
+                  "competency": "creative_thinking"
+                }
+              ],
+              "explanation_ru": "Креативный подход: учиться у конкурентов, но адаптировать, а не копировать."
+            },
+            {
+              "id": "MK-A-03",
+              "text_ru": "У вас 3 канала привлечения: Instagram, Google Ads, партнёрская сеть. Бюджет урезали на 40%. Как распределите остаток?",
+              "text_uz": "Sizda 3 jalb qilish kanali bor: Instagram, Google Ads, sheriklik tarmog'i. Byudjet 40% ga qisqartirildi. Qoldiqni qanday taqsimlaysiz?",
+              "text_en": "You have 3 acquisition channels: Instagram, Google Ads, partner network. Budget cut by 40%. How do you allocate the rest?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Урезаю все каналы пропорционально",
+                  "text_uz": "Barcha kanallarni proporsional qisqartiraman",
+                  "text_en": "Cut all channels proportionally",
+                  "score": 1,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Анализирую ROI каждого канала и вкладываю в самые эффективные",
+                  "text_uz": "Har bir kanalning ROI ni tahlil qilaman va eng samaralilariga sarflayman",
+                  "text_en": "Analyze ROI of each channel and invest in the most effective",
+                  "score": 4,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Убираю самый дорогой канал",
+                  "text_uz": "Eng qimmat kanalni olib tashlayman",
+                  "text_en": "Remove the most expensive channel",
+                  "score": 2,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Оставляю только Instagram — там больше аудитория",
+                  "text_uz": "Faqat Instagramni qoldiraman — u yerda auditoriya ko'proq",
+                  "text_en": "Keep only Instagram — larger audience there",
+                  "score": 1,
+                  "competency": "analytical_thinking"
+                }
+              ],
+              "explanation_ru": "Аналитический подход: решения на основе данных ROI, не интуиции."
+            },
+            {
+              "id": "MK-A-04",
+              "text_ru": "Вы подготовили отчёт по маркетинговым метрикам. Руководитель не понимает графики. Что делаете?",
+              "text_uz": "Marketing metrikalariga oid hisobot tayyorladingiz. Rahbar grafiklarni tushunmayapti. Nima qilasiz?",
+              "text_en": "You prepared a marketing metrics report. The manager doesn't understand the charts. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Говорю: «Это стандартные метрики, нужно разбираться»",
+                  "text_uz": "Aytaman: «Bular standart metrikalar, tushunish kerak»",
+                  "text_en": "Say: 'These are standard metrics, you need to learn them'",
+                  "score": 1,
+                  "competency": "communication_flexibility"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Переделываю отчёт: упрощаю визуализацию, добавляю выводы простым языком и конкретные рекомендации",
+                  "text_uz": "Hisobotni qayta ishlayman: vizualizatsiyani soddalashtiraman, oddiy tilda xulosalar va aniq tavsiyalar qo'shaman",
+                  "text_en": "Redo the report: simplify visualization, add conclusions in plain language and specific recommendations",
+                  "score": 4,
+                  "competency": "communication_flexibility"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Отправляю таблицу с цифрами вместо графиков",
+                  "text_uz": "Grafiklar o'rniga raqamlar jadvalini yuboraman",
+                  "text_en": "Send a table with numbers instead of charts",
+                  "score": 2,
+                  "competency": "communication_flexibility"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Провожу презентацию и объясняю каждый график",
+                  "text_uz": "Taqdimot o'tkazaman va har bir grafikni tushuntiraman",
+                  "text_en": "Give a presentation and explain each chart",
+                  "score": 3,
+                  "competency": "communication_flexibility"
+                }
+              ],
+              "explanation_ru": "Коммуникация результатов — адаптировать под аудиторию, не ожидать что все разбираются."
+            },
+            {
+              "id": "MK-A-05",
+              "text_ru": "Контент-план на месяц готов. В последний момент руководство просит добавить срочную акцию. Как поступите?",
+              "text_uz": "Oylik kontent-reja tayyor. Oxirgi daqiqada rahbariyat shoshilinch aksiya qo'shishni so'raydi. Qanday qilasiz?",
+              "text_en": "The monthly content plan is ready. Last minute, management asks to add an urgent promo. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Отказываю — план утверждён",
+                  "text_uz": "Rad etaman — reja tasdiqlangan",
+                  "text_en": "Refuse — the plan is approved",
+                  "score": 1,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Встраиваю акцию: сдвигаю менее приоритетный контент, адаптирую креативы под новую задачу",
+                  "text_uz": "Aksiyani joylashtiraman: kam ustunlikdagi kontentni surib, kreativlarni yangi vazifaga moslashtraman",
+                  "text_en": "Integrate the promo: shift lower-priority content, adapt creatives to the new task",
+                  "score": 4,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Делаю всё: и план, и акцию — работаю сверхурочно",
+                  "text_uz": "Hammasini qilaman: ham reja, ham aksiya — ortiqcha ishlayman",
+                  "text_en": "Do both: plan and promo — work overtime",
+                  "score": 2,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Делегирую акцию стажёру",
+                  "text_uz": "Aksiyani stajyorga topshiraman",
+                  "text_en": "Delegate the promo to an intern",
+                  "score": 1,
+                  "competency": "stress_resistance"
+                }
+              ],
+              "explanation_ru": "Гибкость + приоритизация: встроить в план, а не ломать его или перерабатывать."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "type": "INTERVIEW",
+          "label_ru": "Блок B — Открытые вопросы",
+          "label_uz": "B blok — Ochiq savollar",
+          "label_en": "Block B — Open Questions",
+          "time_limit_seconds": 600,
+          "measures": [
+            "self_motivation",
+            "creative_thinking"
+          ],
+          "questions": [
+            {
+              "id": "MK-B-01",
+              "text_ru": "Опишите самую успешную маркетинговую кампанию, которую вы провели. Что сделало её успешной?",
+              "text_uz": "O'tkazgan eng muvaffaqiyatli marketing kampaniyangizni tasvirlab bering. Uni nima muvaffaqiyatli qildi?",
+              "text_en": "Describe the most successful marketing campaign you've run. What made it successful?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Конкретные цифры, анализ причин успеха, системность",
+              "max_score": 4,
+              "competency": "analytical_thinking"
+            },
+            {
+              "id": "MK-B-02",
+              "text_ru": "Как вы отслеживаете тренды в маркетинге? Какой последний тренд вы внедрили?",
+              "text_uz": "Marketingdagi trendlarni qanday kuzatib borasiz? Oxirgi qaysi trendni joriy qildingiz?",
+              "text_en": "How do you track marketing trends? What's the latest trend you've implemented?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Источники информации, практическое применение, любопытство",
+              "max_score": 4,
+              "competency": "self_motivation"
+            },
+            {
+              "id": "MK-B-03",
+              "text_ru": "Предложите 3 идеи для продвижения нового продукта с нулевым бюджетом на рекламу.",
+              "text_uz": "Reklama uchun nol byudjet bilan yangi mahsulotni ilgari surish uchun 3 ta g'oya taklif qiling.",
+              "text_en": "Suggest 3 ideas for promoting a new product with zero advertising budget.",
+              "type": "open_text",
+              "scoring_criteria_ru": "Креативность, реалистичность, понимание бесплатных каналов",
+              "max_score": 4,
+              "competency": "creative_thinking"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "marketing_head",
+      "name_ru": "Руководитель отдела маркетинга",
+      "name_uz": "Marketing bo'limi boshlig'i",
+      "name_en": "Head of Marketing",
+      "industry": "marketing",
+      "level": "management",
+      "competencies": {
+        "required": [
+          "leadership",
+          "strategic_thinking",
+          "analytical_thinking"
+        ],
+        "important": [
+          "emotional_intelligence",
+          "communication_flexibility"
+        ],
+        "optional": [
+          "creative_thinking",
+          "self_motivation"
+        ]
+      },
+      "blocks": [
+        {
+          "id": "A",
+          "type": "SJT",
+          "label_ru": "Блок A — Ситуационные задачи",
+          "label_uz": "A blok — Vaziyat masalalari",
+          "label_en": "Block A — Situational Tasks",
+          "time_limit_seconds": 600,
+          "measures": [
+            "leadership",
+            "strategic_thinking"
+          ],
+          "questions": [
+            {
+              "id": "MH-A-01",
+              "text_ru": "Ваш маркетолог предлагает рискованную кампанию: может взлететь, но может и провалиться с потерей бюджета. Решение?",
+              "text_uz": "Marketologingiz xavfli kampaniya taklif qilmoqda: muvaffaqiyatli bo'lishi mumkin, lekin byudjet yo'qotish bilan muvaffaqiyatsiz ham bo'lishi mumkin. Qaroringiz?",
+              "text_en": "Your marketer proposes a risky campaign: it could soar or fail with budget loss. Your decision?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Отказываю — слишком рискованно",
+                  "text_uz": "Rad etaman — juda xavfli",
+                  "text_en": "Refuse — too risky",
+                  "score": 1,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Выделяю 20% бюджета на тест, определяю метрики успеха, масштабирую при хороших результатах",
+                  "text_uz": "Byudjetning 20% ni sinovga ajrataman, muvaffaqiyat metrikalarini aniqlayman, yaxshi natijalarda kengaytiraman",
+                  "text_en": "Allocate 20% budget for a test, define success metrics, scale if results are good",
+                  "score": 4,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Даю полный бюджет — верю в команду",
+                  "text_uz": "To'liq byudjet beraman — jamoaga ishonaman",
+                  "text_en": "Give full budget — I trust the team",
+                  "score": 1,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Прошу переделать в менее рискованный вариант",
+                  "text_uz": "Kamroq xavfli variantga qayta ishlashni so'rayman",
+                  "text_en": "Ask to rework into a less risky version",
+                  "score": 2,
+                  "competency": "strategic_thinking"
+                }
+              ],
+              "explanation_ru": "Стратегический подход к риску: тестировать перед масштабированием."
+            },
+            {
+              "id": "MH-A-02",
+              "text_ru": "Отдел продаж жалуется, что маркетинг даёт некачественные лиды. Как решаете?",
+              "text_uz": "Sotish bo'limi marketing sifatsiz lidlar berayotganidan shikoyat qilmoqda. Qanday hal qilasiz?",
+              "text_en": "Sales complains that marketing delivers low-quality leads. How do you solve this?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Защищаю свой отдел — проблема в продажах",
+                  "text_uz": "Bo'limimni himoya qilaman — muammo sotuvda",
+                  "text_en": "Defend my department — the problem is in sales",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Организую совместную встречу: определяем критерии качественного лида, настраиваем обратную связь",
+                  "text_uz": "Qo'shma uchrashuv tashkil qilaman: sifatli lid mezonlarini aniqlaymiz, teskari aloqani sozlaymiz",
+                  "text_en": "Organize a joint meeting: define quality lead criteria, set up feedback loop",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Увеличиваю количество лидов чтобы компенсировать качество",
+                  "text_uz": "Sifatni kompensatsiya qilish uchun lidlar sonini oshiraman",
+                  "text_en": "Increase lead volume to compensate for quality",
+                  "score": 1,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Перенаправляю жалобу генеральному директору",
+                  "text_uz": "Shikoyatni bosh direktorga yo'naltirilaman",
+                  "text_en": "Redirect complaint to the CEO",
+                  "score": 1,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Лидерство — решать межотдельные конфликты через диалог и метрики."
+            },
+            {
+              "id": "MH-A-03",
+              "text_ru": "CEO просит отчитаться о ROI маркетинга за год. Многие активности сложно измерить (бренд, PR). Как подходите?",
+              "text_uz": "CEO yillik marketing ROI haqida hisobot so'ramoqda. Ko'p faoliyatlarni o'lchash qiyin (brend, PR). Qanday yondashsiz?",
+              "text_en": "CEO asks for annual marketing ROI report. Many activities are hard to measure (brand, PR). How do you approach it?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Показываю только то, что можно посчитать (лиды, конверсия)",
+                  "text_uz": "Faqat hisoblash mumkin bo'lgan narsalarni ko'rsataman (lidlar, konversiya)",
+                  "text_en": "Show only what's measurable (leads, conversion)",
+                  "score": 2,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Строю многоуровневый отчёт: прямой ROI по каналам + косвенные метрики бренда + attribution model",
+                  "text_uz": "Ko'p darajali hisobot tuzaman: kanallar bo'yicha to'g'ridan-to'g'ri ROI + bilvosita brend metrikalari + attribution modeli",
+                  "text_en": "Build a multi-level report: direct ROI by channel + indirect brand metrics + attribution model",
+                  "score": 4,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Говорю, что маркетинг нельзя измерить цифрами",
+                  "text_uz": "Marketingni raqamlar bilan o'lchab bo'lmaydi deyman",
+                  "text_en": "Say marketing can't be measured by numbers",
+                  "score": 1,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Прошу финансовый отдел помочь с расчётами",
+                  "text_uz": "Moliya bo'limidan hisob-kitoblarga yordam berishni so'rayman",
+                  "text_en": "Ask finance to help with calculations",
+                  "score": 2,
+                  "competency": "analytical_thinking"
+                }
+              ],
+              "explanation_ru": "Аналитическая зрелость: уметь измерять и прямые, и косвенные эффекты."
+            },
+            {
+              "id": "MH-A-04",
+              "text_ru": "Вы видите, что один из ваших маркетологов выгорает и теряет креативность. Что предпримете?",
+              "text_uz": "Marketologlaringizdan biri kuyib-pishayotganini va ijodkorligini yo'qotayotganini ko'rmoqdasiz. Nima qilasiz?",
+              "text_en": "You see one of your marketers burning out and losing creativity. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Даю новый интересный проект для перезагрузки + обсуждаю нагрузку и карьерные цели",
+                  "text_uz": "Qayta yuklash uchun yangi qiziqarli loyiha beraman + yuklanish va martaba maqsadlarini muhokama qilaman",
+                  "text_en": "Give a new interesting project for a reset + discuss workload and career goals",
+                  "score": 4,
+                  "competency": "emotional_intelligence"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Жду — творческий кризис пройдёт",
+                  "text_uz": "Kutaman — ijodiy inqiroz o'tib ketadi",
+                  "text_en": "Wait — creative block will pass",
+                  "score": 1,
+                  "competency": "emotional_intelligence"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Увеличиваю давление — дедлайны мотивируют",
+                  "text_uz": "Bosimni oshiraman — mudatlar motivatsiya beradi",
+                  "text_en": "Increase pressure — deadlines motivate",
+                  "score": 1,
+                  "competency": "emotional_intelligence",
+                  "flag": "risk"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Отправляю на обучение/конференцию",
+                  "text_uz": "O'qishga/konferentsiyaga jo'nataman",
+                  "text_en": "Send to training/conference",
+                  "score": 3,
+                  "competency": "emotional_intelligence"
+                }
+              ],
+              "explanation_ru": "EQ руководителя: видеть выгорание и реагировать поддержкой, а не давлением."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "type": "INTERVIEW",
+          "label_ru": "Блок B — Открытые вопросы",
+          "label_uz": "B blok — Ochiq savollar",
+          "label_en": "Block B — Open Questions",
+          "time_limit_seconds": 600,
+          "measures": [
+            "self_motivation",
+            "strategic_thinking"
+          ],
+          "questions": [
+            {
+              "id": "MH-B-01",
+              "text_ru": "Как бы вы построили маркетинговую стратегию для стартапа с бюджетом $5000 в месяц?",
+              "text_uz": "Oyiga $5000 byudjet bilan startap uchun marketing strategiyasini qanday qurar edingiz?",
+              "text_en": "How would you build a marketing strategy for a startup with a $5000/month budget?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Приоритизация каналов, реалистичность, знание бюджетного маркетинга",
+              "max_score": 4,
+              "competency": "strategic_thinking"
+            },
+            {
+              "id": "MH-B-02",
+              "text_ru": "Опишите, как вы выстраиваете работу маркетингового отдела: процессы, инструменты, отчётность.",
+              "text_uz": "Marketing bo'limi ishini qanday qurishingizni tasvirlab bering: jarayonlar, vositalar, hisobot.",
+              "text_en": "Describe how you set up a marketing department: processes, tools, reporting.",
+              "type": "open_text",
+              "scoring_criteria_ru": "Системность, знание инструментов, управленческий опыт",
+              "max_score": 4,
+              "competency": "leadership"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "accountant",
+      "name_ru": "Бухгалтер",
+      "name_uz": "Buxgalter",
+      "name_en": "Accountant",
+      "industry": "finance",
+      "level": "specialist",
+      "competencies": {
+        "required": [
+          "attention_to_detail",
+          "honesty",
+          "numerical_ability"
+        ],
+        "important": [
+          "stress_resistance",
+          "locus_of_control"
+        ],
+        "optional": [
+          "self_motivation"
+        ]
+      },
+      "blocks": [
+        {
+          "id": "A",
+          "type": "SJT",
+          "label_ru": "Блок A — Ситуационные задачи",
+          "label_uz": "A blok — Vaziyat masalalari",
+          "label_en": "Block A — Situational Tasks",
+          "time_limit_seconds": 480,
+          "measures": [
+            "honesty",
+            "attention_to_detail"
+          ],
+          "questions": [
+            {
+              "id": "AC-A-01",
+              "text_ru": "Вы обнаружили ошибку в отчёте, который уже подписан директором и отправлен в налоговую. Что делаете?",
+              "text_uz": "Direktor imzolagan va soliq organiga yuborilgan hisobotda xato topdingiz. Nima qilasiz?",
+              "text_en": "You find an error in a report already signed by the director and sent to the tax office. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Молчу — уже отправлено, исправлять поздно",
+                  "text_uz": "Jim turaman — yuborilgan, tuzatish kech",
+                  "text_en": "Stay silent — already sent, too late to fix",
+                  "score": 1,
+                  "competency": "honesty",
+                  "flag": "risk"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Сообщаю директору, готовлю корректирующий отчёт и подаю исправление",
+                  "text_uz": "Direktorga xabar beraman, tuzatuvchi hisobot tayyorlayman va tuzatish topshiraman",
+                  "text_en": "Inform the director, prepare a corrective report and submit the fix",
+                  "score": 4,
+                  "competency": "honesty"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Исправлю в следующем отчёте — компенсирую",
+                  "text_uz": "Keyingi hisobotda tuzataman — kompensatsiya qilaman",
+                  "text_en": "Fix it in the next report — compensate",
+                  "score": 1,
+                  "competency": "honesty"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Спрашиваю коллег, серьёзная ли ошибка",
+                  "text_uz": "Hamkasblardan xato jiddiy yoki yo'qligini so'rayman",
+                  "text_en": "Ask colleagues if the error is serious",
+                  "score": 2,
+                  "competency": "honesty"
+                }
+              ],
+              "explanation_ru": "Честность в финансах — критична. Молчание (a) — красный флаг."
+            },
+            {
+              "id": "AC-A-02",
+              "text_ru": "Руководитель просит «оптимизировать» отчётность, чтобы снизить налоговую нагрузку. Некоторые способы сомнительны. Ваша реакция?",
+              "text_uz": "Rahbar soliq yukini kamaytirish uchun hisobotni «optimallashtirish» ni so'raydi. Ba'zi usullar shubhali. Reaktsiyangiz?",
+              "text_en": "The manager asks to 'optimize' reporting to reduce tax burden. Some methods are questionable. Your reaction?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Делаю как просит — он начальник",
+                  "text_uz": "Aytganday qilaman — u boshliq",
+                  "text_en": "Do as asked — they're the boss",
+                  "score": 1,
+                  "competency": "honesty",
+                  "flag": "risk"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Объясняю риски, предлагаю законные способы оптимизации",
+                  "text_uz": "Xatarlarni tushuntiraman, qonuniy optimallashtirish usullarini taklif qilaman",
+                  "text_en": "Explain risks, suggest legal optimization methods",
+                  "score": 4,
+                  "competency": "honesty"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Отказываюсь без объяснений",
+                  "text_uz": "Tushuntirmasdan rad etaman",
+                  "text_en": "Refuse without explanation",
+                  "score": 2,
+                  "competency": "honesty"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Соглашаюсь, но только на мелкие корректировки",
+                  "text_uz": "Rozi bo'laman, lekin faqat kichik tuzatishlarga",
+                  "text_en": "Agree, but only for minor adjustments",
+                  "score": 1,
+                  "competency": "honesty",
+                  "flag": "risk"
+                }
+              ],
+              "explanation_ru": "Этика бухгалтера: предлагать законные альтернативы, не выполнять сомнительные указания."
+            },
+            {
+              "id": "AC-A-03",
+              "text_ru": "Коллега просит вас закрыть глаза на его мелкие расходы по корпоративной карте (личные покупки). Как поступите?",
+              "text_uz": "Hamkasbingiz korporativ karta bo'yicha uning kichik xarajatlariga (shaxsiy xaridlar) ko'z yumishingizni so'raydi. Qanday qilasiz?",
+              "text_en": "A colleague asks you to overlook their small personal purchases on the corporate card. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Закрываю глаза — мелочи",
+                  "text_uz": "Ko'z yumaman — mayda-chuydalar",
+                  "text_en": "Overlook — small stuff",
+                  "score": 1,
+                  "competency": "honesty",
+                  "flag": "risk"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Объясняю, что это нарушение и прошу возместить, не эскалируя пока",
+                  "text_uz": "Bu buzilish ekanini tushuntiraman va hozircha eskalatsiya qilmasdan qoplashni so'rayman",
+                  "text_en": "Explain it's a violation and ask them to reimburse without escalating yet",
+                  "score": 4,
+                  "competency": "honesty"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Сразу докладываю руководству",
+                  "text_uz": "Darhol rahbariyatga xabar beraman",
+                  "text_en": "Immediately report to management",
+                  "score": 2,
+                  "competency": "honesty"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Делаю то же самое — если ему можно, то и мне",
+                  "text_uz": "Xuddi shunday qilaman — agar unga mumkin bo'lsa, menga ham",
+                  "text_en": "Do the same — if they can, so can I",
+                  "score": 1,
+                  "competency": "honesty",
+                  "flag": "risk"
+                }
+              ],
+              "explanation_ru": "Финансовая честность — дать шанс исправить, но не покрывать."
+            },
+            {
+              "id": "AC-A-04",
+              "text_ru": "В конце года нужно закрыть 50 актов сверки за 3 дня. Как организуете работу?",
+              "text_uz": "Yil oxirida 3 kunda 50 ta solishtirish dalolatnomasi yopish kerak. Ishni qanday tashkil qilasiz?",
+              "text_en": "End of year: close 50 reconciliation acts in 3 days. How do you organize the work?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Работаю по ночам",
+                  "text_uz": "Kechalari ishlayman",
+                  "text_en": "Work nights",
+                  "score": 1,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Приоритизирую по суммам, автоматизирую шаблонные акты, делегирую проверку помощнику",
+                  "text_uz": "Summalar bo'yicha ustuvorlik beraman, shablon dalolatnomalarni avtomatlashtiraman, tekshirishni yordamchiga topshiraman",
+                  "text_en": "Prioritize by amounts, automate template acts, delegate verification to assistant",
+                  "score": 4,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Прошу перенести дедлайн",
+                  "text_uz": "Muddatni ko'chirishni so'rayman",
+                  "text_en": "Ask to extend the deadline",
+                  "score": 2,
+                  "competency": "stress_resistance"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Делаю только крупные, мелкие — в январе",
+                  "text_uz": "Faqat kattalarini qilaman, kichiklari — yanvarda",
+                  "text_en": "Do only large ones, small ones in January",
+                  "score": 2,
+                  "competency": "stress_resistance"
+                }
+              ],
+              "explanation_ru": "Организованность под давлением: приоритизация + автоматизация + делегирование."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "type": "ATTENTION",
+          "label_ru": "Блок B — Точность восприятия",
+          "label_uz": "B blok — Idrok aniqligi",
+          "label_en": "Block B — Perception Accuracy",
+          "time_limit_seconds": 300,
+          "measures": [
+            "attention_to_detail",
+            "numerical_ability"
+          ],
+          "questions": [
+            {
+              "id": "AC-B-01",
+              "text_ru": "Счёт на оплату: 1 247 350,00 сум. В платёжке вы видите 1 274 350,00 сум. Что делаете?",
+              "text_uz": "To'lov uchun hisob: 1 247 350,00 so'm. To'lov topshiriqnomasida 1 274 350,00 so'm ko'ryapsiz. Nima qilasiz?",
+              "text_en": "Invoice: 1,247,350.00 UZS. In the payment order you see 1,274,350.00 UZS. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Отправляю — разница небольшая",
+                  "text_uz": "Yuboraman — farq kichik",
+                  "text_en": "Send — small difference",
+                  "score": 1,
+                  "competency": "attention_to_detail",
+                  "flag": "risk"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Замечаю ошибку (247 vs 274), исправляю платёжку и проверяю ещё раз",
+                  "text_uz": "Xatoni payqayman (247 vs 274), to'lov topshiriqnomasini tuzataman va yana bir bor tekshiraman",
+                  "text_en": "Notice the error (247 vs 274), correct the payment and double-check",
+                  "score": 4,
+                  "competency": "attention_to_detail"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Спрашиваю коллегу — может сумма изменилась",
+                  "text_uz": "Hamkasbdan so'rayman — ehtimol summa o'zgargan",
+                  "text_en": "Ask a colleague — maybe the amount changed",
+                  "score": 2,
+                  "competency": "attention_to_detail"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Откладываю до завтра — проверю на свежую голову",
+                  "text_uz": "Ertaga qo'yaman — yangi bosh bilan tekshiraman",
+                  "text_en": "Set aside until tomorrow — check with fresh eyes",
+                  "score": 2,
+                  "competency": "attention_to_detail"
+                }
+              ],
+              "explanation_ru": "Внимание к цифрам — одна перепутанная цифра = финансовая ошибка."
+            },
+            {
+              "id": "AC-B-02",
+              "text_ru": "ИНН контрагента: 302456789. Вы вводите в систему 302465789. Перед сохранением проверяете?",
+              "text_uz": "Kontragent INN: 302456789. Tizimga 302465789 kiritdingiz. Saqlashdan oldin tekshirasizmi?",
+              "text_en": "Counterparty TIN: 302456789. You enter 302465789 in the system. Do you check before saving?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Нет — я аккуратно набирал",
+                  "text_uz": "Yo'q — ehtiyotkorlik bilan terdim",
+                  "text_en": "No — I typed carefully",
+                  "score": 1,
+                  "competency": "attention_to_detail",
+                  "flag": "risk"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Да — всегда сверяю введённые данные с исходным документом",
+                  "text_uz": "Ha — kiritilgan ma'lumotlarni har doim asl hujjat bilan solishtiraman",
+                  "text_en": "Yes — always verify entered data against the source document",
+                  "score": 4,
+                  "competency": "attention_to_detail"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Только если сумма крупная",
+                  "text_uz": "Faqat summa katta bo'lsa",
+                  "text_en": "Only if the amount is large",
+                  "score": 1,
+                  "competency": "attention_to_detail"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Проверю после ввода всех данных",
+                  "text_uz": "Barcha ma'lumotlarni kiritgandan keyin tekshiraman",
+                  "text_en": "Check after entering all data",
+                  "score": 3,
+                  "competency": "attention_to_detail"
+                }
+              ],
+              "explanation_ru": "Систематическая проверка — обязательный навык бухгалтера."
+            }
+          ]
+        },
+        {
+          "id": "C",
+          "type": "INTERVIEW",
+          "label_ru": "Блок C — Открытые вопросы",
+          "label_uz": "C blok — Ochiq savollar",
+          "label_en": "Block C — Open Questions",
+          "time_limit_seconds": 600,
+          "measures": [
+            "self_motivation"
+          ],
+          "questions": [
+            {
+              "id": "AC-C-01",
+              "text_ru": "Как вы относитесь к изменениям в налоговом законодательстве? Как отслеживаете?",
+              "text_uz": "Soliq qonunchiligidagi o'zgarishlarga qanday munosabatdasiz? Qanday kuzatib borasiz?",
+              "text_en": "How do you feel about changes in tax legislation? How do you track them?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Проактивность, источники информации, применение",
+              "max_score": 4,
+              "competency": "self_motivation"
+            },
+            {
+              "id": "AC-C-02",
+              "text_ru": "Опишите самую сложную ситуацию с документами, которую вам пришлось разрешить.",
+              "text_uz": "Hal qilishga to'g'ri kelgan hujjatlar bilan eng murakkab vaziyatni tasvirlab bering.",
+              "text_en": "Describe the most difficult document situation you've had to resolve.",
+              "type": "open_text",
+              "scoring_criteria_ru": "Конкретность, системность решения, стрессоустойчивость",
+              "max_score": 4,
+              "competency": "stress_resistance"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "financial_analyst",
+      "name_ru": "Финансовый аналитик",
+      "name_uz": "Moliyaviy tahlilchi",
+      "name_en": "Financial Analyst",
+      "industry": "finance",
+      "level": "specialist",
+      "competencies": {
+        "required": [
+          "numerical_ability",
+          "analytical_thinking",
+          "attention_to_detail"
+        ],
+        "important": [
+          "strategic_thinking",
+          "communication_flexibility"
+        ],
+        "optional": [
+          "stress_resistance",
+          "self_motivation"
+        ]
+      },
+      "blocks": [
+        {
+          "id": "A",
+          "type": "SJT",
+          "label_ru": "Блок A — Ситуационные задачи",
+          "label_uz": "A blok — Vaziyat masalalari",
+          "label_en": "Block A — Situational Tasks",
+          "time_limit_seconds": 600,
+          "measures": [
+            "analytical_thinking",
+            "strategic_thinking"
+          ],
+          "questions": [
+            {
+              "id": "FA-A-01",
+              "text_ru": "Ваша финансовая модель показывает убыток проекта, но руководитель уверен в его успехе и просит «подправить цифры». Что делаете?",
+              "text_uz": "Moliyaviy modelingiz loyiha zararini ko'rsatmoqda, lekin rahbar muvaffaqiyatiga ishonadi va «raqamlarni tuzatish» ni so'raydi. Nima qilasiz?",
+              "text_en": "Your financial model shows a project loss, but the manager believes in its success and asks to 'adjust the numbers.' What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Корректирую — он лучше знает бизнес",
+                  "text_uz": "Tuzataman — u biznesni yaxshiroq biladi",
+                  "text_en": "Adjust — they know business better",
+                  "score": 1,
+                  "competency": "honesty",
+                  "flag": "risk"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Показываю допущения модели, предлагаю сценарный анализ: оптимистичный, базовый, пессимистичный",
+                  "text_uz": "Model taxminlarini ko'rsataman, stsenariy tahlilini taklif qilaman: optimistik, bazaviy, pessimistik",
+                  "text_en": "Show model assumptions, offer scenario analysis: optimistic, base, pessimistic",
+                  "score": 4,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Отказываюсь менять — данные есть данные",
+                  "text_uz": "O'zgartirishdan bosh tortaman — ma'lumotlar bor ma'lumotlar",
+                  "text_en": "Refuse to change — data is data",
+                  "score": 2,
+                  "competency": "honesty"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Делаю две версии: свою и «по просьбе»",
+                  "text_uz": "Ikki variant qilaman: o'zimniki va «iltimosga binoan»",
+                  "text_en": "Make two versions: mine and 'as requested'",
+                  "score": 1,
+                  "competency": "honesty"
+                }
+              ],
+              "explanation_ru": "Аналитическая честность + конструктивный подход через сценарии."
+            },
+            {
+              "id": "FA-A-02",
+              "text_ru": "Нужно подготовить презентацию для инвесторов за 2 дня. Данные из 5 источников, часть противоречит друг другу. Ваш подход?",
+              "text_uz": "2 kunda investorlar uchun taqdimot tayyorlash kerak. Ma'lumotlar 5 manbadan, qismi bir-biriga zid. Yondashuvingiz?",
+              "text_en": "Need to prepare a presentation for investors in 2 days. Data from 5 sources, some contradictory. Your approach?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Беру самый надёжный источник и игнорирую остальные",
+                  "text_uz": "Eng ishonchli manbani olaman va qolganlarini e'tiborsiz qoldiraman",
+                  "text_en": "Take the most reliable source and ignore the rest",
+                  "score": 2,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Сверяю источники, выявляю расхождения, показываю диапазон значений с пояснением методологии",
+                  "text_uz": "Manbalarni solishtiraman, nomuvofiqliklarni aniqlayman, metodologiya tushuntirishi bilan qiymatlar diapazonini ko'rsataman",
+                  "text_en": "Cross-check sources, identify discrepancies, show value ranges with methodology explanation",
+                  "score": 4,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Усредняю все данные",
+                  "text_uz": "Barcha ma'lumotlarni o'rtacha qilaman",
+                  "text_en": "Average all data",
+                  "score": 1,
+                  "competency": "analytical_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Прошу больше времени",
+                  "text_uz": "Ko'proq vaqt so'rayman",
+                  "text_en": "Ask for more time",
+                  "score": 1,
+                  "competency": "stress_resistance"
+                }
+              ],
+              "explanation_ru": "Аналитическая строгость: работа с противоречивыми данными."
+            },
+            {
+              "id": "FA-A-03",
+              "text_ru": "Вы заметили подозрительную транзакцию на крупную сумму в конце квартала. Это может быть ошибка или мошенничество. Действия?",
+              "text_uz": "Chorak oxirida katta summaga shubhali tranzaksiyani payqadingiz. Bu xato yoki firibgarlik bo'lishi mumkin. Harakatlaringiz?",
+              "text_en": "You notice a suspicious large transaction at quarter end. Could be an error or fraud. Your actions?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Игнорирую — наверное бухгалтерия знает",
+                  "text_uz": "E'tibor bermay qo'yaman — buxgalteriya bilsa kerak",
+                  "text_en": "Ignore — accounting probably knows",
+                  "score": 1,
+                  "competency": "attention_to_detail",
+                  "flag": "risk"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Проверяю документацию, ищу обоснование, при отсутствии — эскалирую финансовому директору",
+                  "text_uz": "Hujjatlarni tekshiraman, asosni qidiraman, topilmasa — moliya direktoriga ko'taraman",
+                  "text_en": "Check documentation, look for justification, if absent — escalate to CFO",
+                  "score": 4,
+                  "competency": "attention_to_detail"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Спрашиваю у коллеги неформально",
+                  "text_uz": "Hamkasbdan norasmiy so'rayman",
+                  "text_en": "Ask a colleague informally",
+                  "score": 2,
+                  "competency": "attention_to_detail"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Сразу сообщаю в службу безопасности",
+                  "text_uz": "Darhol xavfsizlik xizmatiga xabar beraman",
+                  "text_en": "Immediately report to security",
+                  "score": 2,
+                  "competency": "attention_to_detail"
+                }
+              ],
+              "explanation_ru": "Аналитическая бдительность: проверить факты перед эскалацией."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "type": "INTERVIEW",
+          "label_ru": "Блок B — Открытые вопросы",
+          "label_uz": "B blok — Ochiq savollar",
+          "label_en": "Block B — Open Questions",
+          "time_limit_seconds": 600,
+          "measures": [
+            "self_motivation",
+            "analytical_thinking"
+          ],
+          "questions": [
+            {
+              "id": "FA-B-01",
+              "text_ru": "Какие финансовые инструменты и модели вы используете чаще всего? Приведите пример.",
+              "text_uz": "Qaysi moliyaviy vositalar va modellarni ko'proq ishlatasiz? Misol keltiring.",
+              "text_en": "What financial tools and models do you use most often? Give an example.",
+              "type": "open_text",
+              "scoring_criteria_ru": "Глубина знаний, практическое применение, конкретность",
+              "max_score": 4,
+              "competency": "analytical_thinking"
+            },
+            {
+              "id": "FA-B-02",
+              "text_ru": "Расскажите о случае, когда ваш анализ помог компании принять важное решение или избежать потерь.",
+              "text_uz": "Tahlil kompaniyaga muhim qaror qabul qilishga yoki yo'qotishlardan qochishga yordam bergan holat haqida gapirib bering.",
+              "text_en": "Tell about a case when your analysis helped the company make an important decision or avoid losses.",
+              "type": "open_text",
+              "scoring_criteria_ru": "Конкретность, бизнес-влияние, аналитический подход",
+              "max_score": 4,
+              "competency": "analytical_thinking"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "account_manager",
+      "name_ru": "Account менеджер",
+      "name_uz": "Account menjer",
+      "name_en": "Account Manager",
+      "industry": "sales_service",
+      "level": "linear",
+      "competencies": {
+        "required": [
+          "service_orientation",
+          "emotional_intelligence",
+          "communication_flexibility"
+        ],
+        "important": [
+          "negotiation",
+          "stress_resistance"
+        ],
+        "optional": [
+          "self_motivation",
+          "attention_to_detail"
+        ]
+      },
+      "blocks": [
+        {
+          "id": "A",
+          "type": "SJT",
+          "label_ru": "Блок A — Ситуационные задачи",
+          "label_uz": "A blok — Vaziyat masalalari",
+          "label_en": "Block A — Situational Tasks",
+          "time_limit_seconds": 600,
+          "measures": [
+            "service_orientation",
+            "emotional_intelligence",
+            "negotiation"
+          ],
+          "questions": [
+            {
+              "id": "AM-A-01",
+              "text_ru": "Ваш ключевой клиент звонит в пятницу вечером с срочной проблемой. Рабочий день закончился. Что делаете?",
+              "text_uz": "Asosiy mijozingiz juma kuni kechqurun shoshilinch muammo bilan qo'ng'iroq qilmoqda. Ish kuni tugagan. Nima qilasiz?",
+              "text_en": "Your key client calls Friday evening with an urgent problem. The workday is over. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Не беру трубку — рабочий день окончен",
+                  "text_uz": "Trubkani olmayman — ish kuni tugagan",
+                  "text_en": "Don't answer — workday is over",
+                  "score": 1,
+                  "competency": "service_orientation"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Отвечаю, оцениваю срочность, если критично — решаю сейчас, если нет — фиксирую и обещаю решить в понедельник утром",
+                  "text_uz": "Javob beraman, shoshilinchlikni baholayman, agar muhim bo'lsa — hozir hal qilaman, agar yo'q — qayd qilaman va dushanba ertalab hal qilishga va'da beraman",
+                  "text_en": "Answer, assess urgency, if critical — solve now, if not — log and promise to resolve Monday morning",
+                  "score": 4,
+                  "competency": "service_orientation"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Перезвоню в понедельник",
+                  "text_uz": "Dushanbada qayta qo'ng'iroq qilaman",
+                  "text_en": "Call back Monday",
+                  "score": 2,
+                  "competency": "service_orientation"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Перенаправляю на горячую линию",
+                  "text_uz": "Ishonch telefoniga yo'naltirilaman",
+                  "text_en": "Redirect to hotline",
+                  "score": 2,
+                  "competency": "service_orientation"
+                }
+              ],
+              "explanation_ru": "Клиентоориентированность + баланс: оценить срочность, не игнорировать."
+            },
+            {
+              "id": "AM-A-02",
+              "text_ru": "Клиент хочет расторгнуть договор из-за одного инцидента, хотя 2 года был доволен. Как удержите?",
+              "text_uz": "Mijoz bir voqea tufayli shartnomani bekor qilmoqchi, garchi 2 yil mamnun bo'lgan. Qanday ushlab qolasiz?",
+              "text_en": "A client wants to terminate the contract over one incident, despite 2 years of satisfaction. How do you retain them?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Пусть уходит — один инцидент не повод для нас прогибаться",
+                  "text_uz": "Ketsin — bitta voqea biz uchun egilish uchun sabab emas",
+                  "text_en": "Let them go — one incident isn't reason for us to bend",
+                  "score": 1,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Провожу личную встречу, признаю ошибку, показываю конкретный план исправления и бонус за лояльность",
+                  "text_uz": "Shaxsiy uchrashuv o'tkazaman, xatoni tan olaman, aniq tuzatish rejasini va sadoqat uchun bonusni ko'rsataman",
+                  "text_en": "Hold a personal meeting, acknowledge the mistake, show a specific remediation plan and loyalty bonus",
+                  "score": 4,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Предлагаю большую скидку",
+                  "text_uz": "Katta chegirma taklif qilaman",
+                  "text_en": "Offer a large discount",
+                  "score": 2,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Пишу формальное письмо с извинениями",
+                  "text_uz": "Uzr so'rab rasmiy xat yozaman",
+                  "text_en": "Write a formal apology letter",
+                  "score": 2,
+                  "competency": "negotiation"
+                }
+              ],
+              "explanation_ru": "Удержание через признание + план действий, не через скидки."
+            },
+            {
+              "id": "AM-A-03",
+              "text_ru": "У вас 15 активных клиентов. 3 из них генерируют 70% выручки. Как распределяете время?",
+              "text_uz": "Sizda 15 ta faol mijoz bor. Ulardan 3 tasi daromadning 70% ini yaratadi. Vaqtni qanday taqsimlaysiz?",
+              "text_en": "You have 15 active clients. 3 generate 70% of revenue. How do you allocate your time?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Всем поровну — все клиенты важны",
+                  "text_uz": "Hammaga teng — barcha mijozlar muhim",
+                  "text_en": "Equally — all clients matter",
+                  "score": 1,
+                  "competency": "service_orientation"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "70% времени — топ-3 (проактивный сервис), 30% — остальным (реактивный + поиск роста)",
+                  "text_uz": "Vaqtning 70% — top-3 (proaktiv xizmat), 30% — qolganlariga (reaktiv + o'sish izlash)",
+                  "text_en": "70% time on top-3 (proactive service), 30% on others (reactive + growth search)",
+                  "score": 4,
+                  "competency": "service_orientation"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Только топ-3, остальных передаю коллегам",
+                  "text_uz": "Faqat top-3, qolganlarni hamkasblarga topshiraman",
+                  "text_en": "Only top-3, pass others to colleagues",
+                  "score": 2,
+                  "competency": "service_orientation"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Больше времени мелким — у них больше потенциал роста",
+                  "text_uz": "Kichiklarga ko'proq vaqt — ular o'sish potentsiali kattaroq",
+                  "text_en": "More time on small ones — higher growth potential",
+                  "score": 2,
+                  "competency": "service_orientation"
+                }
+              ],
+              "explanation_ru": "Приоритизация по ценности + не забывать про рост мелких клиентов."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "type": "INTERVIEW",
+          "label_ru": "Блок B — Открытые вопросы",
+          "label_uz": "B blok — Ochiq savollar",
+          "label_en": "Block B — Open Questions",
+          "time_limit_seconds": 600,
+          "measures": [
+            "self_motivation",
+            "service_orientation"
+          ],
+          "questions": [
+            {
+              "id": "AM-B-01",
+              "text_ru": "Что для вас значит «превосходный клиентский сервис»? Приведите конкретный пример.",
+              "text_uz": "Siz uchun «ajoyib mijozlarga xizmat ko'rsatish» nimani anglatadi? Aniq misol keltiring.",
+              "text_en": "What does 'excellent customer service' mean to you? Give a specific example.",
+              "type": "open_text",
+              "scoring_criteria_ru": "Глубина понимания, конкретность, ориентация на результат клиента",
+              "max_score": 4,
+              "competency": "service_orientation"
+            },
+            {
+              "id": "AM-B-02",
+              "text_ru": "Расскажите о случае, когда вы спасли отношения с клиентом, который был на грани ухода.",
+              "text_uz": "Ketish arafasida bo'lgan mijoz bilan munosabatlarni saqlab qolgan holatni aytib bering.",
+              "text_en": "Tell about a time you saved a relationship with a client who was about to leave.",
+              "type": "open_text",
+              "scoring_criteria_ru": "Конкретные действия, результат, эмпатия",
+              "max_score": 4,
+              "competency": "negotiation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "commercial_director",
+      "name_ru": "Коммерческий директор",
+      "name_uz": "Tijorat direktori",
+      "name_en": "Commercial Director",
+      "industry": "sales",
+      "level": "top",
+      "competencies": {
+        "required": [
+          "leadership",
+          "strategic_thinking",
+          "result_orientation"
+        ],
+        "important": [
+          "negotiation",
+          "emotional_intelligence"
+        ],
+        "optional": [
+          "stress_resistance",
+          "self_motivation"
+        ]
+      },
+      "blocks": [
+        {
+          "id": "A",
+          "type": "SJT",
+          "label_ru": "Блок A — Ситуационные задачи",
+          "label_uz": "A blok — Vaziyat masalalari",
+          "label_en": "Block A — Situational Tasks",
+          "time_limit_seconds": 600,
+          "measures": [
+            "leadership",
+            "strategic_thinking",
+            "negotiation"
+          ],
+          "questions": [
+            {
+              "id": "CD-A-01",
+              "text_ru": "Совет директоров требует удвоить выручку за год. Рынок растёт на 10%. Ваш план?",
+              "text_uz": "Direktorlar kengashi yil ichida daromadni ikki baravar oshirishni talab qilmoqda. Bozor 10% ga o'smoqda. Rejangiz?",
+              "text_en": "The board demands to double revenue in a year. Market growth is 10%. Your plan?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Удваиваю команду продаж",
+                  "text_uz": "Savdo jamoasini ikki baravar oshiraman",
+                  "text_en": "Double the sales team",
+                  "score": 2,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Строю стратегию: новые сегменты + апселл текущим + партнёрская сеть + оптимизация конверсии",
+                  "text_uz": "Strategiya quaman: yangi segmentlar + joriy mijozlarga qo'shimcha sotish + sheriklik tarmog'i + konversiyani optimallashtirish",
+                  "text_en": "Build a strategy: new segments + upsell to current + partner network + conversion optimization",
+                  "score": 4,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Говорю совету, что это нереалистично",
+                  "text_uz": "Kengashga bu real emas ekanini aytaman",
+                  "text_en": "Tell the board it's unrealistic",
+                  "score": 1,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Снижаю цены для увеличения объёма",
+                  "text_uz": "Hajmni oshirish uchun narxlarni tushiraman",
+                  "text_en": "Lower prices to increase volume",
+                  "score": 1,
+                  "competency": "strategic_thinking"
+                }
+              ],
+              "explanation_ru": "Стратегическое видение топ-менеджера: многовекторный рост."
+            },
+            {
+              "id": "CD-A-02",
+              "text_ru": "Два руководителя отделов (продажи и маркетинг) не могут договориться о распределении бюджета. Оба обращаются к вам. Как решаете?",
+              "text_uz": "Ikki bo'lim boshlig'i (sotish va marketing) byudjet taqsimoti haqida kelisha olmayapti. Ikkisi ham sizga murojaat qilmoqda. Qanday hal qilasiz?",
+              "text_en": "Two department heads (sales and marketing) can't agree on budget allocation. Both come to you. How do you resolve it?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Делю бюджет пополам",
+                  "text_uz": "Byudjetni teng ikkiga bo'laman",
+                  "text_en": "Split the budget in half",
+                  "score": 1,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Организую совместную сессию: привязываем бюджет к общим KPI, строим единую воронку",
+                  "text_uz": "Qo'shma sessiya tashkil qilaman: byudjetni umumiy KPI larga bog'laymiz, yagona voronka quramiz",
+                  "text_en": "Organize a joint session: tie budget to shared KPIs, build a unified funnel",
+                  "score": 4,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Отдаю приоритет продажам — они приносят деньги",
+                  "text_uz": "Sotuvga ustunlik beraman — ular pul keltiradi",
+                  "text_en": "Prioritize sales — they bring money",
+                  "score": 2,
+                  "competency": "leadership"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Пусть решают сами — это их зона ответственности",
+                  "text_uz": "O'zlari hal qilsinlar — bu ularning javobgarlik zonasi",
+                  "text_en": "Let them decide — it's their responsibility",
+                  "score": 1,
+                  "competency": "leadership"
+                }
+              ],
+              "explanation_ru": "Лидерство на уровне C-suite: объединять отделы вокруг общих целей."
+            },
+            {
+              "id": "CD-A-03",
+              "text_ru": "Крупнейший клиент (25% выручки) угрожает уйти к конкуренту если не снизите цену на 20%. Что делаете?",
+              "text_uz": "Eng yirik mijoz (daromadning 25%) narxni 20% ga tushirmasangiz raqobatchiga ketish bilan tahdid qilmoqda. Nima qilasiz?",
+              "text_en": "Your largest client (25% of revenue) threatens to leave if you don't cut price by 20%. What do you do?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Снижаю — потеря 25% выручки критична",
+                  "text_uz": "Tushiraman — daromadning 25% yo'qolishi tanqidiy",
+                  "text_en": "Lower — losing 25% of revenue is critical",
+                  "score": 1,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Встречаюсь лично, выясняю реальную причину, предлагаю ценность вместо скидки + план диверсификации клиентской базы",
+                  "text_uz": "Shaxsan uchrashaman, haqiqiy sababni aniqlayman, chegirma o'rniga qiymat taklif qilaman + mijozlar bazasini diversifikatsiya rejasi",
+                  "text_en": "Meet personally, find the real reason, offer value instead of discount + client base diversification plan",
+                  "score": 4,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Отказываю — мы не идём на шантаж",
+                  "text_uz": "Rad etaman — biz shantajga bormaymiz",
+                  "text_en": "Refuse — we don't yield to blackmail",
+                  "score": 2,
+                  "competency": "negotiation"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Предлагаю скидку 10% как компромисс",
+                  "text_uz": "Murosa sifatida 10% chegirma taklif qilaman",
+                  "text_en": "Offer 10% discount as compromise",
+                  "score": 2,
+                  "competency": "negotiation"
+                }
+              ],
+              "explanation_ru": "Переговоры C-level + стратегический риск-менеджмент."
+            },
+            {
+              "id": "CD-A-04",
+              "text_ru": "Вы видите возможность выхода на новый рынок (другая страна). Риски высокие, но потенциал большой. Как подойдёте?",
+              "text_uz": "Yangi bozorga (boshqa mamlakat) chiqish imkoniyatini ko'rib turibsiz. Xatarlar yuqori, lekin potentsial katta. Qanday yondashsiz?",
+              "text_en": "You see an opportunity to enter a new market (another country). High risks but big potential. How do you approach it?",
+              "options": [
+                {
+                  "id": "a",
+                  "text_ru": "Входим агрессивно — кто первый, тот побеждает",
+                  "text_uz": "Agressiv kiramiz — kim birinchi, u g'olib",
+                  "text_en": "Enter aggressively — first mover wins",
+                  "score": 1,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "b",
+                  "text_ru": "Исследование рынка → пилот с минимальным бюджетом → анализ unit-экономики → масштабирование при положительных результатах",
+                  "text_uz": "Bozor tadqiqoti → minimal byudjet bilan pilot → unit-iqtisodiyot tahlili → ijobiy natijalarda kengaytirish",
+                  "text_en": "Market research → pilot with minimal budget → unit economics analysis → scale with positive results",
+                  "score": 4,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "c",
+                  "text_ru": "Отказываюсь — слишком рискованно",
+                  "text_uz": "Rad etaman — juda xavfli",
+                  "text_en": "Refuse — too risky",
+                  "score": 1,
+                  "competency": "strategic_thinking"
+                },
+                {
+                  "id": "d",
+                  "text_ru": "Нанимаю местную команду и делегирую полностью",
+                  "text_uz": "Mahalliy jamoa yollayman va to'liq topshiraman",
+                  "text_en": "Hire a local team and fully delegate",
+                  "score": 2,
+                  "competency": "strategic_thinking"
+                }
+              ],
+              "explanation_ru": "Стратегический подход к экспансии: поэтапный вход с контролем рисков."
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "type": "INTERVIEW",
+          "label_ru": "Блок B — Открытые вопросы",
+          "label_uz": "B blok — Ochiq savollar",
+          "label_en": "Block B — Open Questions",
+          "time_limit_seconds": 900,
+          "measures": [
+            "self_motivation",
+            "leadership",
+            "strategic_thinking"
+          ],
+          "questions": [
+            {
+              "id": "CD-B-01",
+              "text_ru": "Как вы строите коммерческую стратегию компании? Опишите ваш подход.",
+              "text_uz": "Kompaniyaning tijorat strategiyasini qanday qurasiz? Yondashuvingizni tasvirlab bering.",
+              "text_en": "How do you build a company's commercial strategy? Describe your approach.",
+              "type": "open_text",
+              "scoring_criteria_ru": "Системность, конкретные инструменты, масштаб мышления",
+              "max_score": 4,
+              "competency": "strategic_thinking"
+            },
+            {
+              "id": "CD-B-02",
+              "text_ru": "Расскажите о самом сложном решении в вашей карьере, которое повлияло на бизнес. Что вы сделали и каков был результат?",
+              "text_uz": "Karera davomida biznesga ta'sir qilgan eng qiyin qaroringiz haqida gapirib bering. Nima qildingiz va natija qanday bo'ldi?",
+              "text_en": "Tell about the hardest decision in your career that impacted the business. What did you do and what was the result?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Масштаб решения, аналитика, лидерство, результат",
+              "max_score": 4,
+              "competency": "leadership"
+            },
+            {
+              "id": "CD-B-03",
+              "text_ru": "Как вы определяете, когда нужно кардинально менять стратегию, а когда — давать ей время?",
+              "text_uz": "Strategiyani tubdan o'zgartirish kerak bo'lganda va unga vaqt berish kerak bo'lganda qanday aniqlaysiz?",
+              "text_en": "How do you determine when to radically change strategy vs. when to give it time?",
+              "type": "open_text",
+              "scoring_criteria_ru": "Зрелость мышления, примеры, баланс терпения и решительности",
+              "max_score": 4,
+              "competency": "strategic_thinking"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
