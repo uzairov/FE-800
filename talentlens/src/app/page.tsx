@@ -46,9 +46,9 @@ const FEATURES = [
 ];
 
 const STATS = [
-  { value: '63',   label: 'вопроса в базе',        suffix: '' },
-  { value: '11',   label: 'блоков оценки',          suffix: '' },
-  { value: '16',   label: 'компетенций',            suffix: '+' },
+  { value: '132',  label: 'вопроса в базе',         suffix: '+' },
+  { value: '10',   label: 'должностей',             suffix: '' },
+  { value: '20',   label: 'компетенций',            suffix: '+' },
   { value: '7',    label: 'Red Flag индикаторов',   suffix: '' },
 ];
 
@@ -69,7 +69,7 @@ function MockDashboard() {
         <div className="w-3 h-3 rounded-full bg-yellow-500/70"/>
         <div className="w-3 h-3 rounded-full bg-green-500/70"/>
         <div className="flex-1 mx-4 h-6 rounded bg-white/5 flex items-center px-3">
-          <span className="text-white/30 text-[10px]">localhost:3000/dashboard</span>
+          <span className="text-white/30 text-[10px]">app.aptio.uz/dashboard</span>
         </div>
       </div>
 

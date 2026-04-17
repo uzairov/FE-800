@@ -219,7 +219,7 @@ function LoginPage() {
   const inputStyle = { background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' };
 
   const FEATURES = [
-    '63 вопроса, 16 компетенций',
+    '132+ вопроса, 20+ компетенций',
     'Мгновенный Radar-отчёт после теста',
     'Red Flag индикаторы поведения',
     'Русский, Узбекский, Английский',
@@ -262,7 +262,7 @@ function LoginPage() {
       </div>
 
       {/* ── Content layer (z-10) ─────────────────────────────────────────── */}
-      <div className="relative min-h-screen flex" style={{ zIndex: 10 }}>
+      <div className="relative min-h-screen flex overflow-y-auto" style={{ zIndex: 10 }}>
 
         {/* ── Left: Branding (desktop only) ──────────────────────────────── */}
         <div className="hidden lg:flex flex-col justify-between w-[520px] shrink-0 p-12"
@@ -334,6 +334,91 @@ function LoginPage() {
             </div>
           </div>
 
+          {/* HR illustration — radar chart + candidate cards */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 1.4, ease: 'easeOut' }}
+            className="relative flex items-center justify-center py-2"
+          >
+            <svg width="260" height="160" viewBox="0 0 260 160" fill="none" className="opacity-90">
+              {/* Radar chart base */}
+              <g transform="translate(70, 80)">
+                {[60, 42, 24].map((r, i) => (
+                  <polygon key={i}
+                    points={[0,1,2,3,4,5].map(k => {
+                      const a = (k * Math.PI * 2) / 6 - Math.PI / 2;
+                      return `${Math.cos(a)*r},${Math.sin(a)*r}`;
+                    }).join(' ')}
+                    fill="none"
+                    stroke="rgba(37,99,235,0.2)"
+                    strokeWidth="1"
+                  />
+                ))}
+                {[0,1,2,3,4,5].map(k => {
+                  const a = (k * Math.PI * 2) / 6 - Math.PI / 2;
+                  return <line key={k} x1="0" y1="0" x2={Math.cos(a)*60} y2={Math.sin(a)*60}
+                    stroke="rgba(37,99,235,0.15)" strokeWidth="1"/>;
+                })}
+                {/* Filled radar area */}
+                <polygon
+                  points={[
+                    [0, 52], [1, 38], [2, 48], [3, 44], [4, 56], [5, 40],
+                  ].map(([k, r]) => {
+                    const a = ((k as number) * Math.PI * 2) / 6 - Math.PI / 2;
+                    return `${Math.cos(a)*(r as number)},${Math.sin(a)*(r as number)}`;
+                  }).join(' ')}
+                  fill="rgba(37,99,235,0.18)"
+                  stroke="rgba(96,165,250,0.7)"
+                  strokeWidth="1.5"
+                />
+                {/* Dots on vertices */}
+                {[[0,52],[1,38],[2,48],[3,44],[4,56],[5,40]].map(([k, r], i) => {
+                  const a = (k * Math.PI * 2) / 6 - Math.PI / 2;
+                  return <circle key={i} cx={Math.cos(a)*r} cy={Math.sin(a)*r} r="3"
+                    fill="#60a5fa" opacity="0.9"/>;
+                })}
+                {/* Labels */}
+                {['Лидер', 'Стресс', 'IQ', 'EQ', 'Честность', 'Результат'].map((label, k) => {
+                  const a = (k * Math.PI * 2) / 6 - Math.PI / 2;
+                  const d = 74;
+                  return (
+                    <text key={k}
+                      x={Math.cos(a)*d} y={Math.sin(a)*d + 4}
+                      textAnchor="middle"
+                      fontSize="7"
+                      fill="rgba(255,255,255,0.35)"
+                      fontFamily="system-ui"
+                    >{label}</text>
+                  );
+                })}
+              </g>
+
+              {/* Candidate cards on the right */}
+              {[
+                { y: 18,  name: 'Алия Н.',   score: 87, color: '#10b981' },
+                { y: 58,  name: 'Руслан К.',  score: 74, color: '#3b82f6' },
+                { y: 98,  name: 'Диана М.',   score: 91, color: '#10b981' },
+                { y: 138, name: 'Тимур Р.',   score: 62, color: '#f59e0b' },
+              ].map(({ y, name, score, color }) => (
+                <g key={name} transform={`translate(148, ${y})`}>
+                  <rect x="0" y="0" width="100" height="30" rx="8"
+                    fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+                  <circle cx="15" cy="15" r="9"
+                    fill={`${color}22`} stroke={color} strokeWidth="1"/>
+                  <text x="15" y="19" textAnchor="middle" fontSize="8"
+                    fill={color} fontFamily="system-ui" fontWeight="600">
+                    {name.charAt(0)}
+                  </text>
+                  <text x="28" y="12" fontSize="8" fill="rgba(255,255,255,0.6)" fontFamily="system-ui">{name}</text>
+                  <text x="28" y="23" fontSize="7" fill="rgba(255,255,255,0.3)" fontFamily="system-ui">Оценка</text>
+                  <text x="86" y="19" textAnchor="end" fontSize="10"
+                    fill={color} fontFamily="system-ui" fontWeight="700">{score}</text>
+                </g>
+              ))}
+            </svg>
+          </motion.div>
+
           {/* Bottom quote */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -361,17 +446,17 @@ function LoginPage() {
         </div>
 
         {/* ── Right: Form ─────────────────────────────────────────────────── */}
-        <div className="flex-1 flex items-center justify-center p-6">
+        <div className="flex-1 flex items-start sm:items-center justify-center p-4 sm:p-6 py-10 sm:py-6">
           <div className="w-full max-w-sm">
 
             {/* Mobile logo */}
-            <div className="lg:hidden flex items-center gap-3 mb-8 justify-center">
+            <div className="lg:hidden flex items-center gap-3 mb-6 justify-center">
               <LogoIcon size={36} />
               <AnimatedLogo size="sm" />
             </div>
 
             {/* Form card */}
-            <div className="rounded-2xl p-8"
+            <div className="rounded-2xl p-6 sm:p-8"
                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
               <h1 className="text-xl font-bold text-white mb-1">
                 {mode === 'login' ? 'Добро пожаловать' : 'Создать аккаунт'}
