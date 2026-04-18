@@ -3,7 +3,7 @@ name: Deploy Aptio
 on:
   push:
     branches: [claude/talentlens-mvp-setup-OJf4X]   # поменяй на main когда смержишь
-  workflow_dispatch:                                   # ручной запуск из GitHub UI
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -23,12 +23,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: talentlens/package-lock.json
 
-      # 3. Установить зависимости (на GitHub runner — быстро)
+      # 3. Установить зависимости
       - name: Install dependencies
         working-directory: talentlens
         run: npm ci
 
-      # 4. Собрать проект (на GitHub runner — мощный, не таймаутит)
+      # 4. Собрать проект на мощном runner'е
       - name: Build
         working-directory: talentlens
         run: npm run build
@@ -39,38 +39,45 @@ jobs:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
 
-      # 5. Скопировать .next/ на сервер (сервер НЕ собирает сам)
-      - name: Copy build to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          source: 'talentlens/.next/'
-          target: ${{ secrets.SERVER_PATH }}
-          strip_components: 1   # убирает префикс talentlens/
+      # 5. Записать SSH-ключ во временный файл
+      - name: Write SSH key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
 
-      # 6. SSH: git pull + pm2 restart (БЕЗ сборки)
-      - name: Deploy on server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          command_timeout: 60s
-          script: |
-            set -e
-            cd ${{ secrets.SERVER_PATH }}
+      # 6. Обновить исходники на сервере до точного SHA этого коммита
+      #    git reset --hard гарантирует, что исходники и .next от одного коммита
+      - name: Update source code on server
+        run: |
+          ssh -i /tmp/deploy_key \
+              -o StrictHostKeyChecking=no \
+              -o ConnectTimeout=15 \
+              ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+              "set -e
+               cd ${{ secrets.SERVER_PATH }}
+               git fetch origin
+               git reset --hard ${{ github.sha }}
+               npm ci --omit=dev --prefix talentlens"
 
-            # Подтянуть новый код (без .next — он уже скопирован выше)
-            git pull origin claude/talentlens-mvp-setup-OJf4X
+      # 7. Полностью заменить .next на сервере (--delete убирает старые файлы)
+      #    Источник: talentlens/.next/ на runner'е
+      #    Цель:     $SERVER_PATH/talentlens/.next/ на сервере
+      - name: Sync .next to server
+        run: |
+          rsync -az --delete \
+            -e "ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no" \
+            talentlens/.next/ \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_PATH }}/talentlens/.next/
 
-            # Установить новые пакеты только если package.json изменился
-            # (--omit=dev пропускает devDependencies, быстрее)
-            npm ci --omit=dev --prefix talentlens
+      # 8. Перезапустить приложение
+      - name: Restart application
+        run: |
+          ssh -i /tmp/deploy_key \
+              -o StrictHostKeyChecking=no \
+              ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+              "pm2 restart aptio --update-env && pm2 save"
 
-            # Перезапустить приложение
-            pm2 restart aptio --update-env
-            pm2 save
+      # 9. Удалить SSH-ключ (всегда, даже при ошибке)
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f /tmp/deploy_key
