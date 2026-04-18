@@ -1,6 +1,5 @@
 import { NextRequest } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
-import { prisma } from '@/lib/prisma';
 import { getRequestUser } from '@/lib/api-helpers';
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -17,33 +16,11 @@ const SYSTEM_PROMPT = `Ты — AI-ассистент HR-платформы Apti
 Будь конкретным, структурируй ответы. Не выдумывай данные — только анализируй то, что пользователь предоставил.
 Максимальная длина ответа — 400 слов.`;
 
-// POST /api/ai/chat — streaming chat with plan gate
+// POST /api/ai/chat — streaming chat, available on all plans
 export async function POST(req: NextRequest) {
   try {
     const user = getRequestUser(req);
-
-    // Plan gate — check hasAiAssistant
-    if (user.role !== 'SUPERADMIN') {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const company = await (prisma.company as any).findUnique({
-        where: { id: user.companyId },
-        include: { planTier: true },
-      });
-      const plan = company?.planTier;
-      if (plan && !plan.hasAiAssistant) {
-        return new Response(
-          JSON.stringify({ error: `AI-ассистент недоступен на плане «${plan.displayName}». Обновите тариф до Starter или выше.` }),
-          { status: 403, headers: { 'Content-Type': 'application/json' } },
-        );
-      }
-      // No plan at all — also block
-      if (!plan) {
-        return new Response(
-          JSON.stringify({ error: 'AI-ассистент недоступен на бесплатном плане.' }),
-          { status: 403, headers: { 'Content-Type': 'application/json' } },
-        );
-      }
-    }
+    void user; // auth check only — no plan gate
 
     const body = await req.json() as {
       messages: Array<{ role: 'user' | 'assistant'; content: string }>;

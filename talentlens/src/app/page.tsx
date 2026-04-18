@@ -455,7 +455,8 @@ export default function LandingPage() {
                   '5 оценок в месяц',
                   '2 пользователя в команде',
                   '2 шаблона должностей',
-                  'Базовые отчёты',
+                  'Radar-отчёт + Red Flags',
+                  'AI-ассистент',
                   'Email поддержка',
                 ].map((f) => (
                   <li key={f} className="flex items-center gap-3 text-sm text-white/50">
