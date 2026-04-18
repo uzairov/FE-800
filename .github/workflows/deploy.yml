@@ -3,7 +3,7 @@ name: Deploy Aptio
 on:
   push:
     branches:
-      - claude/talentlens-mvp-setup-OJf4X
+      - master
 
 jobs:
   deploy:
