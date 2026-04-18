@@ -109,13 +109,14 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
   }
 
   const isDark = resolvedTheme === 'dark';
-  const sidebarBg = 'linear-gradient(180deg, #0c1526 0%, #0a1020 100%)';
+  const sidebarBg = 'linear-gradient(180deg, #0D1133 0%, #0A0E27 100%)';
 
   return (
     <div className="flex flex-col h-full" style={{ background: sidebarBg }}>
       {/* Logo */}
       <div className="px-5 py-5 flex items-center gap-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/40 shrink-0">
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/40 shrink-0"
+             style={{ background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)' }}>
           <span className="text-white font-bold text-sm">A</span>
         </div>
         <div className="flex-1">
@@ -142,9 +143,9 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
                 active ? 'text-white font-medium' : 'text-white/40 hover:text-white/80 hover:bg-white/5'
               }`}
               style={active ? {
-                background: 'linear-gradient(135deg, rgba(37,99,235,0.35) 0%, rgba(37,99,235,0.15) 100%)',
-                border: '1px solid rgba(37,99,235,0.3)',
-                boxShadow: '0 0 20px rgba(37,99,235,0.15)',
+                background: 'linear-gradient(135deg, rgba(59,130,246,0.3) 0%, rgba(139,92,246,0.18) 100%)',
+                border: '1px solid rgba(59,130,246,0.3)',
+                boxShadow: '0 0 20px rgba(59,130,246,0.12)',
               } : {}}
             >
               <span className={`text-base w-5 text-center transition-colors ${active ? 'text-blue-400' : 'text-white/25 group-hover:text-white/50'}`}>
@@ -282,7 +283,8 @@ function Sidebar({ children }: { children: React.ReactNode }) {
             <span className="w-3 h-0.5 bg-[var(--text)] rounded-full self-start" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center"
+                 style={{ background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)' }}>
               <span className="text-white font-bold text-xs">A</span>
             </div>
             <span className="font-bold text-[var(--text)] text-sm">Aptio</span>

@@ -78,10 +78,10 @@ function LogoIcon({ size = 40 }: { size?: number }) {
         className="relative flex items-center justify-center text-white font-bold"
         style={{
           width: size, height: size, borderRadius: size * 0.28,
-          background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+          background: 'linear-gradient(135deg, #3B82F6, #8B5CF6)',
           fontSize: size * 0.36,
         }}
-        animate={{ boxShadow: ['0 4px 24px rgba(37,99,235,0.5)', '0 4px 40px rgba(37,99,235,0.8)', '0 4px 24px rgba(37,99,235,0.5)'] }}
+        animate={{ boxShadow: ['0 4px 24px rgba(59,130,246,0.5)', '0 4px 40px rgba(139,92,246,0.7)', '0 4px 24px rgba(59,130,246,0.5)'] }}
         transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
       >
         A
@@ -215,8 +215,8 @@ function LoginPage() {
     }
   }
 
-  const inputCls   = `w-full rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500/60 transition-all`;
-  const inputStyle = { background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' };
+  const inputCls   = `w-full rounded-xl px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all`;
+  const inputStyle = { background: '#f8fafc', border: '1px solid #e2e8f0' };
 
   const FEATURES = [
     '132+ вопроса, 20+ компетенций',
@@ -226,9 +226,9 @@ function LoginPage() {
   ];
 
   return (
-    /* ── Page shell: dark gradient background ──────────────────────────── */
+    /* ── Page shell: deep navy background ──────────────────────────────── */
     <div className="min-h-screen relative"
-         style={{ background: 'linear-gradient(160deg, #060a12 0%, #0a1020 60%, #070b14 100%)' }}>
+         style={{ background: 'linear-gradient(160deg, #0A0E27 0%, #1A1F3A 55%, #0A0E27 100%)' }}>
 
       {/* ── Background animation layer (z-0) ─────────────────────────────── */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
@@ -241,8 +241,8 @@ function LoginPage() {
           style={{
             width: 700, height: 700, borderRadius: '50%',
             top: '50%', left: '26%', transform: 'translate(-50%, -50%)',
-            background: 'radial-gradient(ellipse, rgba(37,99,235,0.14) 0%, transparent 70%)',
-            filter: 'blur(50px)',
+            background: 'radial-gradient(ellipse, rgba(59,130,246,0.16) 0%, transparent 70%)',
+            filter: 'blur(60px)',
           }}
           animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
@@ -251,10 +251,10 @@ function LoginPage() {
         <motion.div
           className="absolute"
           style={{
-            width: 400, height: 400, borderRadius: '50%',
+            width: 450, height: 450, borderRadius: '50%',
             bottom: '10%', right: '5%',
-            background: 'radial-gradient(ellipse, rgba(139,92,246,0.12) 0%, transparent 70%)',
-            filter: 'blur(60px)',
+            background: 'radial-gradient(ellipse, rgba(139,92,246,0.13) 0%, transparent 70%)',
+            filter: 'blur(70px)',
           }}
           animate={{ x: [0, -20, 0], y: [0, 15, 0], opacity: [0.4, 0.8, 0.4] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
@@ -292,7 +292,7 @@ function LoginPage() {
                 animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
                 style={{
-                  backgroundImage: 'linear-gradient(90deg, #60a5fa, #a78bfa, #34d399, #60a5fa)',
+                  backgroundImage: 'linear-gradient(135deg, #60a5fa, #a78bfa, #34d399, #60a5fa)',
                   backgroundSize: '200% auto',
                   WebkitBackgroundClip: 'text',
                   backgroundClip: 'text',
@@ -455,13 +455,12 @@ function LoginPage() {
               <AnimatedLogo size="sm" />
             </div>
 
-            {/* Form card */}
-            <div className="rounded-2xl p-6 sm:p-8"
-                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <h1 className="text-xl font-bold text-white mb-1">
+            {/* Form card — white */}
+            <div className="rounded-2xl p-6 sm:p-8 bg-white shadow-2xl" style={{ boxShadow: '0 24px 60px rgba(10,14,39,0.5)' }}>
+              <h1 className="text-xl font-bold text-gray-900 mb-1">
                 {mode === 'login' ? 'Добро пожаловать' : 'Создать аккаунт'}
               </h1>
-              <p className="text-white/40 text-sm mb-6">
+              <p className="text-gray-400 text-sm mb-6">
                 {mode === 'login' ? 'Войдите в свой аккаунт' : 'Регистрация займёт минуту'}
               </p>
 
@@ -472,8 +471,8 @@ function LoginPage() {
                   href="/api/auth/google"
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center gap-3 py-2.5 px-4 rounded-xl text-sm text-white/60 hover:text-white/90 transition-all"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+                  className="w-full flex items-center gap-3 py-2.5 px-4 rounded-xl text-sm text-gray-600 hover:text-gray-900 transition-all"
+                  style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}
                 >
                   <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -488,10 +487,10 @@ function LoginPage() {
                   onClick={() => setError('Apple Sign In будет доступен в следующей версии.')}
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center gap-3 py-2.5 px-4 rounded-xl text-sm text-white/60 hover:text-white/90 transition-all"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+                  className="w-full flex items-center gap-3 py-2.5 px-4 rounded-xl text-sm text-gray-600 hover:text-gray-900 transition-all"
+                  style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}
                 >
-                  <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0 fill-white/80">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0 fill-gray-700">
                     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                   </svg>
                   Продолжить через Apple
@@ -499,9 +498,9 @@ function LoginPage() {
               </div>
 
               <div className="flex items-center gap-3 mb-5">
-                <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }}/>
-                <span className="text-white/25 text-xs">или</span>
-                <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }}/>
+                <div className="flex-1 h-px bg-gray-200"/>
+                <span className="text-gray-400 text-xs">или</span>
+                <div className="flex-1 h-px bg-gray-200"/>
               </div>
 
               {/* Info banner */}
@@ -511,8 +510,8 @@ function LoginPage() {
                     initial={{ opacity: 0, height: 0, marginBottom: 0 }}
                     animate={{ opacity: 1, height: 'auto', marginBottom: 16 }}
                     exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-                    className="rounded-xl px-4 py-3 text-sm text-blue-300 overflow-hidden"
-                    style={{ background: 'rgba(37,99,235,0.12)', border: '1px solid rgba(37,99,235,0.25)' }}
+                    className="rounded-xl px-4 py-3 text-sm text-blue-700 overflow-hidden"
+                    style={{ background: '#eff6ff', border: '1px solid #bfdbfe' }}
                   >
                     {info}
                   </motion.div>
@@ -526,8 +525,8 @@ function LoginPage() {
                     initial={{ opacity: 0, height: 0, marginBottom: 0 }}
                     animate={{ opacity: 1, height: 'auto', marginBottom: 16 }}
                     exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-                    className="rounded-xl px-4 py-3 text-sm text-red-400 overflow-hidden"
-                    style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)' }}
+                    className="rounded-xl px-4 py-3 text-sm text-red-600 overflow-hidden"
+                    style={{ background: '#fef2f2', border: '1px solid #fecaca' }}
                   >
                     {error}
                   </motion.div>
@@ -566,7 +565,7 @@ function LoginPage() {
                     className={inputCls} style={inputStyle}/>
                   {mode === 'login' && (
                     <div className="text-right mt-1.5">
-                      <Link href="/forgot-password" className="text-xs text-blue-400/70 hover:text-blue-400 transition-colors">
+                      <Link href="/forgot-password" className="text-xs text-blue-500/80 hover:text-blue-600 transition-colors">
                         Забыли пароль?
                       </Link>
                     </div>
@@ -579,8 +578,8 @@ function LoginPage() {
                       onClick={() => setRememberMe((v) => !v)}
                       className="w-4 h-4 rounded flex items-center justify-center shrink-0 transition-all"
                       style={{
-                        background: rememberMe ? '#2563eb' : 'rgba(255,255,255,0.07)',
-                        border: `1px solid ${rememberMe ? '#2563eb' : 'rgba(255,255,255,0.2)'}`,
+                        background: rememberMe ? '#3B82F6' : '#f1f5f9',
+                        border: `1px solid ${rememberMe ? '#3B82F6' : '#cbd5e1'}`,
                       }}
                     >
                       {rememberMe && (
@@ -589,17 +588,17 @@ function LoginPage() {
                         </svg>
                       )}
                     </div>
-                    <span className="text-sm text-white/40">Запомнить меня</span>
+                    <span className="text-sm text-gray-500">Запомнить меня</span>
                   </label>
                 )}
 
                 <motion.button
                   type="submit"
                   disabled={loading}
-                  whileHover={{ scale: 1.01, boxShadow: '0 6px 32px rgba(37,99,235,0.5)' }}
+                  whileHover={{ scale: 1.01, boxShadow: '0 6px 32px rgba(59,130,246,0.5)' }}
                   whileTap={{ scale: 0.97 }}
                   className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-50 mt-1"
-                  style={{ background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', boxShadow: '0 4px 24px rgba(37,99,235,0.35)' }}
+                  style={{ background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)', boxShadow: '0 4px 24px rgba(59,130,246,0.35)' }}
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -613,11 +612,11 @@ function LoginPage() {
                 </motion.button>
               </form>
 
-              <p className="mt-4 text-center text-sm text-white/30">
+              <p className="mt-4 text-center text-sm text-gray-400">
                 {mode === 'login' ? 'Нет аккаунта?' : 'Уже есть аккаунт?'}{' '}
                 <button
                   onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }}
-                  className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
+                  className="text-blue-600 hover:text-blue-500 font-medium transition-colors"
                 >
                   {mode === 'login' ? 'Зарегистрироваться' : 'Войти'}
                 </button>
