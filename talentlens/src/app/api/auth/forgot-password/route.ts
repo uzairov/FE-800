@@ -1,42 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { randomUUID } from 'crypto';
 import { prisma } from '@/lib/prisma';
-import { sendResetEmail } from '@/lib/email';
-import { ok } from '@/types';
+import { hashPassword } from '@/lib/auth';
+import { ok, err } from '@/types';
 
-const Schema = z.object({ email: z.string().email() });
+const Schema = z.object({
+  email:    z.string().email(),
+  password: z.string().min(8, 'Пароль должен быть не менее 8 символов'),
+});
 
 export async function POST(req: NextRequest) {
   try {
     const body   = await req.json();
     const parsed = Schema.safeParse(body);
     if (!parsed.success) {
-      // Always return ok to not leak whether email exists
-      return NextResponse.json(ok({ sent: true }));
+      return NextResponse.json(err('Validation error', parsed.error.flatten()), { status: 400 });
     }
 
-    const user = await prisma.user.findUnique({ where: { email: parsed.data.email } });
+    const { email, password } = parsed.data;
 
-    if (user) {
-      const token   = randomUUID();
-      const expires = new Date(Date.now() + 60 * 60 * 1000); // 1h
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (prisma.user as any).update({
-        where: { id: user.id },
-        data: { resetPasswordToken: token, resetPasswordExpires: expires },
-      });
-
-      sendResetEmail(user.email, token).catch((e) =>
-        console.error('[forgot-password] email failed:', e),
-      );
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      // Return success to not leak whether email exists
+      return NextResponse.json(ok({ reset: true }));
     }
 
-    // Always return the same response (no user enumeration)
-    return NextResponse.json(ok({ sent: true }));
+    const hashed = await hashPassword(password);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (prisma.user as any).update({
+      where: { id: user.id },
+      data: {
+        password:             hashed,
+        resetPasswordToken:   null,
+        resetPasswordExpires: null,
+      },
+    });
+
+    return NextResponse.json(ok({ reset: true }));
   } catch (error) {
     console.error('[forgot-password]', error);
-    return NextResponse.json(ok({ sent: true }));
+    return NextResponse.json(err('Internal server error'), { status: 500 });
   }
 }
