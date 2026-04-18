@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { getRequestUser } from '@/lib/api-helpers';
 import { err } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/questions/export — download all questions as JSON
 export async function GET(req: NextRequest) {
   try {

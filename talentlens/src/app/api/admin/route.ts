@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { getRequestUser } from '@/lib/api-helpers';
 import { ok, err } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/admin — platform-wide stats + company list (SUPERADMIN only)
 // Middleware already blocks non-SUPERADMIN at /api/admin/*
 export async function GET(req: NextRequest) {

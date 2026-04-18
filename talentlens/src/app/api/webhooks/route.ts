@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma';
 import { getRequestUser } from '@/lib/api-helpers';
 import { ok, err } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 const WebhookSchema = z.object({
   telegramBotToken: z.string().optional().nullable(),
   telegramChatId:   z.string().optional().nullable(),

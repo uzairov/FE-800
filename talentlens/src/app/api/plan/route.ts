@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { getRequestUser } from '@/lib/api-helpers';
 import { ok, err } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/plan — current company's plan info + usage this month
 export async function GET(req: NextRequest) {
   try {
