@@ -199,10 +199,15 @@ function LoginPage() {
       }
 
       if (mode === 'register') {
-        // Show verify-email notice, stay on login page
-        setMode('login');
-        setInfo('📬 Письмо с подтверждением отправлено на ' + form.email);
-        setForm({ email: form.email, password: '', name: '', companyName: '' });
+        if (json.data.emailSent) {
+          // Email service configured → ask user to verify
+          setMode('login');
+          setInfo('📬 Письмо с подтверждением отправлено на ' + form.email);
+          setForm({ email: form.email, password: '', name: '', companyName: '' });
+        } else {
+          // No email service → go straight to onboarding
+          router.push('/onboarding');
+        }
       } else {
         // Login: go to onboarding if not done, else dashboard
         const onboardingDone = json.data.user?.onboardingDone ?? true;

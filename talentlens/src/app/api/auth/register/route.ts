@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
 
     const passwordHash = await hashPassword(password);
 
+    const hasEmailService = !!(process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 'your_resend_key_here');
     const verifyToken   = randomUUID();
     const verifyExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
 
@@ -51,17 +52,19 @@ export async function POST(req: NextRequest) {
           name,
           role: 'ADMIN',
           companyId: company.id,
-          emailVerified:      false,
-          emailVerifyToken:   verifyToken,
-          emailVerifyExpires: verifyExpires,
+          emailVerified:      !hasEmailService, // auto-verify when no email service configured
+          emailVerifyToken:   hasEmailService ? verifyToken   : null,
+          emailVerifyExpires: hasEmailService ? verifyExpires : null,
         },
       });
     });
 
-    // Send verification email (non-blocking — don't fail registration if email fails)
-    sendVerifyEmail(email, verifyToken).catch((e) =>
-      console.error('[register] email send failed:', e),
-    );
+    // Send verification email only when email service is configured
+    if (hasEmailService) {
+      sendVerifyEmail(email, verifyToken).catch((e) =>
+        console.error('[register] email send failed:', e),
+      );
+    }
 
     // Issue tokens so they're logged in immediately (but onboarding not done yet)
     const accessToken = signAccessToken({
@@ -76,7 +79,7 @@ export async function POST(req: NextRequest) {
       ok({
         accessToken,
         refreshToken,
-        emailSent: true,
+        emailSent: hasEmailService,
         user: {
           id: user.id,
           email: user.email,

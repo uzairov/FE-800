@@ -227,6 +227,7 @@ export default function LandingPage() {
         <div className="hidden md:flex items-center gap-8 text-sm text-white/50">
           <a href="#features" className="hover:text-white transition-colors">Возможности</a>
           <a href="#how"      className="hover:text-white transition-colors">Как работает</a>
+          <a href="#pricing"  className="hover:text-white transition-colors">Тарифы</a>
           <a href="#stats"    className="hover:text-white transition-colors">Цифры</a>
         </div>
 
@@ -420,6 +421,138 @@ export default function LandingPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── Pricing ─────────────────────────────────────────────────────── */}
+      <section id="pricing" className="py-28 px-6" style={{ background: '#0A0E27', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="max-w-6xl mx-auto">
+          <motion.div {...fadeUp()} className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-4"
+                 style={{ background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.2)', color: '#93c5fd' }}>
+              ТАРИФЫ
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-4">Прозрачные цены</h2>
+            <p className="text-white/40 text-lg max-w-xl mx-auto">
+              Начните бесплатно. Масштабируйтесь по мере роста команды.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Free */}
+            <motion.div {...fadeUp(0)} className="p-8 rounded-2xl flex flex-col"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div className="mb-6">
+                <div className="text-white/50 text-sm font-semibold uppercase tracking-widest mb-2">Free</div>
+                <div className="flex items-end gap-2 mb-1">
+                  <span className="text-5xl font-black text-white">$0</span>
+                  <span className="text-white/30 text-sm mb-1.5">/месяц</span>
+                </div>
+                <p className="text-white/30 text-sm">Для знакомства с платформой</p>
+              </div>
+              <ul className="space-y-3 flex-1 mb-8">
+                {[
+                  '5 оценок в месяц',
+                  '2 пользователя в команде',
+                  '2 шаблона должностей',
+                  'Базовые отчёты',
+                  'Email поддержка',
+                ].map((f) => (
+                  <li key={f} className="flex items-center gap-3 text-sm text-white/50">
+                    <span className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 text-[10px]"
+                          style={{ background: 'rgba(255,255,255,0.08)' }}>✓</span>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/login"
+                className="w-full text-center py-3 rounded-xl text-sm font-semibold transition-all"
+                style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.7)' }}>
+                Начать бесплатно
+              </Link>
+            </motion.div>
+
+            {/* Starter — highlighted */}
+            <motion.div {...fadeUp(0.08)} className="p-8 rounded-2xl flex flex-col relative overflow-hidden"
+              style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.10) 100%)', border: '1px solid rgba(59,130,246,0.4)', boxShadow: '0 0 60px rgba(59,130,246,0.12)' }}>
+              <div className="absolute top-5 right-5">
+                <span className="text-xs font-bold px-3 py-1 rounded-full"
+                      style={{ background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)', color: '#fff' }}>
+                  Популярный
+                </span>
+              </div>
+              <div className="mb-6">
+                <div className="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-2">Starter</div>
+                <div className="flex items-end gap-2 mb-1">
+                  <span className="text-5xl font-black text-white">$49</span>
+                  <span className="text-white/30 text-sm mb-1.5">/месяц</span>
+                </div>
+                <p className="text-white/30 text-sm">Для активного найма</p>
+              </div>
+              <ul className="space-y-3 flex-1 mb-8">
+                {[
+                  '30 оценок в месяц',
+                  '10 пользователей в команде',
+                  'Все 10 шаблонов должностей',
+                  'Radar-отчёт + Red Flags',
+                  'AI-ассистент',
+                  'Webhooks (Telegram, Slack)',
+                  'Приоритетная поддержка',
+                ].map((f) => (
+                  <li key={f} className="flex items-center gap-3 text-sm text-white/60">
+                    <span className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 text-[10px] text-blue-400"
+                          style={{ background: 'rgba(59,130,246,0.2)' }}>✓</span>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/login"
+                className="w-full text-center py-3 rounded-xl text-sm font-semibold text-white transition-all hover:-translate-y-0.5"
+                style={{ background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)', boxShadow: '0 4px 20px rgba(59,130,246,0.35)' }}>
+                Начать 14 дней бесплатно
+              </Link>
+            </motion.div>
+
+            {/* Pro */}
+            <motion.div {...fadeUp(0.16)} className="p-8 rounded-2xl flex flex-col"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div className="mb-6">
+                <div className="text-violet-400 text-sm font-semibold uppercase tracking-widest mb-2">Pro</div>
+                <div className="flex items-end gap-2 mb-1">
+                  <span className="text-5xl font-black text-white">$149</span>
+                  <span className="text-white/30 text-sm mb-1.5">/месяц</span>
+                </div>
+                <p className="text-white/30 text-sm">Для крупных HR-отделов</p>
+              </div>
+              <ul className="space-y-3 flex-1 mb-8">
+                {[
+                  'Неограниченные оценки',
+                  'Неограниченная команда',
+                  'Кастомные вопросы и шаблоны',
+                  'Экспорт данных (CSV / JSON)',
+                  'API доступ',
+                  'Белый лейбл (ваш бренд)',
+                  'Персональный менеджер',
+                ].map((f) => (
+                  <li key={f} className="flex items-center gap-3 text-sm text-white/50">
+                    <span className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 text-[10px] text-violet-400"
+                          style={{ background: 'rgba(139,92,246,0.2)' }}>✓</span>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <a href="mailto:hello@aptio.uz"
+                className="w-full text-center py-3 rounded-xl text-sm font-semibold transition-all"
+                style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.35)', color: '#c4b5fd' }}>
+                Связаться с нами
+              </a>
+            </motion.div>
+          </div>
+
+          <motion.p {...fadeUp(0.2)} className="text-center text-white/25 text-sm mt-10">
+            Все тарифы включают SSL, изоляцию данных по компании и поддержку 3 языков.
+            Оплата в USD, UZS или картой Humo/Uzcard.
+          </motion.p>
         </div>
       </section>
 
