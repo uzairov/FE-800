@@ -1,21 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
-type Step = 'form' | 'done';
+function ForgotPasswordForm() {
+  const router       = useRouter();
+  const searchParams = useSearchParams();
+  const email        = searchParams.get('email') ?? '';
 
-export default function ForgotPasswordPage() {
-  const router = useRouter();
-
-  const [step,     setStep]     = useState<Step>('form');
-  const [email,    setEmail]    = useState('');
   const [password, setPassword] = useState('');
   const [confirm,  setConfirm]  = useState('');
   const [loading,  setLoading]  = useState(false);
   const [error,    setError]    = useState('');
+  const [done,     setDone]     = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -23,6 +22,11 @@ export default function ForgotPasswordPage() {
 
     if (password !== confirm) {
       setError('Пароли не совпадают');
+      return;
+    }
+
+    if (!email) {
+      setError('Вернитесь на страницу входа и введите email перед сбросом пароля.');
       return;
     }
 
@@ -40,7 +44,7 @@ export default function ForgotPasswordPage() {
         return;
       }
 
-      setStep('done');
+      setDone(true);
     } catch {
       setError('Ошибка сети. Попробуйте ещё раз.');
     } finally {
@@ -56,7 +60,6 @@ export default function ForgotPasswordPage() {
       className="min-h-screen flex items-center justify-center p-4"
       style={{ background: 'linear-gradient(160deg, #0A0E27 0%, #1A1F3A 55%, #0A0E27 100%)' }}
     >
-      {/* Ambient glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div style={{
           position: 'absolute', width: 500, height: 500, borderRadius: '50%',
@@ -72,7 +75,6 @@ export default function ForgotPasswordPage() {
         transition={{ duration: 0.5 }}
         className="relative w-full max-w-sm"
       >
-        {/* Back link */}
         <Link
           href="/login"
           className="flex items-center gap-1.5 text-white/40 hover:text-white/70 text-sm mb-4 transition-colors"
@@ -83,12 +85,10 @@ export default function ForgotPasswordPage() {
           Назад к входу
         </Link>
 
-        {/* White card */}
         <div className="rounded-2xl p-8 bg-white" style={{ boxShadow: '0 24px 60px rgba(10,14,39,0.5)' }}>
           <AnimatePresence mode="wait">
 
-            {/* ── Done state ── */}
-            {step === 'done' && (
+            {done ? (
               <motion.div
                 key="done"
                 initial={{ opacity: 0, scale: 0.96 }}
@@ -117,21 +117,11 @@ export default function ForgotPasswordPage() {
                   Войти в аккаунт
                 </motion.button>
               </motion.div>
-            )}
-
-            {/* ── Form state ── */}
-            {step === 'form' && (
-              <motion.div
-                key="form"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
+            ) : (
+              <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <h1 className="text-xl font-bold text-gray-900 mb-1">Новый пароль</h1>
-                <p className="text-gray-400 text-sm mb-6">
-                  Введите email и придумайте новый пароль.
-                </p>
+                <p className="text-gray-400 text-sm mb-6">Придумайте новый пароль для вашего аккаунта.</p>
 
-                {/* Error banner */}
                 <AnimatePresence>
                   {error && (
                     <motion.div
@@ -147,16 +137,6 @@ export default function ForgotPasswordPage() {
                 </AnimatePresence>
 
                 <form onSubmit={handleSubmit} className="space-y-3">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    required
-                    autoComplete="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                  />
                   <input
                     type="password"
                     placeholder="Новый пароль (мин. 8 символов)"
@@ -196,7 +176,7 @@ export default function ForgotPasswordPage() {
                         </svg>
                         Сохраняем...
                       </span>
-                    ) : 'Сохранить новый пароль'}
+                    ) : 'Сохранить пароль'}
                   </motion.button>
                 </form>
               </motion.div>
@@ -206,5 +186,13 @@ export default function ForgotPasswordPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function ForgotPasswordPage() {
+  return (
+    <Suspense>
+      <ForgotPasswordForm />
+    </Suspense>
   );
 }

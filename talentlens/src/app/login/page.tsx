@@ -570,7 +570,10 @@ function LoginPage() {
                     className={inputCls} style={inputStyle}/>
                   {mode === 'login' && (
                     <div className="text-right mt-1.5">
-                      <Link href="/forgot-password" className="text-xs text-blue-500/80 hover:text-blue-600 transition-colors">
+                      <Link
+                        href={`/forgot-password${form.email ? `?email=${encodeURIComponent(form.email)}` : ''}`}
+                        className="text-xs text-blue-500/80 hover:text-blue-600 transition-colors"
+                      >
                         Забыли пароль?
                       </Link>
                     </div>
