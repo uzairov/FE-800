@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { setAssessmentStatus, clearSessionProgress } from '@/lib/redis';
 import { calculateCompetencyScores, calculateRiskFlags } from '@/lib/scoring';
-import { sendWebhookNotification } from '@/app/api/webhooks/route';
+import { sendWebhookNotification } from '@/lib/webhooks';
 import { ok, err } from '@/types';
 
 const FinishSchema = z.object({

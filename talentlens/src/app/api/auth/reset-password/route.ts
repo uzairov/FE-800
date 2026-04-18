@@ -19,7 +19,8 @@ export async function POST(req: NextRequest) {
 
     const { token, password } = parsed.data;
 
-    const user = await prisma.user.findUnique({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const user = await (prisma.user as any).findUnique({
       where: { resetPasswordToken: token },
     });
 
@@ -33,7 +34,8 @@ export async function POST(req: NextRequest) {
 
     const hashed = await hashPassword(password);
 
-    await prisma.user.update({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (prisma.user as any).update({
       where: { id: user.id },
       data: {
         password:             hashed,

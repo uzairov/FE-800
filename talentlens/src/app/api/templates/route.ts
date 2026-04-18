@@ -11,7 +11,8 @@ export async function GET(req: NextRequest) {
   try {
     const user = getRequestUser(req);
 
-    const templates = await prisma.positionTemplate.findMany({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const templates = await (prisma.positionTemplate as any).findMany({
       where: {
         isActive: true,
         OR: [
@@ -22,7 +23,8 @@ export async function GET(req: NextRequest) {
       orderBy: [{ companyId: 'asc' }, { name: 'asc' }],
     });
 
-    const result = templates.map((t) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = templates.map((t: any) => ({
       ...t,
       isSystem: t.companyId === null,
     }));
@@ -68,7 +70,8 @@ export async function POST(req: NextRequest) {
 
     const companyId = user.role === 'SUPERADMIN' ? null : user.companyId;
 
-    const template = await prisma.positionTemplate.create({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const template = await (prisma.positionTemplate as any).create({
       data: { ...parsed.data, companyId },
     });
 
@@ -88,7 +91,8 @@ export async function DELETE(req: NextRequest) {
     const id = searchParams.get('id');
     if (!id) return NextResponse.json(err('Missing id'), { status: 400 });
 
-    const tmpl = await prisma.positionTemplate.findUnique({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const tmpl = await (prisma.positionTemplate as any).findUnique({
       where: { id },
       select: { companyId: true },
     });

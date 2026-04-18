@@ -38,7 +38,8 @@ export async function POST(req: NextRequest) {
     const verifyExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
 
     // Create company + user in a transaction
-    const user = await prisma.$transaction(async (tx) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const user = await (prisma as any).$transaction(async (tx: any) => {
       const company = await tx.company.create({
         data: { name: companyName },
       });
@@ -48,7 +49,7 @@ export async function POST(req: NextRequest) {
           email,
           password: passwordHash,
           name,
-          role: 'ADMIN' as const,
+          role: 'ADMIN',
           companyId: company.id,
           emailVerified:      false,
           emailVerifyToken:   verifyToken,

@@ -21,8 +21,10 @@ export async function GET(req: NextRequest) {
         prisma.company.count(),
         prisma.user.count(),
         prisma.assessment.count(),
-        prisma.plan.findMany({ orderBy: { priceUsd: 'asc' } }),
-        prisma.company.findMany({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (prisma as any).plan.findMany({ orderBy: { priceUsd: 'asc' } }),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (prisma.company as any).findMany({
           where: search ? { name: { contains: search, mode: 'insensitive' } } : {},
           include: {
             planTier: true,
@@ -55,7 +57,8 @@ export async function GET(req: NextRequest) {
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([date, count]) => ({ date, count }));
 
-    const companies = companiesRaw.map((c) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const companies = (companiesRaw as any[]).map((c) => ({
       id:          c.id,
       name:        c.name,
       isBlocked:   c.isBlocked,

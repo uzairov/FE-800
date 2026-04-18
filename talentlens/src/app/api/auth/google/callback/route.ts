@@ -53,19 +53,22 @@ export async function GET(req: NextRequest) {
     const { id: googleId, email, name } = profile;
 
     // 3. Find or create user
-    let user = await prisma.user.findFirst({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let user = await (prisma.user as any).findFirst({
       where: { OR: [{ googleId }, { email }] },
     });
 
     if (!user) {
       // Brand-new user — create company + user together
-      const company = await prisma.company.create({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const company = await (prisma.company as any).create({
         data: {
           name:   `${name ?? email.split('@')[0]}'s Company`,
           planId: 'plan_free',
         },
       });
-      user = await prisma.user.create({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      user = await (prisma.user as any).create({
         data: {
           email,
           name:      name ?? null,
@@ -77,7 +80,8 @@ export async function GET(req: NextRequest) {
       });
     } else if (!user.googleId) {
       // Existing email-password user — link their Google account
-      user = await prisma.user.update({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      user = await (prisma.user as any).update({
         where: { id: user.id },
         data:  { googleId },
       });

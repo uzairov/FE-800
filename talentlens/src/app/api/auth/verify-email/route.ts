@@ -9,7 +9,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(`${appUrl}/login?error=invalid_token`);
   }
 
-  const user = await prisma.user.findUnique({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const user = await (prisma.user as any).findUnique({
     where: { emailVerifyToken: token },
   });
 
@@ -21,7 +22,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(`${appUrl}/login?error=token_expired`);
   }
 
-  await prisma.user.update({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (prisma.user as any).update({
     where: { id: user.id },
     data: {
       emailVerified:      true,

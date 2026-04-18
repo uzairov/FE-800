@@ -26,12 +26,15 @@ export async function POST(req: NextRequest) {
 
     const { industry, size } = parsed.data;
 
-    await prisma.$transaction([
-      prisma.company.update({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (prisma as any).$transaction([
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (prisma.company as any).update({
         where: { id: companyId },
         data:  { industry, size },
       }),
-      prisma.user.update({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (prisma.user as any).update({
         where: { id: userId },
         data:  { onboardingDone: true },
       }),

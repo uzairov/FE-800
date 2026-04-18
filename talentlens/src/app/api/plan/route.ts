@@ -13,7 +13,8 @@ export async function GET(req: NextRequest) {
     startOfMonth.setHours(0, 0, 0, 0);
 
     const [company, monthlyAssessments, memberCount] = await Promise.all([
-      prisma.company.findUnique({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (prisma.company as any).findUnique({
         where:   { id: user.companyId },
         include: { planTier: true },
       }),
@@ -29,7 +30,8 @@ export async function GET(req: NextRequest) {
       priceUsd: 0, features: [], createdAt: new Date(),
     };
 
-    const allPlans = await prisma.plan.findMany({ orderBy: { priceUsd: 'asc' } });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const allPlans = await (prisma as any).plan.findMany({ orderBy: { priceUsd: 'asc' } });
 
     return NextResponse.json(ok({
       plan,

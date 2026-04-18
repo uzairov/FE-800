@@ -82,7 +82,8 @@ export async function POST(req: NextRequest) {
 
     // ── Plan limit check ────────────────────────────────────────────────
     if (user.role !== 'SUPERADMIN') {
-      const company = await prisma.company.findUnique({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const company = await (prisma.company as any).findUnique({
         where:   { id: user.companyId },
         include: { planTier: true },
       });

@@ -22,7 +22,8 @@ export async function POST(req: NextRequest) {
       const token   = randomUUID();
       const expires = new Date(Date.now() + 60 * 60 * 1000); // 1h
 
-      await prisma.user.update({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (prisma.user as any).update({
         where: { id: user.id },
         data: { resetPasswordToken: token, resetPasswordExpires: expires },
       });

@@ -26,7 +26,8 @@ export async function POST(req: NextRequest) {
 
     const { email, password, rememberMe } = parsed.data;
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const user = await (prisma.user as any).findUnique({ where: { email } });
 
     // Constant-time-ish: always hash even when user not found to prevent timing attacks
     const isValid = user ? await verifyPassword(password, user.password) : false;

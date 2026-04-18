@@ -79,7 +79,7 @@ function buildMCScoringJson(
     map.get(competency)![i] = score;
   }
 
-  return [...map.entries()].map(([competency, scores]) => ({ competency, scores }));
+  return Array.from(map.entries()).map(([competency, scores]) => ({ competency, scores }));
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────

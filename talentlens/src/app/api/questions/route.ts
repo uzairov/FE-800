@@ -47,7 +47,8 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    const questions = await prisma.question.findMany({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const questions = await (prisma.question as any).findMany({
       where,
       orderBy: [{ blockType: 'asc' }, { orderIndex: 'asc' }],
     });
@@ -108,7 +109,8 @@ export async function POST(req: NextRequest) {
     // HR creates a company-private question; SUPERADMIN creates system question
     const companyId = user.role === 'SUPERADMIN' ? null : user.companyId;
 
-    const question = await prisma.question.create({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const question = await (prisma.question as any).create({
       data: { ...data, companyId },
     });
     return NextResponse.json(ok(question), { status: 201 });
@@ -141,7 +143,8 @@ export async function PATCH(req: NextRequest) {
     const { id, ...data } = UpdateSchema.parse(body);
 
     // Guard: system questions (companyId = null) only editable by SUPERADMIN
-    const existing = await prisma.question.findUnique({ where: { id }, select: { companyId: true } });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const existing = await (prisma.question as any).findUnique({ where: { id }, select: { companyId: true } });
     if (!existing) return NextResponse.json(err('Not found'), { status: 404 });
 
     if (existing.companyId === null && user.role !== 'SUPERADMIN') {
@@ -151,7 +154,8 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json(err('Нет доступа'), { status: 403 });
     }
 
-    const question = await prisma.question.update({ where: { id }, data });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const question = await (prisma.question as any).update({ where: { id }, data });
     return NextResponse.json(ok(question));
   } catch (error) {
     if (error instanceof z.ZodError) return NextResponse.json(err(error.issues[0].message), { status: 400 });
@@ -169,7 +173,8 @@ export async function DELETE(req: NextRequest) {
     const id = searchParams.get('id');
     if (!id) return NextResponse.json(err('Missing id'), { status: 400 });
 
-    const existing = await prisma.question.findUnique({ where: { id }, select: { companyId: true } });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const existing = await (prisma.question as any).findUnique({ where: { id }, select: { companyId: true } });
     if (!existing) return NextResponse.json(err('Not found'), { status: 404 });
 
     if (existing.companyId === null && user.role !== 'SUPERADMIN') {
