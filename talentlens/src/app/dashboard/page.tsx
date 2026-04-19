@@ -7,10 +7,16 @@ import { apiFetch } from '@/lib/client-fetch';
 import { useLang } from '@/context/LangContext';
 
 const STATUS_COLOR: Record<string, string> = {
-  CREATED:     'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400',
-  LINK_OPENED: 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400',
-  IN_PROGRESS: 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
-  COMPLETED:   'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+  CREATED:     'text-slate-400 border border-slate-500/20',
+  LINK_OPENED: 'text-blue-400 border border-blue-500/20',
+  IN_PROGRESS: 'text-amber-400 border border-amber-500/20',
+  COMPLETED:   'text-emerald-400 border border-emerald-500/20',
+};
+const STATUS_BG: Record<string, string> = {
+  CREATED:     'rgba(100,116,139,0.1)',
+  LINK_OPENED: 'rgba(59,130,246,0.1)',
+  IN_PROGRESS: 'rgba(245,158,11,0.1)',
+  COMPLETED:   'rgba(16,185,129,0.1)',
 };
 
 // ── Live pulse dot ────────────────────────────────────────────────────────────
@@ -149,15 +155,16 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between mb-8 relative">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <h1 className="text-2xl font-bold text-[var(--text)]">{t('page_overview')}</h1>
+            <h1 className="text-2xl font-bold text-white">{t('page_overview')}</h1>
             <PulseDot color="#3b82f6" />
           </div>
-          <p className="text-sm text-[var(--text-muted)]">{t('welcome')}</p>
+          <p className="text-sm" style={{ color: '#94a3b8' }}>{t('welcome')}</p>
         </div>
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
           <Link
             href="/dashboard/assessments/new"
-            className="relative overflow-hidden bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors shadow-lg shadow-blue-600/20 flex items-center gap-2"
+            className="relative overflow-hidden text-white text-sm font-semibold px-5 py-2.5 rounded-xl flex items-center gap-2"
+            style={{ background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)', boxShadow: '0 4px 20px rgba(59,130,246,0.35)' }}
           >
             <span className="text-base leading-none">+</span>
             {t('btn_new').replace('+ ', '')}
@@ -189,7 +196,7 @@ export default function DashboardPage() {
             />
 
             <div className="flex items-start justify-between mb-3 relative">
-              <p className="text-sm font-medium text-[var(--text-muted)]">{label}</p>
+              <p className="text-sm font-medium text-white/40">{label}</p>
               <motion.div
                 className="w-9 h-9 rounded-xl flex items-center justify-center"
                 style={{ background: meta.iconBg, color: meta.iconColor }}
@@ -219,11 +226,12 @@ export default function DashboardPage() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="bg-[var(--surface)] border border-[var(--border-strong)] rounded-2xl overflow-hidden"
+        className="rounded-2xl overflow-hidden"
+        style={{ background: '#141830', border: '1px solid rgba(255,255,255,0.08)' }}
       >
-        <div className="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between">
-          <h2 className="font-semibold text-[var(--text)]">{t('recent')}</h2>
-          <Link href="/dashboard/assessments" className="text-sm text-blue-600 hover:underline">{t('all')}</Link>
+        <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <h2 className="font-semibold text-white">{t('recent')}</h2>
+          <Link href="/dashboard/assessments" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">{t('all')}</Link>
         </div>
 
         {loading ? (
@@ -241,7 +249,7 @@ export default function DashboardPage() {
               transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
               className="text-5xl mb-4"
             >🚀</motion.div>
-            <p className="text-sm text-[var(--text-muted)] mb-3">{t('no_assessments')}</p>
+            <p className="text-sm text-white/40 mb-3">{t('no_assessments')}</p>
             <Link href="/dashboard/assessments/new" className="text-sm text-blue-600 hover:underline font-medium">
               {t('create_first')}
             </Link>
@@ -249,9 +257,9 @@ export default function DashboardPage() {
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[var(--border)] bg-[var(--bg)]">
+              <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)' }}>
                 {[t('col_candidate'), t('col_position'), t('col_status'), t('col_date'), ''].map((h, i) => (
-                  <th key={i} className="text-left px-6 py-3 text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">{h}</th>
+                  <th key={i} className="text-left px-6 py-3 text-xs font-medium uppercase tracking-wide" style={{ color: '#64748b' }}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -263,23 +271,29 @@ export default function DashboardPage() {
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4 + i * 0.06, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="border-b border-[var(--border)] hover:bg-[var(--bg)] transition-colors group"
+                    className="transition-colors group"
+                    style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                   >
-                    <td className="px-6 py-3 font-medium text-[var(--text)]">{a.candidateName}</td>
-                    <td className="px-6 py-3 text-[var(--text-muted)]">{a.position.name}</td>
+                    <td className="px-6 py-3 font-medium text-white/80">{a.candidateName}</td>
+                    <td className="px-6 py-3 text-white/40">{a.position.name}</td>
                     <td className="px-6 py-3">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${STATUS_COLOR[a.status]}`}>
+                      <span
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${STATUS_COLOR[a.status]}`}
+                        style={{ background: STATUS_BG[a.status] }}
+                      >
                         {a.status === 'IN_PROGRESS' && <PulseDot color="#f59e0b" />}
                         {t(`status_${a.status}` as Parameters<typeof t>[0])}
                       </span>
                     </td>
-                    <td className="px-6 py-3 text-[var(--text-faint)] text-xs tabular-nums">
+                    <td className="px-6 py-3 text-xs tabular-nums" style={{ color: '#4a5568' }}>
                       {new Date(a.createdAt).toLocaleDateString('ru-RU')}
                     </td>
                     <td className="px-6 py-3 text-right">
                       <Link
                         href={`/dashboard/assessments/${a.id}`}
-                        className="text-xs text-blue-600 hover:underline font-medium opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="text-xs text-blue-400 hover:text-blue-300 font-medium opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         {t('open')}
                       </Link>

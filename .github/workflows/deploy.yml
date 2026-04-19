@@ -40,9 +40,12 @@ jobs:
           NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
 
       # 5. Записать SSH-ключ во временный файл
+      #    Используем env-блок чтобы сохранить переносы строк в ключе
       - name: Write SSH key
+        env:
+          DEPLOY_KEY: ${{ secrets.SERVER_SSH_KEY }}
         run: |
-          echo "${{ secrets.SERVER_SSH_KEY }}" > /tmp/deploy_key
+          printf '%s\n' "$DEPLOY_KEY" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
 
       # 6. Обновить исходники на сервере до точного SHA этого коммита

@@ -243,7 +243,7 @@ function Sidebar({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[var(--bg)]">
+    <div className="flex min-h-screen" style={{ background: '#0A0E27' }}>
 
       {/* ── Desktop sidebar (always visible) ──────────────────────────── */}
       <aside className="hidden lg:flex w-60 flex-col shrink-0 sticky top-0 h-screen overflow-hidden"
@@ -273,9 +273,9 @@ function Sidebar({ children }: { children: React.ReactNode }) {
       </AnimatePresence>
 
       {/* ── Main ──────────────────────────────────────────────────────── */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0" style={{ background: '#0A0E27' }}>
         {/* Mobile header */}
-        <header className="lg:hidden flex items-center gap-3 px-4 py-3 sticky top-0 z-30 bg-[var(--bg)] border-b border-[var(--border)]">
+        <header className="lg:hidden flex items-center gap-3 px-4 py-3 sticky top-0 z-30 border-b" style={{ background: '#0A0E27', borderColor: 'rgba(255,255,255,0.06)' }}>
           <button onClick={() => setMobileOpen(true)}
             className="w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-xl hover:bg-[var(--surface)] transition-colors">
             <span className="w-5 h-0.5 bg-[var(--text)] rounded-full" />
