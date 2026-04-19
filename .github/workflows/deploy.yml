@@ -46,7 +46,6 @@ jobs:
           chmod 600 /tmp/deploy_key
 
       # 6. Обновить исходники на сервере до точного SHA этого коммита
-      #    git reset --hard гарантирует, что исходники и .next от одного коммита
       - name: Update source code on server
         run: |
           ssh -i /tmp/deploy_key \
@@ -56,12 +55,9 @@ jobs:
               "set -e
                cd ${{ secrets.SERVER_PATH }}
                git fetch origin
-               git reset --hard ${{ github.sha }}
-               npm ci --omit=dev --prefix talentlens"
+               git reset --hard ${{ github.sha }}"
 
-      # 7. Полностью заменить .next на сервере (--delete убирает старые файлы)
-      #    Источник: talentlens/.next/ на runner'е
-      #    Цель:     $SERVER_PATH/talentlens/.next/ на сервере
+      # 7. Скопировать .next/ на сервер (--delete только внутри .next/, node_modules не трогает)
       - name: Sync .next to server
         run: |
           rsync -az --delete \
@@ -69,13 +65,17 @@ jobs:
             talentlens/.next/ \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_PATH }}/talentlens/.next/
 
-      # 8. Перезапустить приложение
-      - name: Restart application
+      # 8. Установить prod-зависимости и перезапустить приложение
+      - name: Deploy on server
         run: |
           ssh -i /tmp/deploy_key \
               -o StrictHostKeyChecking=no \
               ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
-              "pm2 restart aptio --update-env && pm2 save"
+              "set -e
+               cd ${{ secrets.SERVER_PATH }}
+               npm ci --omit=dev --prefix talentlens
+               pm2 restart aptio --update-env
+               pm2 save"
 
       # 9. Удалить SSH-ключ (всегда, даже при ошибке)
       - name: Cleanup SSH key
