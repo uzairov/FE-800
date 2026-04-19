@@ -42,7 +42,7 @@ jobs:
       # 5. Записать SSH-ключ во временный файл
       - name: Write SSH key
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
+          echo "${{ secrets.SERVER_SSH_KEY }}" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
 
       # 6. Обновить исходники на сервере до точного SHA этого коммита
