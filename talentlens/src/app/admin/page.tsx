@@ -230,7 +230,7 @@ export default function AdminPage() {
   const fetchData = useCallback(async (p = 1, q = search, replace = false) => {
     replace ? setLoading(true) : setTableLoading(true);
     try {
-      const tk = localStorage.getItem('accessToken') ?? '';
+      const tk = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken') ?? '';
       const params = new URLSearchParams({ page: String(p), limit: '20', search: q });
       const res = await fetch(`/api/admin?${params}`, { headers: { Authorization: `Bearer ${tk}` } });
       const json = await res.json();
@@ -283,7 +283,7 @@ export default function AdminPage() {
       return c;
     }));
     try {
-      const tk = localStorage.getItem('accessToken') ?? '';
+      const tk = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken') ?? '';
       const res = await fetch('/api/admin/companies', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tk}` },

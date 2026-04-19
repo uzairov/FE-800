@@ -40,7 +40,7 @@ function OnboardingPage() {
 
   // Redirect if not logged in
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken');
     if (!token) router.replace('/login');
   }, [router]);
 
@@ -49,7 +49,7 @@ function OnboardingPage() {
     setLoading(true);
     setError('');
     try {
-      const token = localStorage.getItem('accessToken') ?? '';
+      const token = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken') ?? '';
       const res   = await fetch('/api/onboarding', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },

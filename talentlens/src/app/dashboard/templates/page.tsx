@@ -800,7 +800,7 @@ export default function TemplatesPage() {
 
   // ── export ─────────────────────────────────────────────────────────────────
   function handleExport() {
-    const token = localStorage.getItem('accessToken') ?? '';
+    const token = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken') ?? '';
     // Trigger browser download via hidden anchor
     const a = document.createElement('a');
     a.href = '/api/questions/export';
@@ -825,7 +825,7 @@ export default function TemplatesPage() {
     try {
       const text = await file.text();
       const json = JSON.parse(text);
-      const token = localStorage.getItem('accessToken') ?? '';
+      const token = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken') ?? '';
       const res = await fetch('/api/questions/import', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },

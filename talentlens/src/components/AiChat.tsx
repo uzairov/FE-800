@@ -124,7 +124,7 @@ export default function AiChat() {
     abortRef.current = new AbortController();
 
     try {
-      const token = localStorage.getItem('accessToken') ?? '';
+      const token = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken') ?? '';
       const res = await fetch('/api/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },

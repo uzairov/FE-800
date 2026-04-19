@@ -32,7 +32,7 @@ export default function SettingsPage() {
 
   useEffect(() => {
     setMounted(true);
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken');
     if (token) {
       try {
         const p = JSON.parse(atob(token.split('.')[1]));
