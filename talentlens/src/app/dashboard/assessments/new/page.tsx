@@ -102,7 +102,7 @@ export default function NewAssessmentPage() {
   // ── Success screen ──────────────────────────────────────────────────────
   if (createdLink) {
     return (
-      <div className="p-8 max-w-xl">
+      <div className="p-4 sm:p-8 max-w-xl">
         <div className="bg-[var(--surface)] border border-emerald-500/30 rounded-2xl p-6 mb-6">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-8 h-8 rounded-full bg-emerald-500/15 flex items-center justify-center text-emerald-500">✓</div>
@@ -133,7 +133,8 @@ export default function NewAssessmentPage() {
           </button>
           <button
             onClick={() => { setCreatedLink(''); setCandidateName(''); setSelectedTemplate(null); }}
-            className="text-sm px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50"
+            className="text-sm px-4 py-2 rounded-lg transition-colors"
+            style={{ border: '1px solid rgba(255,255,255,0.12)', color: '#94a3b8' }}
           >
             {t('btn_new')}
           </button>
@@ -144,11 +145,11 @@ export default function NewAssessmentPage() {
 
   // ── Form ───────────────────────────────────────────────────────────────
   return (
-    <div className="p-8 max-w-2xl">
-      <h1 className="text-2xl font-bold text-[var(--text)] mb-6">{t('page_new')}</h1>
+    <div className="p-4 sm:p-8 max-w-2xl">
+      <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)] mb-6">{t('page_new')}</h1>
 
       {error && (
-        <div className="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+        <div className="mb-4 rounded-lg px-4 py-3 text-sm" style={{ background: 'rgba(239,68,68,0.10)', border: '1px solid rgba(239,68,68,0.30)', color: '#f87171' }}>
           {error}
         </div>
       )}
@@ -205,20 +206,21 @@ export default function NewAssessmentPage() {
           <label className="block text-sm font-medium text-[var(--text)] mb-2">
             {t('lbl_position')}
           </label>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {templates.map((t) => (
               <button
                 key={t.id}
                 type="button"
                 onClick={() => handleTemplateSelect(t)}
-                className={`text-left rounded-xl border-2 p-4 transition-colors ${
+                className="text-left rounded-xl p-4 transition-all"
+                style={
                   selectedTemplate?.id === t.id
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300 bg-white'
-                }`}
+                    ? { border: '2px solid #3B82F6', background: 'rgba(59,130,246,0.12)' }
+                    : { border: '2px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }
+                }
               >
-                <p className="font-medium text-sm text-gray-900">{t.name}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{t.industry} · ~{t.estimatedMinutes} мин</p>
+                <p className="font-medium text-sm text-white">{t.name}</p>
+                <p className="text-xs mt-0.5" style={{ color: '#94a3b8' }}>{t.industry} · ~{t.estimatedMinutes} мин</p>
               </button>
             ))}
           </div>
@@ -227,9 +229,9 @@ export default function NewAssessmentPage() {
         {/* Competencies (shown after template selected) */}
         {selectedTemplate && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-[var(--text)] mb-2">
               Компетенции
-              <span className="text-gray-400 font-normal ml-2 text-xs">
+              <span className="font-normal ml-2 text-xs" style={{ color: '#94a3b8' }}>
                 (выбрано {selectedCompetencies.length} из {selectedTemplate.competenciesJson.length})
               </span>
             </label>
@@ -240,9 +242,12 @@ export default function NewAssessmentPage() {
                 return (
                   <label
                     key={key}
-                    className={`flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition-colors ${
-                      checked ? 'border-blue-200 bg-blue-50/50' : 'border-gray-200 bg-white hover:bg-gray-50'
-                    }`}
+                    className="flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all"
+                    style={
+                      checked
+                        ? { border: '1px solid rgba(59,130,246,0.4)', background: 'rgba(59,130,246,0.08)' }
+                        : { border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }
+                    }
                   >
                     <input
                       type="checkbox"
@@ -250,10 +255,16 @@ export default function NewAssessmentPage() {
                       onChange={() => toggleCompetency(key)}
                       className="rounded text-blue-600"
                     />
-                    <span className="flex-1 text-sm text-gray-900">
+                    <span className="flex-1 text-sm text-white">
                       {COMPETENCY_LABELS[key] ?? key}
                     </span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${wInfo.color}`}>
+                    <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={
+                      weight === 3
+                        ? { background: 'rgba(239,68,68,0.15)', color: '#f87171' }
+                        : weight === 2
+                        ? { background: 'rgba(245,158,11,0.15)', color: '#fbbf24' }
+                        : { background: 'rgba(100,116,139,0.15)', color: '#94a3b8' }
+                    }>
                       {wInfo.label}
                     </span>
                   </label>
@@ -263,7 +274,7 @@ export default function NewAssessmentPage() {
 
             {/* Estimated time warning §EVAL-05 */}
             {selectedTemplate.estimatedMinutes > 45 && (
-              <p className="mt-3 text-sm text-yellow-700 bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-2">
+              <p className="mt-3 text-sm rounded-lg px-4 py-2" style={{ background: 'rgba(245,158,11,0.10)', border: '1px solid rgba(245,158,11,0.25)', color: '#fbbf24' }}>
                 ⚠ Тест займёт более 45 минут. Рекомендуется сократить набор компетенций.
               </p>
             )}

@@ -98,7 +98,7 @@ export default function AssessmentDetailPage() {
   ];
 
   return (
-    <div className="p-8 max-w-2xl page-enter">
+    <div className="p-4 sm:p-8 max-w-2xl page-enter">
       {/* Breadcrumb */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}
         className="flex items-center gap-2 text-sm text-[var(--text-faint)] mb-5">
@@ -106,18 +106,18 @@ export default function AssessmentDetailPage() {
           {t('nav_assessments')}
         </Link>
         <span>›</span>
-        <span className="text-[var(--text)]">{data.candidateName}</span>
+        <span className="text-[var(--text)] truncate">{data.candidateName}</span>
       </motion.div>
 
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        className="flex items-start justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-[var(--text)]">{data.candidateName}</h1>
+        className="flex items-start justify-between gap-3 mb-6 flex-wrap">
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)]">{data.candidateName}</h1>
           <p className="text-sm text-[var(--text-muted)] mt-0.5">{data.position.name} · {data.position.industry}</p>
         </div>
-        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${sc.bg} ${sc.text}`}>
+        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium shrink-0 ${sc.bg} ${sc.text}`}>
           {data.status === 'IN_PROGRESS' && <PulseDot color={sc.dot} />}
           {t(`status_${data.status}` as Parameters<typeof t>[0])}
         </div>

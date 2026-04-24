@@ -83,7 +83,7 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="p-8 max-w-2xl page-enter">
+    <div className="p-4 sm:p-8 max-w-2xl page-enter">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-6">
         <h1 className="text-2xl font-bold text-[var(--text)]">{t('page_settings')}</h1>
       </motion.div>

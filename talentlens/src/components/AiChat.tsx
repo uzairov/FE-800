@@ -194,7 +194,7 @@ export default function AiChat() {
         onClick={() => setOpen(v => !v)}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.94 }}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl"
         style={{
           background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
           boxShadow: '0 8px 32px rgba(37,99,235,0.45)',
@@ -229,9 +229,10 @@ export default function AiChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.93 }}
             transition={{ type: 'spring', stiffness: 340, damping: 28 }}
-            className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-24px)] flex flex-col rounded-2xl overflow-hidden"
+            className="fixed bottom-24 right-3 sm:right-6 z-50 w-[380px] max-w-[calc(100vw-24px)] flex flex-col rounded-2xl overflow-hidden"
             style={{
               height: 520,
+              maxHeight: 'calc(100dvh - 112px)',
               background: 'linear-gradient(160deg, #0d1525 0%, #0a1020 100%)',
               border: '1px solid rgba(255,255,255,0.1)',
               boxShadow: '0 24px 80px rgba(0,0,0,0.6)',

@@ -69,14 +69,15 @@ jobs:
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_PATH }}/talentlens/.next/
 
       # 8. Установить prod-зависимости и перезапустить приложение
+      #    cd в talentlens/ ЯВНО — npm ci и pm2 работают только на этой директории
       - name: Deploy on server
         run: |
           ssh -i /tmp/deploy_key \
               -o StrictHostKeyChecking=no \
               ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
               "set -e
-               cd ${{ secrets.SERVER_PATH }}
-               npm ci --omit=dev --prefix talentlens
+               cd ${{ secrets.SERVER_PATH }}/talentlens
+               npm ci --omit=dev
                pm2 restart aptio --update-env
                pm2 save"
 

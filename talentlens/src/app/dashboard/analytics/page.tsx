@@ -95,7 +95,7 @@ export default function AnalyticsPage() {
   }));
 
   return (
-    <div className="p-8 page-enter">
+    <div className="p-4 sm:p-8 page-enter">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-8">
         <h1 className="text-2xl font-bold text-[var(--text)]">Аналитика</h1>
         <p className="text-sm text-[var(--text-muted)] mt-0.5">Статистика за последние 30 дней</p>

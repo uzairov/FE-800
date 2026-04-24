@@ -138,7 +138,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="p-8 page-enter relative overflow-hidden">
+    <div className="p-4 sm:p-8 page-enter relative overflow-hidden">
 
       {/* ── Ambient background glow ─────────────────────────────────────── */}
       <motion.div
@@ -152,10 +152,10 @@ export default function DashboardPage() {
       />
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between mb-8 relative">
+      <div className="flex items-start sm:items-center justify-between mb-6 sm:mb-8 gap-3 relative">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <h1 className="text-2xl font-bold text-white">{t('page_overview')}</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-white">{t('page_overview')}</h1>
             <PulseDot color="#3b82f6" />
           </div>
           <p className="text-sm" style={{ color: '#94a3b8' }}>{t('welcome')}</p>
@@ -173,7 +173,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ── Stat cards ──────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
         {statCards.map(({ label, value, meta }, i) => (
           <motion.div
             key={label}
@@ -255,7 +255,8 @@ export default function DashboardPage() {
             </Link>
           </div>
         ) : (
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[520px]">
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)' }}>
                 {[t('col_candidate'), t('col_position'), t('col_status'), t('col_date'), ''].map((h, i) => (
@@ -303,6 +304,7 @@ export default function DashboardPage() {
               </AnimatePresence>
             </tbody>
           </table>
+          </div>
         )}
       </motion.div>
     </div>

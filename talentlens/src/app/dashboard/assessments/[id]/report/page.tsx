@@ -76,15 +76,15 @@ const COMPETENCY_LABEL: Record<string, string> = {
 };
 
 const LEVEL_CONFIG = {
-  high:   { label: 'Высокий',  bg: 'bg-green-50',  border: 'border-green-200',  text: 'text-green-700',  bar: 'bg-green-500'  },
-  medium: { label: 'Средний',  bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-700', bar: 'bg-yellow-400' },
-  low:    { label: 'Низкий',   bg: 'bg-red-50',    border: 'border-red-200',    text: 'text-red-700',    bar: 'bg-red-500'    },
+  high:   { label: 'Высокий', bg: 'rgba(16,185,129,0.10)',  border: 'rgba(16,185,129,0.25)',  text: '#34d399', bar: '#10b981' },
+  medium: { label: 'Средний', bg: 'rgba(245,158,11,0.10)',  border: 'rgba(245,158,11,0.25)',  text: '#fbbf24', bar: '#f59e0b' },
+  low:    { label: 'Низкий',  bg: 'rgba(239,68,68,0.10)',   border: 'rgba(239,68,68,0.25)',   text: '#f87171', bar: '#ef4444' },
 };
 
 const FLAG_CONFIG = {
-  INFO:     { icon: 'ℹ', bg: 'bg-gray-50',   border: 'border-gray-200',   text: 'text-gray-700'   },
-  WARNING:  { icon: '⚠', bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700' },
-  CRITICAL: { icon: '✕', bg: 'bg-red-50',    border: 'border-red-200',    text: 'text-red-700'    },
+  INFO:     { icon: 'ℹ', bg: 'rgba(148,163,184,0.10)', border: 'rgba(148,163,184,0.25)', text: '#94a3b8' },
+  WARNING:  { icon: '⚠', bg: 'rgba(245,158,11,0.10)',  border: 'rgba(245,158,11,0.25)',  text: '#fbbf24' },
+  CRITICAL: { icon: '✕', bg: 'rgba(239,68,68,0.10)',   border: 'rgba(239,68,68,0.25)',   text: '#f87171' },
 };
 
 const WEIGHT_LABEL: Record<number, string> = { 3: 'Обязательная', 2: 'Важная', 1: 'Дополнительная' };
@@ -131,16 +131,27 @@ export default function ReportPage() {
     loadComments();
   }, [id]);
 
-  if (loading) return <div className="p-8 text-sm text-gray-400">Загрузка отчёта...</div>;
-  if (error)   return <div className="p-8 text-sm text-red-500">{error}</div>;
+  if (loading) return <div className="p-8 text-sm" style={{ color: '#94a3b8' }}>Загрузка отчёта...</div>;
+  if (error)   return <div className="p-8 text-sm" style={{ color: '#f87171' }}>{error}</div>;
   if (!data)   return null;
 
   // ── Radar data ──────────────────────────────────────────────────────────────
-  const radarData = data.competencyResults.map((r) => ({
+  // Если компетенций < 3 — добавляем placeholder-оси чтобы радар визуально был многоугольником
+  const realRadar = data.competencyResults.map((r) => ({
     subject: COMPETENCY_LABEL[r.competency] ?? r.competency,
     score: r.score,
     fullMark: 100,
   }));
+  const PLACEHOLDER_AXES = ['—', ' —', '  —'];
+  const placeholderCount = Math.max(0, 3 - realRadar.length);
+  const radarData = [
+    ...realRadar,
+    ...Array.from({ length: placeholderCount }, (_, i) => ({
+      subject: PLACEHOLDER_AXES[i] ?? '—',
+      score: 0,
+      fullMark: 100,
+    })),
+  ];
 
   // ── Duration ────────────────────────────────────────────────────────────────
   let duration = '';
@@ -155,7 +166,7 @@ export default function ReportPage() {
   const criticalFlags = data.riskFlags.filter((f) => f.level === 'CRITICAL');
 
   return (
-    <div className="p-8 max-w-4xl" id="report-content">
+    <div className="p-4 sm:p-8 max-w-4xl" id="report-content">
       {/* Print styles */}
       <style>{`
         @media print {
@@ -186,30 +197,31 @@ export default function ReportPage() {
         }
       `}</style>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
-        <Link href="/dashboard/assessments" className="hover:text-gray-600">Оценки</Link>
+      <div className="flex items-center gap-2 text-sm mb-4 flex-wrap" style={{ color: '#64748b' }}>
+        <Link href="/dashboard/assessments" className="hover:text-white/70 transition-colors">Оценки</Link>
         <span>›</span>
-        <Link href={`/dashboard/assessments/${id}`} className="hover:text-gray-600">
+        <Link href={`/dashboard/assessments/${id}`} className="hover:text-white/70 transition-colors truncate max-w-[40%]">
           {data.candidateName}
         </Link>
         <span>›</span>
-        <span className="text-gray-700">Отчёт</span>
+        <span className="text-white/80">Отчёт</span>
       </div>
 
       {/* Header */}
-      <div className="flex items-start justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{data.candidateName}</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <h1 className="text-xl sm:text-2xl font-bold text-white">{data.candidateName}</h1>
+          <p className="text-sm mt-0.5" style={{ color: '#94a3b8' }}>
             {data.position.name} · {data.position.industry}
           </p>
         </div>
-        <div className="flex gap-2 print:hidden">
+        <div className="flex gap-2 print:hidden shrink-0">
           <button
             onClick={() => window.print()}
-            className="text-sm border border-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-1.5"
+            className="text-sm px-4 py-2 rounded-xl transition-colors flex items-center gap-1.5"
+            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8' }}
           >
-            <span>🖨</span> Печать
+            <span>🖨</span> <span className="hidden sm:inline">Печать</span>
           </button>
           <button
             onClick={() => {
@@ -218,58 +230,67 @@ export default function ReportPage() {
               window.print();
               document.title = prev;
             }}
-            className="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1.5"
+            className="text-sm text-white px-4 py-2 rounded-xl transition-all flex items-center gap-1.5"
+            style={{ background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)', boxShadow: '0 4px 16px rgba(59,130,246,0.3)' }}
           >
-            <span>⬇</span> Сохранить PDF
+            <span>⬇</span> <span className="hidden sm:inline">PDF</span>
           </button>
         </div>
       </div>
 
       {/* Critical risk banner */}
       {criticalFlags.length > 0 && (
-        <div className="mb-6 rounded-xl bg-red-50 border border-red-200 px-5 py-4">
-          <p className="font-semibold text-red-700 text-sm mb-1">
+        <div className="mb-6 rounded-xl px-5 py-4" style={{ background: 'rgba(239,68,68,0.10)', border: '1px solid rgba(239,68,68,0.30)' }}>
+          <p className="font-semibold text-sm mb-1" style={{ color: '#f87171' }}>
             ⚠ Критические флаги риска обнаружены
           </p>
-          <p className="text-red-600 text-xs">
+          <p className="text-xs" style={{ color: '#fca5a5' }}>
             Результаты могут быть ненадёжными. Рекомендуется дополнительное собеседование.
           </p>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
         {/* Radar chart (§REP-01) */}
-        <div className="bg-white rounded-xl border border-gray-100 p-5">
-          <h2 className="text-sm font-semibold text-gray-700 mb-4">Профиль компетенций</h2>
+        <div className="rounded-2xl p-4 sm:p-5" style={{ background: '#141830', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <h2 className="text-sm font-semibold text-white/80 mb-4">Профиль компетенций</h2>
           {radarData.length === 0 ? (
-            <div className="flex items-center justify-center h-48 text-sm text-gray-400">
+            <div className="flex items-center justify-center h-48 text-sm text-white/30">
               Нет данных
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={280}>
-              <RadarChart data={radarData} margin={{ top: 10, right: 20, bottom: 10, left: 20 }}>
-                <PolarGrid stroke="#e5e7eb" />
+            <ResponsiveContainer width="100%" height={400} minHeight={400}>
+              <RadarChart data={radarData} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+                <PolarGrid stroke="rgba(148,163,184,0.25)" />
                 <PolarAngleAxis
                   dataKey="subject"
-                  tick={{ fontSize: 11, fill: '#6b7280' }}
+                  tick={{ fontSize: 11, fill: '#94a3b8' }}
                 />
                 <PolarRadiusAxis
                   angle={90}
                   domain={[0, 100]}
-                  tick={{ fontSize: 10, fill: '#9ca3af' }}
-                  tickCount={4}
+                  tickCount={5}
+                  tick={{ fontSize: 10, fill: '#64748b' }}
+                  stroke="rgba(148,163,184,0.2)"
                 />
                 <Radar
                   name="Балл"
                   dataKey="score"
-                  stroke="#3b82f6"
-                  fill="#3b82f6"
-                  fillOpacity={0.2}
+                  stroke="#3B82F6"
+                  fill="#3B82F6"
+                  fillOpacity={0.3}
                   strokeWidth={2}
                 />
                 <Tooltip
                   formatter={(v: number) => [`${v}%`, 'Балл']}
-                  contentStyle={{ fontSize: 12, borderRadius: 8 }}
+                  contentStyle={{
+                    fontSize: 12,
+                    borderRadius: 12,
+                    background: '#141830',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    color: '#fff',
+                  }}
+                  labelStyle={{ color: '#94a3b8' }}
                 />
               </RadarChart>
             </ResponsiveContainer>
@@ -278,8 +299,8 @@ export default function ReportPage() {
 
         {/* Session summary */}
         <div className="space-y-4">
-          <div className="bg-white rounded-xl border border-gray-100 p-5">
-            <h2 className="text-sm font-semibold text-gray-700 mb-3">Сводка</h2>
+          <div className="rounded-2xl p-4 sm:p-5" style={{ background: '#141830', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <h2 className="text-sm font-semibold text-white/80 mb-3">Сводка</h2>
             <dl className="space-y-2 text-sm">
               {[
                 ['Дата прохождения', data.testSession?.finishedAt
@@ -291,8 +312,8 @@ export default function ReportPage() {
                 ['Флагов риска', data.riskFlags.length],
               ].map(([label, value]) => (
                 <div key={String(label)} className="flex justify-between">
-                  <dt className="text-gray-500">{label}</dt>
-                  <dd className="font-medium text-gray-900">{value}</dd>
+                  <dt style={{ color: '#94a3b8' }}>{label}</dt>
+                  <dd className="font-medium text-white">{value}</dd>
                 </div>
               ))}
             </dl>
@@ -300,18 +321,19 @@ export default function ReportPage() {
 
           {/* Risk flags (§REP-04) */}
           {data.riskFlags.length > 0 && (
-            <div className="bg-white rounded-xl border border-gray-100 p-5">
-              <h2 className="text-sm font-semibold text-gray-700 mb-3">Флаги риска</h2>
+            <div className="rounded-2xl p-4 sm:p-5" style={{ background: '#141830', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <h2 className="text-sm font-semibold text-white/80 mb-3">Флаги риска</h2>
               <div className="space-y-2">
                 {data.riskFlags.map((f) => {
                   const fc = FLAG_CONFIG[f.level];
                   return (
                     <div
                       key={f.id}
-                      className={`flex items-start gap-2 rounded-lg border px-3 py-2.5 ${fc.bg} ${fc.border}`}
+                      className="flex items-start gap-2 rounded-lg px-3 py-2.5"
+                      style={{ background: fc.bg, border: `1px solid ${fc.border}` }}
                     >
-                      <span className={`text-base leading-none mt-0.5 ${fc.text}`}>{fc.icon}</span>
-                      <p className={`text-xs leading-relaxed ${fc.text}`}>{f.descriptionRu}</p>
+                      <span className="text-base leading-none mt-0.5" style={{ color: fc.text }}>{fc.icon}</span>
+                      <p className="text-xs leading-relaxed" style={{ color: fc.text }}>{f.descriptionRu}</p>
                     </div>
                   );
                 })}
@@ -322,9 +344,9 @@ export default function ReportPage() {
       </div>
 
       {/* Competency cards (§REP-02, REP-03) */}
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Детали по компетенциям</h2>
+      <h2 className="text-lg font-semibold text-white mb-4">Детали по компетенциям</h2>
       {data.competencyResults.length === 0 ? (
-        <p className="text-sm text-gray-400">Нет данных о компетенциях.</p>
+        <p className="text-sm text-white/30">Нет данных о компетенциях.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {data.competencyResults.map((r) => {
@@ -332,29 +354,30 @@ export default function ReportPage() {
             return (
               <div
                 key={r.competency}
-                className={`rounded-xl border p-4 ${cfg.bg} ${cfg.border}`}
+                className="rounded-2xl p-4"
+                style={{ background: cfg.bg, border: `1px solid ${cfg.border}` }}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div>
-                    <p className="font-semibold text-sm text-gray-900">
+                <div className="flex items-center justify-between mb-2 gap-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-sm text-white truncate">
                       {COMPETENCY_LABEL[r.competency] ?? r.competency}
                     </p>
-                    <p className="text-xs text-gray-500">{WEIGHT_LABEL[r.weight]}</p>
+                    <p className="text-xs" style={{ color: '#94a3b8' }}>{WEIGHT_LABEL[r.weight]}</p>
                   </div>
-                  <div className="text-right">
-                    <p className={`text-xl font-bold ${cfg.text}`}>{r.score}%</p>
-                    <p className={`text-xs font-medium ${cfg.text}`}>{cfg.label}</p>
+                  <div className="text-right shrink-0">
+                    <p className="text-xl font-bold" style={{ color: cfg.text }}>{r.score}%</p>
+                    <p className="text-xs font-medium" style={{ color: cfg.text }}>{cfg.label}</p>
                   </div>
                 </div>
                 {/* Score bar */}
-                <div className="h-1.5 bg-white/70 rounded-full overflow-hidden">
+                <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
                   <div
-                    className={`h-full rounded-full transition-all ${cfg.bar}`}
-                    style={{ width: `${r.score}%` }}
+                    className="h-full rounded-full transition-all"
+                    style={{ width: `${r.score}%`, background: cfg.bar }}
                   />
                 </div>
                 {/* Interpretation (§REP-02) */}
-                <p className="text-xs text-gray-600 mt-2 leading-relaxed">
+                <p className="text-xs mt-2 leading-relaxed" style={{ color: '#94a3b8' }}>
                   {r.level === 'high'
                     ? 'Кандидат показывает уверенное владение данной компетенцией.'
                     : r.level === 'medium'
@@ -369,7 +392,7 @@ export default function ReportPage() {
 
       {/* ── HR Comments ─────────────────────────────────────────────────── */}
       <div className="mt-8">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Заметки HR</h2>
+        <h2 className="text-lg font-semibold text-white mb-4">Заметки HR</h2>
 
         {/* Add comment form */}
         <form onSubmit={submitComment} className="mb-5">
@@ -379,14 +402,20 @@ export default function ReportPage() {
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Добавьте заметку по кандидату или результатам оценки..."
             rows={3}
-            className="w-full rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 px-4 py-3 text-sm text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            style={{
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.10)',
+              color: '#fff',
+            }}
           />
           <div className="flex justify-end mt-2">
             <motion.button
               type="submit"
               disabled={!newComment.trim() || commenting}
               whileTap={{ scale: 0.97 }}
-              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white text-sm font-medium px-5 py-2 rounded-xl transition-colors"
+              className="disabled:opacity-40 text-white text-sm font-medium px-5 py-2 rounded-xl transition-colors"
+              style={{ background: 'linear-gradient(135deg,#3B82F6,#6366F1)' }}
             >
               {commenting ? 'Сохранение...' : 'Добавить заметку'}
             </motion.button>
@@ -396,7 +425,7 @@ export default function ReportPage() {
         {/* Comments list */}
         <AnimatePresence>
           {comments.length === 0 ? (
-            <p className="text-sm text-gray-400 dark:text-white/30">Заметок пока нет</p>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.30)' }}>Заметок пока нет</p>
           ) : (
             <div className="space-y-3">
               {comments.map((c, i) => (
@@ -405,20 +434,21 @@ export default function ReportPage() {
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  className="bg-white dark:bg-white/5 border border-gray-100 dark:border-white/08 rounded-xl p-4"
+                  className="rounded-xl p-4"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white text-[10px] font-bold">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white text-[10px] font-bold shrink-0">
                       {(c.author.name ?? c.author.email).charAt(0).toUpperCase()}
                     </div>
-                    <span className="text-xs font-medium text-gray-600 dark:text-white/60">
+                    <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.60)' }}>
                       {c.author.name ?? c.author.email}
                     </span>
-                    <span className="text-xs text-gray-400 dark:text-white/30 ml-auto">
+                    <span className="text-xs ml-auto" style={{ color: 'rgba(255,255,255,0.30)' }}>
                       {new Date(c.createdAt).toLocaleString('ru-RU')}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 dark:text-white/70 leading-relaxed whitespace-pre-wrap">{c.text}</p>
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: 'rgba(255,255,255,0.70)' }}>{c.text}</p>
                 </motion.div>
               ))}
             </div>

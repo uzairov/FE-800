@@ -48,7 +48,7 @@ export default function TeamPage() {
   }
 
   return (
-    <div className="p-8 max-w-3xl page-enter">
+    <div className="p-4 sm:p-8 max-w-3xl page-enter">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-8">
         <h1 className="text-2xl font-bold text-[var(--text)]">Команда</h1>
         <p className="text-sm text-[var(--text-muted)] mt-0.5">Управляйте участниками и приглашениями</p>

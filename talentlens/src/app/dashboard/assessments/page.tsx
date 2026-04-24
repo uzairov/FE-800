@@ -84,15 +84,15 @@ export default function AssessmentsPage() {
   const pages = Math.ceil(total / 20);
 
   return (
-    <div className="p-8 page-enter">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-4 sm:p-8 page-enter">
+      <div className="flex items-start sm:items-center justify-between gap-3 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--text)]">{t('page_assessments')}</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)]">{t('page_assessments')}</h1>
           <p className="text-sm text-[var(--text-muted)] mt-0.5">{t('stat_total')}: {total}</p>
         </div>
         <Link
           href="/dashboard/assessments/new"
-          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-lg shadow-blue-600/20"
+          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-lg shadow-blue-600/20 shrink-0"
         >
           {t('btn_new')}
         </Link>
@@ -100,7 +100,7 @@ export default function AssessmentsPage() {
 
       {/* ── Filters ─────────────────────────────────────────────────────── */}
       <div className="bg-[var(--surface)] border border-[var(--border-strong)] rounded-2xl p-4 mb-4 space-y-3">
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <input
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
@@ -117,7 +117,7 @@ export default function AssessmentsPage() {
         </div>
 
         {/* Date range */}
-        <div className="flex items-center gap-3 text-sm">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-sm">
           <span className="text-[var(--text-muted)] shrink-0">
             {t('lbl_expires').replace('Истекает', 'Период').replace('Expires', 'Period').replace('Muddati', 'Davr')}:
           </span>
@@ -125,14 +125,14 @@ export default function AssessmentsPage() {
             type="date"
             value={dateFrom}
             onChange={(e) => { setDateFrom(e.target.value); setPage(1); }}
-            className="rounded-xl border border-[var(--border-strong)] bg-[var(--bg)] px-3 py-1.5 text-sm text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="rounded-xl border border-[var(--border-strong)] bg-[var(--bg)] px-3 py-1.5 text-sm text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-0"
           />
           <span className="text-[var(--text-faint)]">—</span>
           <input
             type="date"
             value={dateTo}
             onChange={(e) => { setDateTo(e.target.value); setPage(1); }}
-            className="rounded-xl border border-[var(--border-strong)] bg-[var(--bg)] px-3 py-1.5 text-sm text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="rounded-xl border border-[var(--border-strong)] bg-[var(--bg)] px-3 py-1.5 text-sm text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-0"
           />
           {(dateFrom || dateTo) && (
             <button
@@ -160,7 +160,8 @@ export default function AssessmentsPage() {
             <p className="text-sm text-[var(--text-muted)]">{t('no_results')}</p>
           </div>
         ) : (
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[580px]">
             <thead>
               <tr className="border-b border-[var(--border)] bg-[var(--bg)]">
                 <th className="text-left px-6 py-3 text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">
@@ -227,6 +228,7 @@ export default function AssessmentsPage() {
               </AnimatePresence>
             </tbody>
           </table>
+          </div>
         )}
       </div>
 

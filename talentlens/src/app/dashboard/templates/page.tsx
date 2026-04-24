@@ -868,7 +868,7 @@ export default function TemplatesPage() {
     .filter(b => b.questions.length > 0);
 
   return (
-    <div className="min-h-screen p-6 pb-16" style={{ background: 'var(--bg)' }}>
+    <div className="min-h-screen p-4 sm:p-6 pb-16" style={{ background: 'var(--bg)' }}>
       <div className="fixed top-0 right-0 w-96 h-96 rounded-full pointer-events-none"
         style={{ background: 'radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%)', filter: 'blur(40px)' }} />
 
