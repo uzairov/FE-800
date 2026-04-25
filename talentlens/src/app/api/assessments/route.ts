@@ -82,7 +82,8 @@ export async function POST(req: NextRequest) {
     const { candidateName, positionId, competencies, candidateEmail, expiryDays } = parsed.data;
 
     // ── Plan limit check ────────────────────────────────────────────────
-    if (user.role !== 'SUPERADMIN') {
+    // ADMIN and SUPERADMIN have unlimited assessments — limits apply to HR / VIEWER only
+    if (user.role !== 'SUPERADMIN' && user.role !== 'ADMIN') {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const company = await (prisma.company as any).findUnique({
         where:   { id: user.companyId },

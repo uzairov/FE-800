@@ -32,6 +32,12 @@ export async function GET(req: NextRequest) {
       priceUsd: 0, features: [], createdAt: new Date(),
     };
 
+    // ADMIN and SUPERADMIN bypass plan limits — report unlimited so UI hides counter
+    if (user.role === 'ADMIN' || user.role === 'SUPERADMIN') {
+      plan.maxAssessmentsPerMonth = -1;
+      plan.maxUsers               = -1;
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const allPlans = await (prisma as any).plan.findMany({ orderBy: { priceUsd: 'asc' } });
 

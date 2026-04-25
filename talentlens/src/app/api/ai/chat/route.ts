@@ -20,6 +20,8 @@ const SYSTEM_PROMPT = `Ты — AI-ассистент HR-платформы Apti
 export async function POST(req: NextRequest) {
   try {
     const user = getRequestUser(req);
+    console.log('[AI] API Key present:', !!process.env.ANTHROPIC_API_KEY);
+    console.log('[AI] User ID:', user.id);
 
     // ── Plan gate: AI assistant requires Pro/Enterprise ────────────────
     if (user.role !== 'SUPERADMIN') {
@@ -90,6 +92,8 @@ export async function POST(req: NextRequest) {
         { status: 502, headers: { 'Content-Type': 'application/json' } },
       );
     }
+
+    console.log('[AI] Streaming started');
 
     // Return a ReadableStream (plain-text chunked)
     const readable = new ReadableStream({
