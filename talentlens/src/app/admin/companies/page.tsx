@@ -138,11 +138,24 @@ export default function AdminCompaniesPage() {
   // ── Auth check ───────────────────────────────────────────────────────
   useEffect(() => {
     const token = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken');
-    if (!token) { router.replace('/login'); return; }
+    console.log('[admin/companies page] token present:', !!token);
+    if (!token) {
+      console.warn('[admin/companies page] no token — redirecting to /login');
+      router.replace('/login');
+      return;
+    }
     try {
       const p = JSON.parse(atob(token.split('.')[1]));
-      if (p.role !== 'SUPERADMIN') { router.replace('/dashboard'); return; }
-    } catch { router.replace('/login'); }
+      console.log('[admin/companies page] decoded role:', p.role, 'sub:', p.sub, 'exp:', new Date((p.exp ?? 0) * 1000).toISOString());
+      if (p.role !== 'SUPERADMIN') {
+        console.warn('[admin/companies page] role is not SUPERADMIN —', p.role, '— redirecting to /dashboard');
+        router.replace('/dashboard');
+        return;
+      }
+    } catch (e) {
+      console.error('[admin/companies page] JWT decode failed:', e);
+      router.replace('/login');
+    }
   }, [router]);
 
   // ── Fetch data ───────────────────────────────────────────────────────
@@ -160,10 +173,20 @@ export default function AdminCompaniesPage() {
       const res  = await fetch(`/api/admin/companies?${params}`, {
         headers: { Authorization: `Bearer ${token ?? ''}` },
       });
+      console.log('[admin/companies page] API response status:', res.status);
       const json = await res.json();
-      if (json.success) setData(json.data);
-      else              setToast({ msg: json.error ?? 'Ошибка загрузки', type: 'err' });
-    } catch {
+      if (json.success) {
+        setData(json.data);
+      } else if (res.status === 401) {
+        console.warn('[admin/companies page] API returned 401 — token likely expired');
+        setToast({ msg: 'Сессия истекла. Войдите заново.', type: 'err' });
+      } else if (res.status === 403) {
+        setToast({ msg: 'Нет доступа: требуется роль SUPERADMIN', type: 'err' });
+      } else {
+        setToast({ msg: json.error ?? 'Ошибка загрузки', type: 'err' });
+      }
+    } catch (e) {
+      console.error('[admin/companies page] network error:', e);
       setToast({ msg: 'Ошибка сети', type: 'err' });
     }
     setLoading(false);

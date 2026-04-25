@@ -43,9 +43,15 @@ export async function middleware(req: NextRequest) {
 
     const role = String(payload.role ?? '');
 
+    // Debug log for admin route troubleshooting
+    if (pathname.startsWith('/api/admin')) {
+      console.log('[middleware] role:', role, 'path:', pathname, 'sub:', payload.sub);
+    }
+
     // /api/admin/* — SUPERADMIN only
     if (pathname.startsWith('/api/admin') && role !== 'SUPERADMIN') {
-      return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+      console.warn('[middleware] FORBIDDEN /api/admin for role:', role, 'sub:', payload.sub);
+      return NextResponse.json({ success: false, error: 'Forbidden — только для SUPERADMIN' }, { status: 403 });
     }
 
     // Forward user info as headers to API routes
@@ -56,7 +62,8 @@ export async function middleware(req: NextRequest) {
     headers.set('x-user-company-id', String(payload.companyId ?? ''));
 
     return NextResponse.next({ request: { headers } });
-  } catch {
+  } catch (e) {
+    console.warn('[middleware] JWT verify failed for', pathname, '—', e instanceof Error ? e.message : 'unknown');
     return NextResponse.json(
       { success: false, error: 'Invalid or expired token' },
       { status: 401 },

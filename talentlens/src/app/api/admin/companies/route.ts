@@ -29,6 +29,13 @@ interface CompanyRow {
 
 export async function GET(req: NextRequest) {
   try {
+    const debugUser = {
+      id:        req.headers.get('x-user-id'),
+      role:      req.headers.get('x-user-role'),
+      companyId: req.headers.get('x-user-company-id'),
+    };
+    console.log('[admin/companies GET] userId:', debugUser.id, 'role:', debugUser.role);
+
     const { searchParams } = req.nextUrl;
     const search        = searchParams.get('search')        ?? '';
     const planFilter    = searchParams.get('plan')          ?? '';

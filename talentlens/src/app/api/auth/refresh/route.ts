@@ -24,11 +24,15 @@ export async function POST(req: NextRequest) {
       fromCookie = !!token;
     }
 
+    console.log('[refresh] token present:', !!token, 'fromCookie:', fromCookie);
+
     if (!token) {
+      console.warn('[refresh] no token in body or cookie');
       return NextResponse.json(err('refreshToken is required'), { status: 400 });
     }
 
     const result = await rotateRefreshToken(token);
+    console.log('[refresh] user found:', !!result, result ? `(new accessToken issued)` : '(rotation failed)');
 
     if (!result) {
       // Clear stale cookie
