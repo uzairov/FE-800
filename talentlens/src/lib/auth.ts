@@ -124,8 +124,8 @@ export async function rotateRefreshToken(
     return null;
   }
 
-  // Revoke old token (rotation pattern)
-  await prisma.refreshToken.delete({ where: { id: record.id } });
+  // Revoke old token (rotation pattern) — ignore if already deleted by concurrent request
+  await prisma.refreshToken.delete({ where: { id: record.id } }).catch(() => {});
 
   const { user } = record;
   const accessToken = signAccessToken({
