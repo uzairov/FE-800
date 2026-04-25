@@ -125,9 +125,11 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
             questions:  [],
           };
         }
-        const earned      = entry.scores?.[answer.selectedOption] ?? 0;
-        const maxScores   = entry.scores?.length ? Math.max(...entry.scores) : 0;
-        const maxPossible = maxScores > 0 ? maxScores : 4;
+        const scoresArr   = Array.isArray(entry.scores)
+          ? (entry.scores as unknown[]).map((s) => Number(s))
+          : ([] as number[]);
+        const earned      = Number(scoresArr[answer.selectedOption] ?? 0);
+        const maxPossible = scoresArr.length > 0 ? Math.max(...scoresArr) : 4;
 
         breakdown[entry.competency].sum += earned;
         breakdown[entry.competency].max += maxPossible;
