@@ -77,9 +77,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
     // ── Build per-question breakdown (§REP-CALC) ─────────────────────────
     const answers: AnswerRow[] = (assessment.testSession?.answersJson as unknown as AnswerRow[]) ?? [];
-    const questionIds = [...new Set(
-      answers.filter((a) => a.selectedOption !== -1).map((a) => a.questionId),
-    )];
+    const questionIds = Array.from(
+      new Set(answers.filter((a) => a.selectedOption !== -1).map((a) => a.questionId)),
+    );
 
     const questions = questionIds.length > 0
       ? await prisma.question.findMany({
@@ -110,8 +110,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       const q = qMap.get(answer.questionId);
       if (!q) return;
 
-      const scoring = (q.scoringJson ?? []) as ScoringEntry[];
-      const options = (q.optionsJson ?? []) as OptionsRow[];
+      const scoring = (q.scoringJson ?? []) as unknown as ScoringEntry[];
+      const options = (q.optionsJson ?? []) as unknown as OptionsRow[];
       const optionText = options[answer.selectedOption]?.textRu ?? `Вариант ${answer.selectedOption + 1}`;
 
       for (const entry of scoring) {

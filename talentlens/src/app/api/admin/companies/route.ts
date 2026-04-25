@@ -117,10 +117,12 @@ export async function GET(req: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const allPlans = await (prisma as any).plan.findMany();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const planPriceMap = new Map(allPlans.map((p: any) => [p.id, p.priceUsd as number]));
+    const planPriceMap = new Map<string, number>(
+      allPlans.map((p: any) => [String(p.id), Number(p.priceUsd)]),
+    );
 
-    let mrr          = 0;
-    let totalOverdue = 0;
+    let mrr: number          = 0;
+    let totalOverdue: number = 0;
     for (const c of companies) {
       if (c.planId && !c.isBlocked) mrr += planPriceMap.get(c.planId) ?? 0;
       totalOverdue += c.overdueAmount;

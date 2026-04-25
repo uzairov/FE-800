@@ -12,7 +12,8 @@ export async function POST(
   { params }: { params: { id: string } },
 ) {
   try {
-    const company = await prisma.company.findUnique({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const company = await (prisma.company as any).findUnique({
       where:   { id: params.id },
       include: {
         planTier: true,
