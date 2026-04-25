@@ -68,8 +68,12 @@ jobs:
             talentlens/.next/ \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_PATH }}/talentlens/.next/
 
-      # 8. Установить prod-зависимости и перезапустить приложение
-      #    cd в talentlens/ ЯВНО — npm ci и pm2 работают только на этой директории
+      # 8. Установить prod-зависимости, синхронизировать схему БД, перезапустить
+      #    Используем `prisma db push` (а не `migrate deploy`) — папка
+      #    prisma/migrations/ в .gitignore, поэтому миграции в репозитории
+      #    не хранятся. `db push` синхронизирует БД со schema.prisma напрямую.
+      #    Сиды не запускаем автоматически (tsx в devDeps); запускайте вручную:
+      #      cd talentlens && npm install && npm run db:seed
       - name: Deploy on server
         run: |
           ssh -i /tmp/deploy_key \
@@ -78,6 +82,7 @@ jobs:
               "set -e
                cd ${{ secrets.SERVER_PATH }}/talentlens
                npm ci --omit=dev
+               npx prisma db push --skip-generate
                pm2 restart aptio --update-env
                pm2 save"
 

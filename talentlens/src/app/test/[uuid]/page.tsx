@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type Lang = 'ru' | 'uz' | 'en';
+type Lang = 'ru' | 'uz' | 'en' | 'kz';
 
 interface Option {
   textRu: string;
@@ -116,13 +116,40 @@ const T = {
     of: 'of',
     writeAnswer: 'Type your answer here...',
   },
+  kz: {
+    chooseLanguage: 'Тілді таңдаңыз',
+    start: 'Тестті бастау',
+    instructions_title: 'Нұсқаулық',
+    instructions_body: 'Сізді бірнеше блок тапсырмалар күтеді. Әр блокта таймер бар. Адал жауап беріңіз. Тапсырма барысында бұл қойындыны жаппаңыз.',
+    estimated: 'Шамамен уақыт',
+    minutes: 'мин',
+    next: 'Келесі',
+    back: 'Артқа',
+    finish: 'Аяқтау',
+    thanks_title: 'Рахмет!',
+    thanks_body: 'Сіздің жауаптарыңыз жазылды.',
+    block: 'Блок',
+    timeLeft: 'Қалды',
+    noQuestions: 'Сұрақтар жүктелмеді.',
+    expired: 'Сілтеме мерзімі бітті немесе жарамсыз.',
+    alreadyDone: 'Сіз тестті аяқтадыңыз.',
+    error: 'Қате орын алды.',
+    question: 'Сұрақ',
+    of: 'дан',
+    writeAnswer: 'Жауабыңызды жазыңыз...',
+  },
 };
 
+// Kazakh questions are not yet seeded — fall back to Russian.
 function getText(q: Question, lang: Lang) {
-  return lang === 'uz' ? q.textUz : lang === 'en' ? q.textEn : q.textRu;
+  if (lang === 'uz') return q.textUz;
+  if (lang === 'en') return q.textEn;
+  return q.textRu;
 }
 function getOption(o: Option, lang: Lang) {
-  return lang === 'uz' ? o.textUz : lang === 'en' ? o.textEn : o.textRu;
+  if (lang === 'uz') return o.textUz;
+  if (lang === 'en') return o.textEn;
+  return o.textRu;
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -431,10 +458,15 @@ export default function TestPage() {
           <span className="text-white text-xl font-bold">T</span>
         </div>
         <h1 className="text-lg font-semibold text-[var(--text)] mb-6">
-          {T.ru.chooseLanguage} / {T.uz.chooseLanguage} / {T.en.chooseLanguage}
+          {T.ru.chooseLanguage} / {T.kz.chooseLanguage} / {T.uz.chooseLanguage} / {T.en.chooseLanguage}
         </h1>
         <div className="space-y-2">
-          {([['ru', 'Русский', '🇷🇺'], ['uz', "O'zbekcha", '🇺🇿'], ['en', 'English', '🇬🇧']] as const).map(([l, label, flag]) => (
+          {([
+            ['ru', 'Русский',    '🇷🇺'],
+            ['kz', 'Қазақша',    '🇰🇿'],
+            ['uz', "O'zbekcha",  '🇺🇿'],
+            ['en', 'English',    '🇬🇧'],
+          ] as const).map(([l, label, flag]) => (
             <motion.button
               key={l}
               whileTap={{ scale: 0.98 }}

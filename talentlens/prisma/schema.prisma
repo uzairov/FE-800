@@ -65,6 +65,9 @@ model Company {
   industry           String?
   size               String?  // "1-10" | "11-50" | "51-200" | "201-500" | "500+"
   isBlocked          Boolean  @default(false)
+  paymentStatus      String   @default("active")  // active | overdue | pending
+  overdueAmount      Float    @default(0)
+  lastActivityAt     DateTime?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 

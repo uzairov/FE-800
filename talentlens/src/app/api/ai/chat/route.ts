@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { getRequestUser } from '@/lib/api-helpers';
+import { prisma } from '@/lib/prisma';
+import { canUseFeature } from '@/lib/plans';
 
 const SYSTEM_PROMPT = `Ты — AI-ассистент HR-платформы Aptio. Ты помогаешь HR-специалистам:
 - Интерпретировать результаты психометрических оценок кандидатов
@@ -10,15 +12,37 @@ const SYSTEM_PROMPT = `Ты — AI-ассистент HR-платформы Apti
 - Объяснять Red Flag индикаторы поведения
 - Помогать со сравнением кандидатов
 
-Отвечай на языке пользователя (русский, узбекский или английский).
+Отвечай на языке пользователя (русский, узбекский, казахский или английский).
 Будь конкретным, структурируй ответы. Не выдумывай данные — только анализируй то, что пользователь предоставил.
 Максимальная длина ответа — 400 слов.`;
 
-// POST /api/ai/chat — streaming chat, available on all plans
+// POST /api/ai/chat — streaming chat, requires Pro / Enterprise plan
 export async function POST(req: NextRequest) {
   try {
     const user = getRequestUser(req);
-    void user; // auth check only — no plan gate
+
+    // ── Plan gate: AI assistant requires Pro/Enterprise ────────────────
+    if (user.role !== 'SUPERADMIN') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const company = await (prisma.company as any).findUnique({
+        where:   { id: user.companyId },
+        include: { planTier: true },
+      });
+      const planName = company?.planTier?.name ?? 'free';
+      const check    = canUseFeature(planName, 'hasAiAssistant');
+      if (!check.allowed) {
+        return new Response(
+          JSON.stringify({
+            error:        'AI-ассистент доступен на тарифах Pro и Enterprise. Обновите план, чтобы получить доступ.',
+            planLimit:    true,
+            currentPlan:  planName,
+            upgradeTo:    check.upgradeTo ?? 'professional',
+            feature:      'hasAiAssistant',
+          }),
+          { status: 402, headers: { 'Content-Type': 'application/json' } },
+        );
+      }
+    }
 
     // Check API key BEFORE trying to stream — give user a clear error
     const apiKey = process.env.ANTHROPIC_API_KEY;

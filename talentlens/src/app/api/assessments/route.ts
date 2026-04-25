@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { getRequestUser } from '@/lib/api-helpers';
 import { setAssessmentStatus } from '@/lib/redis';
 import { sendCandidateLink } from '@/lib/email';
+import { canCreateAssessment } from '@/lib/plans';
 import { ok, err } from '@/types';
 
 const CreateSchema = z.object({
@@ -87,20 +88,29 @@ export async function POST(req: NextRequest) {
         where:   { id: user.companyId },
         include: { planTier: true },
       });
-      const plan = company?.planTier;
-      if (plan && plan.maxAssessmentsPerMonth > 0) {
-        const startOfMonth = new Date();
-        startOfMonth.setDate(1);
-        startOfMonth.setHours(0, 0, 0, 0);
-        const monthlyCount = await prisma.assessment.count({
-          where: { companyId: user.companyId, createdAt: { gte: startOfMonth } },
-        });
-        if (monthlyCount >= plan.maxAssessmentsPerMonth) {
-          return NextResponse.json(
-            err(`Лимит оценок для плана «${plan.displayName}» (${plan.maxAssessmentsPerMonth}/мес) исчерпан. Обновите тариф.`),
-            { status: 403 },
-          );
-        }
+      const planName = company?.planTier?.name ?? 'free';
+
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+      const monthlyCount = await prisma.assessment.count({
+        where: { companyId: user.companyId, createdAt: { gte: startOfMonth } },
+      });
+
+      const check = canCreateAssessment(planName, monthlyCount);
+      if (!check.allowed) {
+        return NextResponse.json(
+          {
+            success:     false,
+            error:       check.reason ?? 'Plan limit reached',
+            planLimit:   true,
+            currentPlan: planName,
+            current:     check.current,
+            limit:       check.limit,
+            upgradeTo:   check.upgradeTo ?? 'starter',
+          },
+          { status: 402 },
+        );
       }
     }
 

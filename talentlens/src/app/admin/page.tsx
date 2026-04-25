@@ -358,17 +358,30 @@ export default function AdminPage() {
       <div className="px-6 lg:px-8 py-6">
 
         {/* ── Tabs ─────────────────────────────────────────────────────────── */}
-        <div className="flex gap-1 mb-8 p-1 rounded-2xl w-fit"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
-          {(['overview', 'companies'] as Tab[]).map(t => (
-            <button key={t} onClick={() => setTab(t)}
-              className="px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
-              style={tab === t
-                ? { background: 'rgba(255,255,255,0.1)', color: '#fff' }
-                : { color: 'rgba(255,255,255,0.35)' }}>
-              {t === 'overview' ? '📊 Обзор' : '🏢 Компании'}
-            </button>
-          ))}
+        <div className="flex flex-wrap gap-2 mb-8 items-center">
+          <div className="flex gap-1 p-1 rounded-2xl w-fit"
+            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
+            {(['overview', 'companies'] as Tab[]).map(t => (
+              <button key={t} onClick={() => setTab(t)}
+                className="px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
+                style={tab === t
+                  ? { background: 'rgba(255,255,255,0.1)', color: '#fff' }
+                  : { color: 'rgba(255,255,255,0.35)' }}>
+                {t === 'overview' ? '📊 Обзор' : '🏢 Компании'}
+              </button>
+            ))}
+          </div>
+          <a
+            href="/admin/companies"
+            className="ml-auto px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
+            style={{
+              background: 'linear-gradient(135deg, rgba(59,130,246,0.18), rgba(139,92,246,0.10))',
+              border:     '1px solid rgba(59,130,246,0.40)',
+              color:      '#60a5fa',
+            }}
+          >
+            💳 Клиенты + платежи →
+          </a>
         </div>
 
         {/* ── TAB: Overview ───────────────────────────────────────────────── */}

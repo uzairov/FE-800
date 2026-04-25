@@ -223,3 +223,50 @@ export async function sendTeamInvite(params: {
     }),
   });
 }
+
+// ── Payment reminder ──────────────────────────────────────────────────────────
+
+export async function sendPaymentReminder(params: {
+  to:          string;
+  companyName: string;
+  planName:    string;
+  amount:      number;
+}): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const { to, companyName, planName, amount } = params;
+  const appUrl = process.env.APP_URL ?? 'https://aptio.uz';
+
+  if (!apiKey || apiKey === 'your_resend_key_here') {
+    console.log('[email:DEV] Payment reminder to:', to, '| company:', companyName, '| plan:', planName, '| amount:', amount);
+    return;
+  }
+
+  const fromAddress = process.env.EMAIL_FROM ?? 'Aptio <noreply@aptio.app>';
+
+  await fetch('https://api.resend.com/emails', {
+    method:  'POST',
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body:    JSON.stringify({
+      from:    fromAddress,
+      to:      [to],
+      subject: `Напоминание об оплате — ${companyName}`,
+      html:    `<div style="font-family:sans-serif;max-width:480px;margin:40px auto;padding:32px;background:#111827;border-radius:16px;color:#e5e7eb">
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:24px">
+          <div style="width:36px;height:36px;background:#2563eb;border-radius:10px;display:inline-flex;align-items:center;justify-content:center">
+            <span style="color:#fff;font-weight:900;font-size:16px">A</span>
+          </div>
+          <span style="color:#fff;font-weight:800;font-size:20px">Aptio</span>
+        </div>
+        <h2 style="color:#f9fafb;margin:0 0 12px">Оплата плана «${planName}»</h2>
+        <p style="color:#9ca3af;line-height:1.6;margin:0 0 24px">
+          Здравствуйте! Это напоминание об оплате тарифа Aptio для компании <strong style="color:#e5e7eb">${companyName}</strong>.
+        </p>
+        ${amount > 0 ? `<div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:12px;padding:16px;margin:0 0 24px">
+          <p style="color:#f87171;font-size:14px;margin:0">Сумма к оплате: <strong>$${amount}</strong></p>
+        </div>` : ''}
+        <a href="${appUrl}/dashboard/settings" style="display:inline-block;background:#2563eb;color:#fff;padding:13px 30px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px">Перейти к оплате →</a>
+        <p style="color:#4b5563;font-size:12px;margin-top:28px">Если вы уже оплатили — проигнорируйте это письмо.</p>
+      </div>`,
+    }),
+  });
+}

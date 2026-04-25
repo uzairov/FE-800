@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/lib/client-fetch';
 import { useLang } from '@/context/LangContext';
+import PlanLimitModal from '@/components/PlanLimitModal';
+import type { PlanName } from '@/lib/plans';
 
 interface Template {
   id: string;
@@ -12,6 +14,15 @@ interface Template {
   level: string;
   estimatedMinutes: number;
   competenciesJson: Array<{ key: string; weight: 1 | 2 | 3 }>;
+}
+
+interface PlanLimitInfo {
+  currentPlan: string;
+  current?:    number;
+  limit?:      number;
+  upgradeTo?:  PlanName;
+  message?:    string;
+  feature?:    string;
 }
 
 const COMPETENCY_LABELS: Record<string, string> = {
@@ -52,6 +63,7 @@ export default function NewAssessmentPage() {
   const [error, setError] = useState('');
   const [createdLink, setCreatedLink] = useState('');
   const [emailSent, setEmailSent] = useState(false);
+  const [planLimit, setPlanLimit] = useState<PlanLimitInfo | null>(null);
 
   useEffect(() => {
     apiFetch<Template[]>('/api/templates').then((res) => {
@@ -90,6 +102,19 @@ export default function NewAssessmentPage() {
     setLoading(false);
 
     if (!res.success) {
+      // Detect plan limit response (HTTP 402 with planLimit:true)
+      const raw = res as unknown as Record<string, unknown>;
+      if (raw.planLimit === true) {
+        setPlanLimit({
+          currentPlan: String(raw.currentPlan ?? 'free'),
+          current:     typeof raw.current === 'number' ? raw.current : undefined,
+          limit:       typeof raw.limit   === 'number' ? raw.limit   : undefined,
+          upgradeTo:   (raw.upgradeTo as PlanName | undefined),
+          feature:     'maxAssessmentsPerMonth',
+          message:     res.error,
+        });
+        return;
+      }
       setError(res.error);
       return;
     }
@@ -289,6 +314,17 @@ export default function NewAssessmentPage() {
           {loading ? t('creating') : t('btn_create')}
         </button>
       </form>
+
+      <PlanLimitModal
+        open={!!planLimit}
+        onClose={() => setPlanLimit(null)}
+        currentPlan={planLimit?.currentPlan ?? 'free'}
+        used={planLimit?.current}
+        limit={planLimit?.limit}
+        upgradeTo={planLimit?.upgradeTo}
+        feature={planLimit?.feature}
+        message={planLimit?.message}
+      />
     </div>
   );
 }

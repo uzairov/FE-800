@@ -113,12 +113,18 @@ interface Assessment {
   position: { name: string };
 }
 
+interface PlanInfo {
+  plan: { name: string; displayName: string; maxAssessmentsPerMonth: number };
+  usage: { assessmentsThisMonth: number };
+}
+
 export default function DashboardPage() {
   const { t } = useLang();
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [total,   setTotal]   = useState(0);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [planInfo, setPlanInfo] = useState<PlanInfo | null>(null);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -126,6 +132,7 @@ export default function DashboardPage() {
     apiFetch<{ assessments: Assessment[]; total: number }>('/api/assessments?limit=5&sort=createdAt&dir=desc')
       .then((res) => { if (res.success) { setAssessments(res.data.assessments); setTotal(res.data.total); } })
       .finally(() => setLoading(false));
+    apiFetch<PlanInfo>('/api/plan').then((res) => { if (res.success) setPlanInfo(res.data); });
   }, []);
 
   const completed  = assessments.filter((a) => a.status === 'COMPLETED').length;
@@ -171,6 +178,69 @@ export default function DashboardPage() {
           </Link>
         </motion.div>
       </div>
+
+      {/* ── Plan usage counter (§PLAN-UI) ───────────────────────────────── */}
+      {planInfo && planInfo.plan.maxAssessmentsPerMonth > 0 && (() => {
+        const used    = planInfo.usage.assessmentsThisMonth;
+        const lim     = planInfo.plan.maxAssessmentsPerMonth;
+        const pct     = Math.min(100, (used / lim) * 100);
+        const exceeded = used >= lim;
+        const warning  = !exceeded && pct >= 80;
+        const trackColor = exceeded ? '#ef4444' : warning ? '#f59e0b' : '#3b82f6';
+        return (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="rounded-2xl p-4 sm:p-5 mb-6 sm:mb-8 relative"
+            style={{
+              background: exceeded
+                ? 'linear-gradient(135deg, rgba(239,68,68,0.10), rgba(239,68,68,0.04))'
+                : warning
+                  ? 'linear-gradient(135deg, rgba(245,158,11,0.10), rgba(245,158,11,0.04))'
+                  : 'rgba(255,255,255,0.03)',
+              border: `1px solid ${exceeded ? 'rgba(239,68,68,0.30)' : warning ? 'rgba(245,158,11,0.30)' : 'rgba(255,255,255,0.08)'}`,
+            }}
+          >
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#94a3b8' }}>
+                    План «{planInfo.plan.displayName}»
+                  </span>
+                  {exceeded && (
+                    <span className="text-[10px] px-2 py-0.5 rounded-full font-medium"
+                          style={{ background: 'rgba(239,68,68,0.15)', color: '#f87171' }}>
+                      Лимит исчерпан
+                    </span>
+                  )}
+                </div>
+                <div className="mt-1 text-base sm:text-lg font-semibold text-white">
+                  Использовано {used} из {lim} оценок
+                </div>
+              </div>
+              {(exceeded || warning) && (
+                <Link
+                  href="/dashboard/settings#billing"
+                  className="text-xs font-semibold px-4 py-2 rounded-xl text-white shrink-0"
+                  style={{ background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)' }}
+                >
+                  Обновить тариф →
+                </Link>
+              )}
+            </div>
+            <div className="mt-3 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+              <motion.div
+                className="h-full rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${pct}%` }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                style={{ background: trackColor }}
+              />
+            </div>
+          </motion.div>
+        );
+      })()}
 
       {/* ── Stat cards ──────────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">

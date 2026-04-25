@@ -40,6 +40,26 @@ interface Comment {
   author: { name: string | null; email: string };
 }
 
+interface QuestionBreakdownItem {
+  idx:         number;
+  questionId:  string;
+  blockType:   string;
+  text:        string;
+  selectedIdx: number;
+  optionText:  string;
+  earned:      number;
+  maxPossible: number;
+}
+
+interface CompetencyBreakdown {
+  competency: string;
+  weight:     number;
+  sum:        number;
+  max:        number;
+  score:      number;
+  questions:  QuestionBreakdownItem[];
+}
+
 interface ReportData {
   id: string;
   candidateName: string;
@@ -52,6 +72,7 @@ interface ReportData {
   } | null;
   competencyResults: CompetencyResult[];
   riskFlags: RiskFlag[];
+  breakdown?: Record<string, CompetencyBreakdown>;
 }
 
 // ── Config ────────────────────────────────────────────────────────────────────
@@ -390,6 +411,11 @@ export default function ReportPage() {
         </div>
       )}
 
+      {/* ── How was the result calculated (§REP-CALC) ───────────────────── */}
+      {data.breakdown && Object.keys(data.breakdown).length > 0 && (
+        <CalculationBreakdown breakdown={data.breakdown} competencies={data.competencyResults} />
+      )}
+
       {/* ── HR Comments ─────────────────────────────────────────────────── */}
       <div className="mt-8">
         <h2 className="text-lg font-semibold text-white mb-4">Заметки HR</h2>
@@ -455,6 +481,248 @@ export default function ReportPage() {
           )}
         </AnimatePresence>
       </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Calculation breakdown — collapsed by default, opens per competency.
+// Shows: formula, per-question scores, total, and a horizontal score bar with
+// the five level zones (Низкий/Средний/Хороший/Высокий/Отличный).
+// ─────────────────────────────────────────────────────────────────────────────
+
+const ZONE_BANDS: Array<{ label: string; from: number; to: number; color: string }> = [
+  { label: 'Низкий',   from: 0,  to: 25,  color: '#ef4444' },
+  { label: 'Средний',  from: 25, to: 50,  color: '#f59e0b' },
+  { label: 'Хороший',  from: 50, to: 75,  color: '#fbbf24' },
+  { label: 'Высокий',  from: 75, to: 90,  color: '#34d399' },
+  { label: 'Отличный', from: 90, to: 100, color: '#10b981' },
+];
+
+function levelFromScore(score: number): string {
+  if (score >= 90) return 'ОТЛИЧНЫЙ';
+  if (score >= 75) return 'ВЫСОКИЙ';
+  if (score >= 50) return 'ХОРОШИЙ';
+  if (score >= 25) return 'СРЕДНИЙ';
+  return 'НИЗКИЙ';
+}
+
+function ScoreBar({ score }: { score: number }) {
+  return (
+    <div className="my-3">
+      <div className="relative h-7 rounded-lg overflow-hidden flex"
+           style={{ border: '1px solid rgba(255,255,255,0.10)' }}>
+        {ZONE_BANDS.map((b) => (
+          <div
+            key={b.label}
+            className="flex-1 flex items-center justify-center"
+            style={{ background: `${b.color}1A`, borderRight: '1px solid rgba(255,255,255,0.10)' }}
+          >
+            <span className="text-[9px] font-medium uppercase tracking-wider" style={{ color: b.color, opacity: 0.85 }}>
+              {b.label}
+            </span>
+          </div>
+        ))}
+        {/* Marker */}
+        <div
+          className="absolute top-0 bottom-0 flex items-center"
+          style={{ left: `${Math.min(100, Math.max(0, score))}%`, transform: 'translateX(-50%)' }}
+        >
+          <div
+            className="w-1 h-full"
+            style={{ background: '#fff', boxShadow: '0 0 8px rgba(255,255,255,0.6)' }}
+          />
+        </div>
+      </div>
+      <div className="flex justify-between mt-1 text-[10px] tabular-nums" style={{ color: '#64748b' }}>
+        <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+      </div>
+    </div>
+  );
+}
+
+function CalculationBreakdown({
+  breakdown,
+  competencies,
+}: {
+  breakdown:    Record<string, CompetencyBreakdown>;
+  competencies: CompetencyResult[];
+}) {
+  const [open, setOpen] = useState(false);
+  const [expandedKey, setExpandedKey] = useState<string | null>(null);
+
+  // Order: by stored competencyResults order (which is already sorted by weight)
+  const ordered = competencies
+    .map((c) => breakdown[c.competency])
+    .filter(Boolean) as CompetencyBreakdown[];
+
+  if (ordered.length === 0) return null;
+
+  return (
+    <div className="mt-8">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between rounded-2xl px-5 py-4 transition-colors"
+        style={{
+          background: 'rgba(255,255,255,0.03)',
+          border:     '1px solid rgba(255,255,255,0.08)',
+        }}
+      >
+        <div className="flex items-center gap-3">
+          <span className="text-lg">📊</span>
+          <span className="font-semibold text-white text-sm sm:text-base">Как рассчитан результат</span>
+        </div>
+        <span
+          className="text-xs transition-transform"
+          style={{
+            color:     '#94a3b8',
+            transform: open ? 'rotate(180deg)' : 'none',
+          }}
+        >
+          ▼
+        </span>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden"
+          >
+            <div
+              className="rounded-2xl mt-3 p-4 sm:p-5 space-y-4"
+              style={{ background: '#141830', border: '1px solid rgba(255,255,255,0.08)' }}
+            >
+              {/* Formula */}
+              <div className="text-xs leading-relaxed p-3 rounded-xl" style={{ background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.18)', color: '#cbd5e1' }}>
+                <div className="font-mono">
+                  <span style={{ color: '#60a5fa' }}>Формула:</span>{' '}
+                  (сумма баллов / максимум) × 100% — затем уровень определяется по шкале:
+                </div>
+                <div className="mt-2 flex flex-wrap gap-2 text-[10px]">
+                  {ZONE_BANDS.map((b) => (
+                    <span key={b.label} style={{ color: b.color }}>
+                      {b.label} {b.from}-{b.to}%
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Per-competency rows */}
+              {ordered.map((b) => {
+                const isOpen = expandedKey === b.competency;
+                const label  = COMPETENCY_LABEL[b.competency] ?? b.competency;
+                return (
+                  <div
+                    key={b.competency}
+                    className="rounded-xl p-3 sm:p-4"
+                    style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+                  >
+                    <button
+                      onClick={() => setExpandedKey(isOpen ? null : b.competency)}
+                      className="w-full flex items-center justify-between gap-3"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="text-xs font-semibold text-white truncate">{label}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full shrink-0"
+                              style={{ background: 'rgba(255,255,255,0.06)', color: '#94a3b8' }}>
+                          вес ×{b.weight}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className="font-mono tabular-nums text-xs" style={{ color: '#94a3b8' }}>
+                          {b.sum} / {b.max}
+                        </span>
+                        <span className="font-bold text-base" style={{ color: b.score >= 75 ? '#34d399' : b.score >= 50 ? '#fbbf24' : '#f87171' }}>
+                          {b.score}%
+                        </span>
+                        <span className="text-xs transition-transform" style={{ color: '#64748b', transform: isOpen ? 'rotate(180deg)' : 'none' }}>
+                          ▼
+                        </span>
+                      </div>
+                    </button>
+
+                    {isOpen && (
+                      <div className="mt-4">
+                        <ScoreBar score={b.score} />
+
+                        {/* Per-question table */}
+                        {b.questions.length > 0 ? (
+                          <div className="mt-3 space-y-1">
+                            <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: '#64748b' }}>
+                              Разбивка по вопросам ({b.questions.length})
+                            </div>
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-xs min-w-[480px]">
+                                <thead>
+                                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                                    <th className="text-left py-1.5 font-medium" style={{ color: '#64748b' }}>#</th>
+                                    <th className="text-left py-1.5 font-medium" style={{ color: '#64748b' }}>Блок</th>
+                                    <th className="text-left py-1.5 font-medium" style={{ color: '#64748b' }}>Вопрос</th>
+                                    <th className="text-right py-1.5 font-medium" style={{ color: '#64748b' }}>Балл</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {b.questions.map((q) => (
+                                    <tr key={`${q.questionId}-${q.idx}`} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                                      <td className="py-1.5 tabular-nums" style={{ color: '#64748b' }}>{q.idx}</td>
+                                      <td className="py-1.5 font-mono text-[10px]" style={{ color: '#94a3b8' }}>{q.blockType}</td>
+                                      <td className="py-1.5 pr-3 truncate max-w-[280px]" style={{ color: '#cbd5e1' }}>
+                                        {q.text}
+                                      </td>
+                                      <td className="py-1.5 text-right tabular-nums" style={{ color: '#fff' }}>
+                                        <span style={{ color: q.earned >= q.maxPossible * 0.75 ? '#34d399' : q.earned >= q.maxPossible * 0.5 ? '#fbbf24' : '#f87171' }}>
+                                          {q.earned}
+                                        </span>
+                                        <span style={{ color: '#64748b' }}> / {q.maxPossible}</span>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+
+                            {/* Total */}
+                            <div className="mt-3 pt-3 text-xs" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                              <div className="flex justify-between" style={{ color: '#94a3b8' }}>
+                                <span>Сумма баллов:</span>
+                                <span className="font-mono tabular-nums text-white">{b.sum}</span>
+                              </div>
+                              <div className="flex justify-between" style={{ color: '#94a3b8' }}>
+                                <span>Максимум возможный:</span>
+                                <span className="font-mono tabular-nums text-white">{b.max}</span>
+                              </div>
+                              <div className="flex justify-between mt-2 pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                                <span className="font-medium text-white">Результат:</span>
+                                <span className="font-mono tabular-nums font-bold" style={{ color: b.score >= 75 ? '#34d399' : b.score >= 50 ? '#fbbf24' : '#f87171' }}>
+                                  ({b.sum} / {b.max}) × 100% = {b.score}%
+                                </span>
+                              </div>
+                              <div className="flex justify-between mt-1">
+                                <span className="font-medium text-white">Уровень ({b.score}%):</span>
+                                <span className="font-bold" style={{ color: b.score >= 75 ? '#34d399' : b.score >= 50 ? '#fbbf24' : '#f87171' }}>
+                                  {levelFromScore(b.score)} ✓
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="text-xs mt-2" style={{ color: '#64748b' }}>
+                            Нет данных по вопросам для этой компетенции (возможно, открытые вопросы — оценка вручную HR).
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

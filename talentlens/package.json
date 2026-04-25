@@ -14,6 +14,9 @@
     "db:import": "tsx prisma/import-questions.ts",
     "db:import-v2": "tsx prisma/seeds/import-v2.ts"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
     "@prisma/client": "^5.14.0",

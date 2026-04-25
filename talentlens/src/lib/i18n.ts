@@ -1,4 +1,4 @@
-export type Lang = 'ru' | 'uz' | 'en';
+export type Lang = 'ru' | 'uz' | 'en' | 'kz';
 
 export const TRANSLATIONS = {
   ru: {
@@ -287,6 +287,102 @@ export const TRANSLATIONS = {
     sec_lang:           'Interfeys tili',
     lang_hint:          'Boshqaruv paneli tili. Test tilini nomzod tanlaydi.',
     lang_active:        '✓ Faol',
+  },
+
+  kz: {
+    // Sidebar
+    nav_menu:        'Мәзір',
+    nav_overview:    'Шолу',
+    nav_assessments: 'Бағалаулар',
+    nav_new:         'Жаңа бағалау',
+    nav_settings:    'Баптаулар',
+    theme_light:     'Жарық тақырып',
+    theme_dark:      'Қараңғы тақырып',
+
+    // Dashboard overview
+    page_overview:     'Шолу',
+    welcome:           "Aptio-ға қош келдіңіз",
+    btn_new:           '+ Жаңа бағалау',
+    stat_total:        'Барлық бағалаулар',
+    stat_done:         'Аяқталған',
+    stat_progress:     'Орындалуда',
+    recent:            'Соңғы бағалаулар',
+    all:               'Барлығы →',
+    no_assessments:    'Әзірге бағалау жоқ',
+    create_first:      'Біріншіні құру →',
+    col_candidate:     'Үміткер',
+    col_position:      'Лауазым',
+    col_status:        'Күй',
+    col_date:          'Күні',
+    open:              'Ашу →',
+
+    // Assessments list
+    page_assessments:  'Бағалаулар',
+    search_ph:         'Аты немесе лауазымы бойынша іздеу...',
+    filter_all:        'Барлығы',
+    filter_created:    'Құрылды',
+    filter_opened:     'Сілтеме ашылды',
+    filter_progress:   'Орындалуда',
+    filter_completed:  'Аяқталды',
+    no_results:        'Бағалаулар жоқ',
+    create_to_start:   'Бастау үшін бірінші бағалауды құрыңыз',
+
+    // Status labels
+    status_CREATED:     'Құрылды',
+    status_LINK_OPENED: 'Сілтеме ашылды',
+    status_IN_PROGRESS: 'Тапсыруда',
+    status_COMPLETED:   'Аяқталды',
+
+    // New assessment
+    page_new:           'Жаңа бағалау',
+    lbl_candidate:      'Үміткердің аты',
+    ph_candidate:       'Айдар Сериков',
+    lbl_position:       'Лауазым',
+    ph_position:        'Лауазымды таңдаңыз...',
+    lbl_email:          'Үміткер email-і (міндетті емес)',
+    ph_email:           'aidar@company.com',
+    lbl_expires:        'Сілтеме мерзімі',
+    expires_3d:         '3 күн',
+    expires_7d:         '7 күн',
+    expires_14d:        '14 күн',
+    expires_30d:        '30 күн',
+    btn_create:         'Бағалау құру',
+    creating:           'Құрылуда...',
+    link_ready:         'Сілтеме дайын!',
+    link_hint:          'Бұл сілтемені үміткерге жіберіңіз:',
+    btn_copy:           'Көшіру',
+    copied:             'Көшірілді!',
+    btn_assessments:    '← Бағалауларға',
+
+    // Assessment detail
+    page_detail:        'Бағалау',
+    lbl_status:         'Күй',
+    lbl_created:        'Құрылды',
+    lbl_link_expires:   'Мерзімі',
+    lbl_lang:           'Тіл',
+    lbl_started:        'Басталды',
+    lbl_finished:       'Аяқталды',
+    lbl_duration:       'Ұзақтығы',
+    lbl_tab_sw:         'Қойындыларды ауыстыру',
+    btn_report:         'Есепті көру →',
+    section_link:       'Үміткер сілтемесі',
+    section_test:       'Тест сессиясы',
+    not_started:        'Тест әлі басталмаған',
+
+    // Settings
+    page_settings:      'Баптаулар',
+    sec_profile:        'Профиль',
+    lbl_name:           'Аты',
+    ph_name:            'Атыңызды енгізіңіз',
+    btn_save:           'Сақтау',
+    saved:              '✓ Сақталды',
+    sec_theme:          'Интерфейс тақырыбы',
+    theme_light_btn:    'Жарық',
+    theme_dark_btn:     'Қараңғы',
+    theme_sys_btn:      'Жүйелік',
+    sec_lang:           'Интерфейс тілі',
+    lang_hint:          'Басқару тақтасының тілі. Тест тілін үміткер таңдайды.',
+    lang_active:        '✓ Белсенді',
   },
 } satisfies Record<string, Record<string, string>>;
 
