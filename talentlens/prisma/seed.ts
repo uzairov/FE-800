@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -337,6 +338,30 @@ async function main() {
   }
 
   console.log(`✓ ${TEMPLATES.length} position templates and ${PLANS.length} plans seeded`);
+
+  // ── SUPERADMIN account ────────────────────────────────────────────────────
+  // Create a system company for the superadmin if it doesn't exist yet
+  const systemCompany = await prisma.company.upsert({
+    where:  { id: 'company-system' },
+    update: {},
+    create: { id: 'company-system', name: 'Aptio System' },
+  });
+
+  const passwordHash = await bcrypt.hash('SuperAdmin123!', 10);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const superAdmin = await (prisma.user as any).upsert({
+    where:  { email: 'superadmin@aptio.uz' },
+    update: {},
+    create: {
+      email:         'superadmin@aptio.uz',
+      password:      passwordHash,
+      name:          'Super Admin',
+      role:          'SUPERADMIN',
+      emailVerified: true,
+      companyId:     systemCompany.id,
+    },
+  });
+  console.log('✓ SUPERADMIN created:', superAdmin.email);
 }
 
 main()

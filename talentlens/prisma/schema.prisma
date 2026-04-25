@@ -68,6 +68,10 @@ model Company {
   paymentStatus      String   @default("active")  // active | overdue | pending
   overdueAmount      Float    @default(0)
   lastActivityAt     DateTime?
+  // CRM & bot integrations
+  amoIntegrationToken          String?
+  bitrix24IntegrationToken     String?
+  telegramNotificationsEnabled Boolean @default(false)
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 
@@ -77,6 +81,7 @@ model Company {
   webhookSetting    WebhookSetting?
   customQuestions   Question[]
   customTemplates   PositionTemplate[]
+  feedback360s      Feedback360[]
 
   @@index([planId])
 }
@@ -104,10 +109,15 @@ model User {
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
 
-  assessments     Assessment[]
-  refreshTokens   RefreshToken[]
-  reportComments  ReportComment[]
-  sentInvites     TeamInvite[]
+  telegramChatId  String?
+
+  assessments          Assessment[]
+  refreshTokens        RefreshToken[]
+  reportComments       ReportComment[]
+  sentInvites          TeamInvite[]
+  ratingsGiven         Feedback360Rating[] @relation("rater")
+  ratingsReceived      Feedback360Rating[] @relation("rated")
+  feedback360Responses Feedback360Response[]
 
   @@index([companyId])
 }
@@ -330,4 +340,89 @@ model WebhookSetting {
   onCreated        Boolean @default(false)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// 360° FEEDBACK
+// ─────────────────────────────────────────────
+
+model Feedback360 {
+  id          String  @id @default(cuid())
+  companyId   String
+  company     Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  name         String
+  description  String?
+  competencies String[] // ["Коммуникация", "Командная работа", ...]
+
+  participantIds String[] // User IDs being evaluated
+  evaluatorIds   String[] // User IDs who can evaluate
+
+  // Options
+  includePeer    Boolean @default(true)
+  includeSelf    Boolean @default(true)
+  includeManager Boolean @default(true)
+  isAnonymous    Boolean @default(true)
+
+  status    String    @default("draft") // draft | active | closed | archived
+  startedAt DateTime?
+  closedAt  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  ratings   Feedback360Rating[]
+  responses Feedback360Response[]
+
+  @@index([companyId])
+}
+
+model Feedback360Rating {
+  id            String      @id @default(cuid())
+  feedback360Id String
+  feedback360   Feedback360 @relation(fields: [feedback360Id], references: [id], onDelete: Cascade)
+
+  ratedUserId String
+  ratedUser   User   @relation("rated", fields: [ratedUserId], references: [id])
+  raterUserId String
+  rater       User   @relation("rater", fields: [raterUserId], references: [id])
+
+  rationType String // peer | self | manager | skip
+  scores     Json   // { "Коммуникация": 4, ... }
+  comments   String?
+
+  isAnonymous Boolean   @default(false)
+  submittedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([feedback360Id, ratedUserId, raterUserId, rationType])
+  @@index([feedback360Id])
+  @@index([ratedUserId])
+  @@index([raterUserId])
+}
+
+model Feedback360Response {
+  id            String      @id @default(cuid())
+  feedback360Id String
+  feedback360   Feedback360 @relation(fields: [feedback360Id], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  peerRatingsReceived     Int     @default(0)
+  managerRatingReceived   Boolean @default(false)
+  selfRatingSubmitted     Boolean @default(false)
+
+  peerAverageScores Json? // { "Коммуникация": 3.5, ... }
+  managerScores     Json? // { "Коммуникация": 4, ... }
+  selfScores        Json? // { "Коммуникация": 3, ... }
+  gapAnalysis       Json? // { "Коммуникация": 1, ... } positive = overestimated
+
+  submittedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([feedback360Id, userId])
+  @@index([feedback360Id])
+  @@index([userId])
 }
