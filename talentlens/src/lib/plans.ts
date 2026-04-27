@@ -16,7 +16,6 @@ export interface PlanFeatures {
   hasAiAssistant:         boolean;
   hasApiAccess:           boolean;
   hasWebhooks:            boolean;
-  has360Reviews:          boolean;
   hasWhiteLabel:          boolean;
 }
 
@@ -31,7 +30,6 @@ export const PLANS: Record<PlanName, PlanFeatures> = {
     hasAiAssistant:         true,
     hasApiAccess:           false,
     hasWebhooks:            false,
-    has360Reviews:          false,
     hasWhiteLabel:          false,
   },
   starter: {
@@ -44,7 +42,6 @@ export const PLANS: Record<PlanName, PlanFeatures> = {
     hasAiAssistant:         true,
     hasApiAccess:           false,
     hasWebhooks:            false,
-    has360Reviews:          false,
     hasWhiteLabel:          false,
   },
   professional: {
@@ -57,7 +54,6 @@ export const PLANS: Record<PlanName, PlanFeatures> = {
     hasAiAssistant:         true,
     hasApiAccess:           true,
     hasWebhooks:            true,
-    has360Reviews:          false,
     hasWhiteLabel:          false,
   },
   enterprise: {
@@ -70,7 +66,6 @@ export const PLANS: Record<PlanName, PlanFeatures> = {
     hasAiAssistant:         true,
     hasApiAccess:           true,
     hasWebhooks:            true,
-    has360Reviews:          true,
     hasWhiteLabel:          true,
   },
 };
@@ -130,7 +125,7 @@ export function canUseFeature(
   planName: string,
   feature: keyof Pick<
     PlanFeatures,
-    'hasPdfExport' | 'hasAiAssistant' | 'hasApiAccess' | 'hasWebhooks' | 'has360Reviews' | 'hasWhiteLabel'
+    'hasPdfExport' | 'hasAiAssistant' | 'hasApiAccess' | 'hasWebhooks' | 'hasWhiteLabel'
   >,
 ): PlanCheckResult {
   const plan = getPlan(planName);

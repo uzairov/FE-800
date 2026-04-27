@@ -20,7 +20,6 @@ const FEATURE_LABELS: Record<string, string> = {
   hasPdfExport:           'экспорт в PDF',
   hasApiAccess:           'API-доступ',
   hasWebhooks:            'Webhooks',
-  has360Reviews:          '360° оценки',
   hasWhiteLabel:          'белый лейбл',
 };
 
