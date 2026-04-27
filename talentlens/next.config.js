@@ -5,7 +5,6 @@ const nextConfig = {
   optimizeFonts: false,
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
-    isrMemoryCacheSize: 0,
   },
 };
 
