@@ -14,6 +14,7 @@ import {
   Tooltip,
 } from 'recharts';
 import { apiFetch } from '@/lib/client-fetch';
+import { COMPETENCY_LABELS as COMPETENCY_LABEL } from '@/lib/competencies';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -76,30 +77,6 @@ interface ReportData {
 }
 
 // ── Config ────────────────────────────────────────────────────────────────────
-
-const COMPETENCY_LABEL: Record<string, string> = {
-  sales_skills:               'Навыки продаж',
-  stress_resistance:          'Стрессоустойч.',
-  communication_flexibility:  'Гибкость общения',
-  motivation:                 'Мотивация',
-  honesty:                    'Честность',
-  emotional_intelligence:     'Эмоц. интеллект',
-  locus_of_control:           'Локус контроля',
-  attention:                  'Внимательность',
-  leadership:                 'Лидерство',
-  systems_thinking:           'Системное мышл.',
-  negotiation:                'Переговоры',
-  result_orientation:         'Ориент. на результат',
-  service_orientation:        'Клиентоориент.',
-  monotolerance:              'Моноустойчивость',
-  attention_to_detail:        'Внимат. к деталям',
-  self_motivation:            'Самомотивация',
-  strategic_thinking:         'Стратег. мышление',
-  analytical_thinking:        'Аналитич. мышл.',
-  problem_solving:            'Решение проблем',
-  decision_making:            'Принятие решений',
-  stakeholder_management:     'Работа со стейкхолд.',
-};
 
 const LEVEL_CONFIG = {
   high:   { label: 'Высокий', bg: 'rgba(16,185,129,0.10)',  border: 'rgba(16,185,129,0.25)',  text: '#34d399', bar: '#10b981' },

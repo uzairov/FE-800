@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/lib/client-fetch';
 import { useLang } from '@/context/LangContext';
 import PlanLimitModal from '@/components/PlanLimitModal';
+import { COMPETENCY_LABELS } from '@/lib/competencies';
 import type { PlanName } from '@/lib/plans';
 
 interface Template {
@@ -24,25 +25,6 @@ interface PlanLimitInfo {
   message?:    string;
   feature?:    string;
 }
-
-const COMPETENCY_LABELS: Record<string, string> = {
-  sales_skills: 'Навыки продаж',
-  stress_resistance: 'Стрессоустойчивость',
-  communication_flexibility: 'Гибкость общения',
-  motivation: 'Мотивация',
-  negotiation: 'Переговоры',
-  result_orientation: 'Ориентация на результат',
-  service_orientation: 'Клиентоориентированность',
-  monotolerance: 'Моноустойчивость',
-  attention_to_detail: 'Внимательность к деталям',
-  self_motivation: 'Самомотивация',
-  honesty: 'Честность',
-  emotional_intelligence: 'Эмоциональный интеллект',
-  locus_of_control: 'Локус контроля',
-  attention: 'Внимательность',
-  leadership: 'Лидерство',
-  systems_thinking: 'Системное мышление',
-};
 
 const WEIGHT_LABEL: Record<number, { label: string; color: string }> = {
   3: { label: 'Обязательная', color: 'text-red-600 bg-red-50' },
