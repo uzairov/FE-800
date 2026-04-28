@@ -151,6 +151,10 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       b.score = b.max > 0 ? Math.round((b.sum / b.max) * 100) : 0;
     }
 
+    const scored = Object.keys(breakdown).filter((k) => breakdown[k].max > 0);
+    console.log('[report] total competencies:', Object.keys(breakdown).length);
+    console.log('[report] scored:', scored.length, scored);
+
     // Strip bulky answersJson from the response.
     const sessionLite = assessment.testSession
       ? {

@@ -78,22 +78,27 @@ interface ReportData {
 // ── Config ────────────────────────────────────────────────────────────────────
 
 const COMPETENCY_LABEL: Record<string, string> = {
-  sales_skills: 'Навыки продаж',
-  stress_resistance: 'Стрессоустойч.',
-  communication_flexibility: 'Гибкость общения',
-  motivation: 'Мотивация',
-  honesty: 'Честность',
-  emotional_intelligence: 'Эмоц. интеллект',
-  locus_of_control: 'Локус контроля',
-  attention: 'Внимательность',
-  leadership: 'Лидерство',
-  systems_thinking: 'Системное мышл.',
-  negotiation: 'Переговоры',
-  result_orientation: 'Ориент. на результат',
-  service_orientation: 'Клиентоориент.',
-  monotolerance: 'Моноустойчивость',
-  attention_to_detail: 'Внимат. к деталям',
-  self_motivation: 'Самомотивация',
+  sales_skills:               'Навыки продаж',
+  stress_resistance:          'Стрессоустойч.',
+  communication_flexibility:  'Гибкость общения',
+  motivation:                 'Мотивация',
+  honesty:                    'Честность',
+  emotional_intelligence:     'Эмоц. интеллект',
+  locus_of_control:           'Локус контроля',
+  attention:                  'Внимательность',
+  leadership:                 'Лидерство',
+  systems_thinking:           'Системное мышл.',
+  negotiation:                'Переговоры',
+  result_orientation:         'Ориент. на результат',
+  service_orientation:        'Клиентоориент.',
+  monotolerance:              'Моноустойчивость',
+  attention_to_detail:        'Внимат. к деталям',
+  self_motivation:            'Самомотивация',
+  strategic_thinking:         'Стратег. мышление',
+  analytical_thinking:        'Аналитич. мышл.',
+  problem_solving:            'Решение проблем',
+  decision_making:            'Принятие решений',
+  stakeholder_management:     'Работа со стейкхолд.',
 };
 
 const LEVEL_CONFIG = {
@@ -156,11 +161,25 @@ export default function ReportPage() {
   if (error)   return <div className="p-8 text-sm" style={{ color: '#f87171' }}>{error}</div>;
   if (!data)   return null;
 
+  // ── Derive all competencies from breakdown (includes unscored ones) ─────────
+  function scoreToLevel(s: number): 'high' | 'medium' | 'low' {
+    return s >= 75 ? 'high' : s >= 50 ? 'medium' : 'low';
+  }
+
+  const allCompetencies = Object.values(data.breakdown ?? {})
+    .sort((a, b) => b.weight - a.weight)
+    .map((b) => ({
+      competency: b.competency,
+      score:      b.score,
+      weight:     b.weight,
+      level:      scoreToLevel(b.score),
+      hasData:    b.max > 0,
+    }));
+
   // ── Radar data ──────────────────────────────────────────────────────────────
-  // Если компетенций < 3 — добавляем placeholder-оси чтобы радар визуально был многоугольником
-  const realRadar = data.competencyResults.map((r) => ({
-    subject: COMPETENCY_LABEL[r.competency] ?? r.competency,
-    score: r.score,
+  const realRadar = allCompetencies.map((r) => ({
+    subject:  COMPETENCY_LABEL[r.competency] ?? r.competency,
+    score:    r.score,
     fullMark: 100,
   }));
   const PLACEHOLDER_AXES = ['—', ' —', '  —'];
@@ -329,7 +348,7 @@ export default function ReportPage() {
                   : '—'],
                 ['Время прохождения', duration || '—'],
                 ['Язык интерфейса', { ru: 'Русский', uz: "O'zbek", en: 'English' }[data.testSession?.language ?? ''] ?? '—'],
-                ['Компетенций оценено', data.competencyResults.length],
+                ['Компетенций оценено', `${allCompetencies.filter((c) => c.hasData).length} / ${allCompetencies.length}`],
                 ['Флагов риска', data.riskFlags.length],
               ].map(([label, value]) => (
                 <div key={String(label)} className="flex justify-between">
@@ -364,19 +383,23 @@ export default function ReportPage() {
         </div>
       </div>
 
-      {/* Competency cards (§REP-02, REP-03) */}
+      {/* Competency cards (§REP-02, REP-03) — all position competencies */}
       <h2 className="text-lg font-semibold text-white mb-4">Детали по компетенциям</h2>
-      {data.competencyResults.length === 0 ? (
+      {allCompetencies.length === 0 ? (
         <p className="text-sm text-white/30">Нет данных о компетенциях.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {data.competencyResults.map((r) => {
-            const cfg = LEVEL_CONFIG[r.level];
+          {allCompetencies.map((r) => {
+            const cfg = r.hasData ? LEVEL_CONFIG[r.level] : LEVEL_CONFIG.low;
             return (
               <div
                 key={r.competency}
                 className="rounded-2xl p-4"
-                style={{ background: cfg.bg, border: `1px solid ${cfg.border}` }}
+                style={{
+                  background: r.hasData ? cfg.bg : 'rgba(255,255,255,0.03)',
+                  border:     `1px solid ${r.hasData ? cfg.border : 'rgba(255,255,255,0.08)'}`,
+                  opacity:    r.hasData ? 1 : 0.65,
+                }}
               >
                 <div className="flex items-center justify-between mb-2 gap-3">
                   <div className="min-w-0 flex-1">
@@ -386,20 +409,26 @@ export default function ReportPage() {
                     <p className="text-xs" style={{ color: '#94a3b8' }}>{WEIGHT_LABEL[r.weight]}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-xl font-bold" style={{ color: cfg.text }}>{r.score}%</p>
-                    <p className="text-xs font-medium" style={{ color: cfg.text }}>{cfg.label}</p>
+                    {r.hasData ? (
+                      <>
+                        <p className="text-xl font-bold" style={{ color: cfg.text }}>{r.score}%</p>
+                        <p className="text-xs font-medium" style={{ color: cfg.text }}>{cfg.label}</p>
+                      </>
+                    ) : (
+                      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.30)' }}>не оценена</p>
+                    )}
                   </div>
                 </div>
-                {/* Score bar */}
                 <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
                   <div
                     className="h-full rounded-full transition-all"
-                    style={{ width: `${r.score}%`, background: cfg.bar }}
+                    style={{ width: `${r.score}%`, background: r.hasData ? cfg.bar : 'transparent' }}
                   />
                 </div>
-                {/* Interpretation (§REP-02) */}
                 <p className="text-xs mt-2 leading-relaxed" style={{ color: '#94a3b8' }}>
-                  {r.level === 'high'
+                  {!r.hasData
+                    ? 'Вопросов по данной компетенции в тесте не было.'
+                    : r.level === 'high'
                     ? 'Кандидат показывает уверенное владение данной компетенцией.'
                     : r.level === 'medium'
                     ? 'Компетенция развита, но требует внимания и уточнения на собеседовании.'
