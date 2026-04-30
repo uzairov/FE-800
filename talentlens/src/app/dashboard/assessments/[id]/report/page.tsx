@@ -157,6 +157,8 @@ export default function ReportPage() {
   const realRadar = allCompetencies.map((r) => ({
     subject:  COMPETENCY_LABEL[r.competency] ?? r.competency,
     score:    r.score,
+    weight:   r.weight,
+    hasData:  r.hasData,
     fullMark: 100,
   }));
   const PLACEHOLDER_AXES = ['—', ' —', '  —'];
@@ -165,10 +167,16 @@ export default function ReportPage() {
     ...realRadar,
     ...Array.from({ length: placeholderCount }, (_, i) => ({
       subject: PLACEHOLDER_AXES[i] ?? '—',
-      score: 0,
+      score:   0,
+      weight:  0,
+      hasData: false,
       fullMark: 100,
     })),
   ];
+
+  // Map: label → weight, for color-coding the angle-axis ticks
+  const labelMeta = new Map<string, { weight: number; score: number; hasData: boolean }>();
+  radarData.forEach((d) => labelMeta.set(d.subject, { weight: d.weight, score: d.score, hasData: d.hasData }));
 
   // ── Duration ────────────────────────────────────────────────────────────────
   let duration = '';
@@ -270,33 +278,60 @@ export default function ReportPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
         {/* Radar chart (§REP-01) */}
         <div className="rounded-2xl p-4 sm:p-5" style={{ background: '#141830', border: '1px solid rgba(255,255,255,0.08)' }}>
-          <h2 className="text-sm font-semibold text-white/80 mb-4">Профиль компетенций</h2>
+          <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+            <h2 className="text-sm font-semibold text-white/80">Профиль компетенций</h2>
+            <div className="flex items-center gap-3 text-[10px]" style={{ color: '#94a3b8' }}>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full" style={{ background: '#f87171' }} />
+                Обязат.
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full" style={{ background: '#fbbf24' }} />
+                Важная
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full" style={{ background: '#94a3b8' }} />
+                Допол.
+              </span>
+            </div>
+          </div>
           {radarData.length === 0 ? (
             <div className="flex items-center justify-center h-48 text-sm text-white/30">
               Нет данных
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={400} minHeight={400}>
-              <RadarChart data={radarData} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
-                <PolarGrid stroke="rgba(148,163,184,0.25)" />
+            <ResponsiveContainer width="100%" height={520} minHeight={520}>
+              <RadarChart data={radarData} margin={{ top: 36, right: 70, bottom: 36, left: 70 }} outerRadius="78%">
+                <defs>
+                  <radialGradient id="radarGradient" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%"   stopColor="#8B5CF6" stopOpacity={0.55} />
+                    <stop offset="100%" stopColor="#3B82F6" stopOpacity={0.20} />
+                  </radialGradient>
+                </defs>
+                <PolarGrid stroke="rgba(148,163,184,0.18)" strokeDasharray="2 4" />
                 <PolarAngleAxis
                   dataKey="subject"
-                  tick={{ fontSize: 11, fill: '#94a3b8' }}
+                  tick={(props) => <RadarAxisTick {...props} meta={labelMeta} />}
                 />
                 <PolarRadiusAxis
                   angle={90}
                   domain={[0, 100]}
                   tickCount={5}
-                  tick={{ fontSize: 10, fill: '#64748b' }}
-                  stroke="rgba(148,163,184,0.2)"
+                  tick={{ fontSize: 9, fill: '#475569' }}
+                  stroke="rgba(148,163,184,0.15)"
+                  axisLine={false}
                 />
                 <Radar
                   name="Балл"
                   dataKey="score"
-                  stroke="#3B82F6"
-                  fill="#3B82F6"
-                  fillOpacity={0.3}
+                  stroke="#8B5CF6"
+                  fill="url(#radarGradient)"
+                  fillOpacity={1}
                   strokeWidth={2}
+                  dot={{ r: 3, fill: '#8B5CF6', stroke: '#fff', strokeWidth: 1 }}
+                  activeDot={{ r: 5, fill: '#a78bfa', stroke: '#fff', strokeWidth: 2 }}
+                  isAnimationActive
+                  animationDuration={800}
                 />
                 <Tooltip
                   formatter={(v: number) => [`${v}%`, 'Балл']}
@@ -304,10 +339,11 @@ export default function ReportPage() {
                     fontSize: 12,
                     borderRadius: 12,
                     background: '#141830',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    border: '1px solid rgba(139,92,246,0.30)',
                     color: '#fff',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
                   }}
-                  labelStyle={{ color: '#94a3b8' }}
+                  labelStyle={{ color: '#a78bfa', fontWeight: 600 }}
                 />
               </RadarChart>
             </ResponsiveContainer>
@@ -488,6 +524,83 @@ export default function ReportPage() {
         </AnimatePresence>
       </div>
     </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Radar axis tick — wraps long Russian labels onto 2 lines + colors by weight
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface RadarAxisTickProps {
+  x?: number;
+  y?: number;
+  cx?: number;
+  cy?: number;
+  payload?: { value: string };
+  meta: Map<string, { weight: number; score: number; hasData: boolean }>;
+}
+
+function RadarAxisTick({ x = 0, y = 0, cx = 0, cy = 0, payload, meta }: RadarAxisTickProps) {
+  const label = payload?.value ?? '';
+  const info  = meta.get(label);
+  const weight  = info?.weight  ?? 0;
+  const hasData = info?.hasData ?? false;
+
+  // Color by competency weight
+  const color =
+    !hasData      ? '#475569' :
+    weight === 3  ? '#fca5a5' :
+    weight === 2  ? '#fcd34d' :
+                    '#cbd5e1';
+  const fontWeight = weight === 3 ? 600 : weight === 2 ? 500 : 400;
+
+  // Wrap label to ≤2 lines, ~14 chars per line
+  const MAX_LINE = 14;
+  const words = label.split(' ');
+  const lines: string[] = [];
+  let cur = '';
+  for (const w of words) {
+    const candidate = cur ? `${cur} ${w}` : w;
+    if (candidate.length <= MAX_LINE || !cur) {
+      cur = candidate;
+    } else {
+      lines.push(cur);
+      cur = w;
+    }
+    if (lines.length === 1 && cur.length > MAX_LINE) {
+      // Truncate second line if too long
+      lines.push(cur.slice(0, MAX_LINE - 1) + '…');
+      cur = '';
+      break;
+    }
+  }
+  if (cur) lines.push(cur);
+  const truncated = lines.slice(0, 2);
+
+  // Anchor based on horizontal position relative to chart center
+  const dx = x - cx;
+  const anchor: 'start' | 'middle' | 'end' =
+    Math.abs(dx) < 8 ? 'middle' : dx > 0 ? 'start' : 'end';
+
+  // Push label slightly outward
+  const ox = dx === 0 ? 0 : (dx / Math.abs(dx)) * 4;
+  const dyTop = truncated.length === 2 ? -6 : 4;
+
+  return (
+    <text
+      x={x + ox}
+      y={y}
+      textAnchor={anchor}
+      fontSize={10.5}
+      fontWeight={fontWeight}
+      fill={color}
+    >
+      {truncated.map((line, i) => (
+        <tspan key={i} x={x + ox} dy={i === 0 ? dyTop : 12}>
+          {line}
+        </tspan>
+      ))}
+    </text>
   );
 }
 
