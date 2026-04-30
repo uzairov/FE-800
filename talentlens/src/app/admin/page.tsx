@@ -4,6 +4,47 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// ─── Authed fetch with one silent refresh on 401 ─────────────────────────────
+// Returns null if both the call and refresh failed (caller should redirect).
+
+async function refreshAccessToken(): Promise<string | null> {
+  const rt = localStorage.getItem('refreshToken') ?? sessionStorage.getItem('refreshToken');
+  try {
+    const r = await fetch('/api/auth/refresh', {
+      method:      'POST',
+      headers:     { 'Content-Type': 'application/json' },
+      body:        rt ? JSON.stringify({ refreshToken: rt }) : '{}',
+      credentials: 'include',
+    });
+    const j = await r.json();
+    if (!j.success) return null;
+    const store = localStorage.getItem('refreshToken') ? localStorage : sessionStorage;
+    store.setItem('accessToken', j.data.accessToken);
+    if (j.data.refreshToken) store.setItem('refreshToken', j.data.refreshToken);
+    return j.data.accessToken;
+  } catch { return null; }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function authedFetch(url: string, init: RequestInit = {}): Promise<any | null> {
+  const send = (tk: string | null) => fetch(url, {
+    ...init,
+    headers: {
+      ...(init.headers as Record<string, string> | undefined),
+      ...(tk ? { Authorization: `Bearer ${tk}` } : {}),
+    },
+  });
+
+  let tk = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken');
+  let res = await send(tk);
+  if (res.status === 401) {
+    tk = await refreshAccessToken();
+    if (!tk) return null;
+    res = await send(tk);
+  }
+  try { return await res.json(); } catch { return null; }
+}
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type Plan = {
@@ -230,10 +271,9 @@ export default function AdminPage() {
   const fetchData = useCallback(async (p = 1, q = search, replace = false) => {
     replace ? setLoading(true) : setTableLoading(true);
     try {
-      const tk = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken') ?? '';
       const params = new URLSearchParams({ page: String(p), limit: '20', search: q });
-      const res = await fetch(`/api/admin?${params}`, { headers: { Authorization: `Bearer ${tk}` } });
-      const json = await res.json();
+      const json = await authedFetch(`/api/admin?${params}`);
+      if (!json) { router.replace('/login'); return; }
       if (!json.success) { setToast({ msg: json.error ?? 'Ошибка загрузки', type: 'err' }); return; }
       setStats(json.data.stats);
       setTimeline(json.data.timeline);
@@ -247,17 +287,56 @@ export default function AdminPage() {
       setLoading(false);
       setTableLoading(false);
     }
-  }, [search]);
+  }, [search, router]);
 
   useEffect(() => {
-    const tk = localStorage.getItem('accessToken');
-    if (!tk) { router.replace('/login'); return; }
-    try {
-      const p = JSON.parse(atob(tk.split('.')[1]));
-      if (p.role !== 'SUPERADMIN') { router.replace('/dashboard'); return; }
-      if (p.exp * 1000 < Date.now()) { router.replace('/login'); return; }
-    } catch { router.replace('/login'); return; }
-    fetchData(1, '', true);
+    let cancelled = false;
+
+    function decode(token: string): { exp?: number; role?: string } | null {
+      try { return JSON.parse(atob(token.split('.')[1])); } catch { return null; }
+    }
+    function isExpired(token: string): boolean {
+      const p = decode(token);
+      return !p || typeof p.exp !== 'number' || p.exp * 1000 < Date.now();
+    }
+
+    async function trySilentRefresh(): Promise<string | null> {
+      const rt = localStorage.getItem('refreshToken') ?? sessionStorage.getItem('refreshToken');
+      try {
+        const r = await fetch('/api/auth/refresh', {
+          method:      'POST',
+          headers:     { 'Content-Type': 'application/json' },
+          body:        rt ? JSON.stringify({ refreshToken: rt }) : '{}',
+          credentials: 'include',
+        });
+        const j = await r.json();
+        if (!j.success) return null;
+        const store = localStorage.getItem('refreshToken') ? localStorage : sessionStorage;
+        store.setItem('accessToken', j.data.accessToken);
+        if (j.data.refreshToken) store.setItem('refreshToken', j.data.refreshToken);
+        return j.data.accessToken;
+      } catch { return null; }
+    }
+
+    (async () => {
+      let tk = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken');
+
+      // If missing or expired, attempt a silent refresh BEFORE redirecting
+      if (!tk || isExpired(tk)) {
+        tk = await trySilentRefresh();
+      }
+      if (cancelled) return;
+
+      if (!tk) { router.replace('/login'); return; }
+
+      const p = decode(tk);
+      if (!p)                        { router.replace('/login');     return; }
+      if (p.role !== 'SUPERADMIN')   { router.replace('/dashboard'); return; }
+
+      fetchData(1, '', true);
+    })();
+
+    return () => { cancelled = true; };
   }, [router, fetchData]);
 
   // Debounced search
@@ -283,13 +362,12 @@ export default function AdminPage() {
       return c;
     }));
     try {
-      const tk = localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken') ?? '';
-      const res = await fetch('/api/admin/companies', {
+      const json = await authedFetch('/api/admin/companies', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tk}` },
-        body: JSON.stringify({ companyId, ...patch }),
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ companyId, ...patch }),
       });
-      const json = await res.json();
+      if (!json) { router.replace('/login'); return; }
       if (!json.success) {
         setToast({ msg: json.error ?? 'Ошибка', type: 'err' });
         fetchData(page); // revert via fresh fetch
